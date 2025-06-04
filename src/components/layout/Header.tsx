@@ -1,10 +1,10 @@
-import React from "react";
-import { Menu, ExternalLink } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Menu, ExternalLink, Sun, Moon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useAppKit } from '@reown/appkit/react'
 import { useAuthStore } from '@/store/authStore'
 import { Button } from "@/components/ui/button";
-import U2U_LOGO from "@/assets/logo.png";
+import U2U_LOGO from "@/assets/logo_text_white.png";
 
 interface HeaderProps {
   sidebarOpen: boolean;
@@ -15,6 +15,24 @@ const Header: React.FC<HeaderProps> = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
   const { open } = useAppKit()
   const { isConnected, address } = useAuthStore()
+
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    // On mount, check if dark mode is enabled
+    setIsDark(document.documentElement.classList.contains('dark'));
+  }, []);
+
+  const toggleDarkMode = () => {
+    const html = document.documentElement;
+    if (html.classList.contains('dark')) {
+      html.classList.remove('dark');
+      setIsDark(false);
+    } else {
+      html.classList.add('dark');
+      setIsDark(true);
+    }
+  };
 
   const isActiveRoute = (path: string) => {
     return location.pathname === path;
@@ -94,6 +112,21 @@ const Header: React.FC<HeaderProps> = ({ sidebarOpen, setSidebarOpen }) => {
 
         {/* Right section */}
         <div className="flex-1 flex justify-end items-center gap-2 tablet:gap-4 desktop:gap-4">
+          {/* Dark mode switch button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleDarkMode}
+            className="flex items-center justify-center"
+            aria-label="Toggle dark mode"
+          >
+            {isDark ? (
+              <Sun className="w-5 h-5 text-yellow-400" />
+            ) : (
+              <Moon className="w-5 h-5 text-zinc-700" />
+            )}
+          </Button>
+
           {/* Connect Wallet Button - Hidden on mobile */}
           <Button
             onClick={handleConnectWallet}

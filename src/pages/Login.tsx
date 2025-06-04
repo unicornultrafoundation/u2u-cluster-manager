@@ -7,6 +7,7 @@ import WALLET_CONNECT_ICON from '@/assets/wallet/wallet_connect.png'
 import U2U_ICON from '@/assets/wallet/u2u_wallet.png'
 import BG_DESKTOP from '@/assets/login_page/bg_desktop.png'
 import BG_TABLET from '@/assets/login_page/bg_tablet.png'
+import DEFIO_LOGO from '@/assets/logo.png'
 
 const Login: React.FC = () => {
   const [connectingWallet, setConnectingWallet] = useState<string>('')
@@ -97,9 +98,10 @@ const Login: React.FC = () => {
       <div className="self-stretch flex-1 px-4 tablet:px-0 desktop:px-0 flex flex-col justify-center items-center relative z-10">
         <div className="w-full tablet:w-[560px] desktop:w-[560px] bg-white rounded-xl tablet:rounded-xl desktop:rounded-2xl flex flex-col justify-start items-start overflow-hidden">
           {/* Header */}
+          <img src={DEFIO_LOGO} />
           <div className="self-stretch p-4 tablet:p-6 desktop:p-6 flex justify-start items-center overflow-hidden">
             <div className="text-zinc-900 text-xl tablet:text-2xl desktop:text-2xl font-semibold font-title leading-loose">
-              Log In U2U Cluster
+              Log In With Wallet
             </div>
           </div>
 

@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Pixelyze';
+  src: url('/fonts/Pixelyze.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Apply fonts to base elements */
+body {
+  font-family: 'Figtree', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .title-font {
+  font-family: 'Pixelyze', sans-serif;
+} 

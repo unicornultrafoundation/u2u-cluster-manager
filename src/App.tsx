@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Header from '@/components/layout/Header'
 import Sidebar from '@/components/layout/Sidebar'
@@ -8,6 +8,7 @@ import DePINHub from '@/pages/DePINHub'
 import Login from './pages/Login'
 import { useAccount } from 'wagmi'
 import { useAuthStore } from '@/store/authStore'
+import '@/styles/globals.css'
 
 function App() {
   const { address: wagmiAddress, isConnected: wagmiConnected } = useAccount()

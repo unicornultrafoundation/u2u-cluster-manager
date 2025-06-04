@@ -5,6 +5,8 @@ import { useAuthStore } from '@/store/authStore';
 import METAMASK_ICON from '@/assets/wallet/metamask.png'
 import WALLET_CONNECT_ICON from '@/assets/wallet/wallet_connect.png'
 import U2U_ICON from '@/assets/wallet/u2u_wallet.png'
+import BG_DESKTOP from '@/assets/login_page/bg_desktop.png'
+import BG_TABLET from '@/assets/login_page/bg_tablet.png'
 
 const Login: React.FC = () => {
   const [connectingWallet, setConnectingWallet] = useState<string>('')
@@ -75,16 +77,16 @@ const Login: React.FC = () => {
       {/* Background */}
       <div className="w-full h-full left-0 top-0 absolute bg-neutral-900 overflow-hidden">
         {/* Background Images */}
-        {/* <img
-          className="w-[761px] tablet:w-[2166px] desktop:w-[2166px] h-96 tablet:h-[1024px] desktop:h-[1024px] left-[621px] tablet:left-[1767px] desktop:left-[1975px] top-[360px] tablet:top-[1024px] desktop:top-[1024px] absolute origin-top-left -rotate-180 opacity-50"
-          src="https://placehold.co/761x360"
-          alt="Background"
+        <img
+          className="hidden desktop:block w-screen h-screen absolute origin-top-left"
+          src={BG_DESKTOP}
+          alt="Desktop Background"
         />
         <img
-          className="w-96 tablet:w-[857px] desktop:w-[857px] h-96 tablet:h-[1081px] desktop:h-[1081px] left-[-0.34px] tablet:left-[78px] desktop:left-[286px] top-[62px] tablet:top-[98px] desktop:top-[98px] absolute origin-top-left rotate-[-0.56deg]"
-          src="https://placehold.co/356x449"
-          alt="Background"
-        /> */}
+          className="hidden tablet:block desktop:hidden w-screen h-screen absolute origin-top-left"
+          src={BG_TABLET}
+          alt="Tablet Background"
+        />
         
         {/* Gradient Blur */}
         <div className="w-[800px] tablet:w-[1200px] desktop:w-[1600px] h-[400px] tablet:h-[600px] desktop:h-[800px] left-1/2 top-3/4 transform -translate-x-1/2 -translate-y-1/2 absolute opacity-40 bg-violet-600 rounded-full blur-[100px] tablet:blur-[150px] desktop:blur-[200px]" />
@@ -96,18 +98,10 @@ const Login: React.FC = () => {
         <div className="w-full tablet:w-[560px] desktop:w-[560px] bg-white rounded-xl tablet:rounded-xl desktop:rounded-2xl flex flex-col justify-start items-start overflow-hidden">
           {/* Header */}
           <div className="self-stretch p-4 tablet:p-6 desktop:p-6 flex justify-start items-center overflow-hidden">
-            <div className="text-zinc-900 text-xl tablet:text-2xl desktop:text-2xl font-semibold font-inter-tight leading-loose">
+            <div className="text-zinc-900 text-xl tablet:text-2xl desktop:text-2xl font-semibold font-title leading-loose">
               Log In U2U Cluster
             </div>
           </div>
-
-          {/* Connection Status (Debug) */}
-          {process.env.NODE_ENV === 'development' && (
-            <div className="self-stretch px-4 tablet:px-6 desktop:px-6 py-2 bg-gray-100 text-xs">
-              <div>Auth Store - Connected: {isConnected ? 'Yes' : 'No'}, Connecting: {isConnecting ? 'Yes' : 'No'}</div>
-              <div>Wagmi - Connected: {wagmiConnected ? 'Yes' : 'No'}, Address: {wagmiAddress || 'None'}</div>
-            </div>
-          )}
 
           {/* Wallet Options */}
           <div className="self-stretch px-4 tablet:px-6 desktop:px-6 py-2 flex flex-col justify-start items-start gap-4 overflow-hidden">
@@ -122,7 +116,7 @@ const Login: React.FC = () => {
               <div className="w-6 h-6 relative rounded-md overflow-hidden">
                 <img src={U2U_ICON} alt="U2U Wallet" className="w-6 h-6" />
               </div>
-              <div className="flex-1 text-left text-zinc-900 text-sm tablet:text-base desktop:text-base font-medium font-inter-tight leading-normal tracking-wide">
+              <div className="flex-1 text-left text-zinc-900 text-sm tablet:text-base desktop:text-base font-medium leading-normal tracking-wide">
                 {isConnecting && connectingWallet === 'U2U Wallet' ? (
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-zinc-900 border-t-transparent rounded-full animate-spin"></div>
@@ -145,7 +139,7 @@ const Login: React.FC = () => {
               <div className="w-6 h-6 relative overflow-hidden">
                 <img src={METAMASK_ICON} alt="Metamask" className="w-6 h-6" />
               </div>
-              <div className="text-zinc-900 text-sm tablet:text-base desktop:text-base font-medium font-inter-tight leading-normal tracking-wide">
+              <div className="text-zinc-900 text-sm tablet:text-base desktop:text-base font-medium leading-normal tracking-wide">
                 {isConnecting && connectingWallet === 'Metamask' ? (
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-zinc-900 border-t-transparent rounded-full animate-spin"></div>
@@ -168,7 +162,7 @@ const Login: React.FC = () => {
               <div className="w-6 h-6 relative overflow-hidden">
                 <img src={WALLET_CONNECT_ICON} alt="Wallet Connect" className="w-6 h-6" />
               </div>
-              <div className="text-zinc-900 text-sm tablet:text-base desktop:text-base font-medium font-inter-tight leading-normal tracking-wide">
+              <div className="text-zinc-900 text-sm tablet:text-base desktop:text-base font-medium leading-normal tracking-wide">
                 {isConnecting && connectingWallet === 'Wallet Connect' ? (
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-zinc-900 border-t-transparent rounded-full animate-spin"></div>
@@ -184,19 +178,19 @@ const Login: React.FC = () => {
           {/* Privacy Policy */}
           <div className="self-stretch p-4 tablet:p-6 desktop:p-6 flex justify-between items-center overflow-hidden">
             <div className="flex-1">
-              <span className="text-neutral-400 text-xs tablet:text-sm desktop:text-sm font-normal font-inter-tight leading-tight tablet:leading-normal desktop:leading-normal tracking-wide">
+              <span className="text-neutral-400 text-xs tablet:text-sm desktop:text-sm font-normal leading-tight tablet:leading-normal desktop:leading-normal tracking-wide">
                 By connecting your wallet, you acknowledge and agree to our{" "}
               </span>
-              <span className="text-zinc-900 text-xs tablet:text-sm desktop:text-sm font-medium font-inter-tight leading-tight tablet:leading-normal desktop:leading-normal tracking-wide">
+              <span className="text-zinc-900 text-xs tablet:text-sm desktop:text-sm font-medium leading-tight tablet:leading-normal desktop:leading-normal tracking-wide">
                 Privacy Policy
               </span>
-              <span className="text-neutral-400 text-xs tablet:text-sm desktop:text-sm font-normal font-inter-tight leading-tight tablet:leading-normal desktop:leading-normal tracking-wide">
+              <span className="text-neutral-400 text-xs tablet:text-sm desktop:text-sm font-normal leading-tight tablet:leading-normal desktop:leading-normal tracking-wide">
                 {" "}and{" "}
               </span>
-              <span className="text-zinc-900 text-xs tablet:text-sm desktop:text-sm font-medium font-inter-tight leading-tight tablet:leading-normal desktop:leading-normal tracking-wide">
+              <span className="text-zinc-900 text-xs tablet:text-sm desktop:text-sm font-medium leading-tight tablet:leading-normal desktop:leading-normal tracking-wide">
                 Terms of Service
               </span>
-              <span className="text-neutral-400 text-xs tablet:text-sm desktop:text-sm font-normal font-inter-tight leading-tight tablet:leading-normal desktop:leading-normal tracking-wide">
+              <span className="text-neutral-400 text-xs tablet:text-sm desktop:text-sm font-normal leading-tight tablet:leading-normal desktop:leading-normal tracking-wide">
                 .
               </span>
             </div>
@@ -205,11 +199,11 @@ const Login: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <div className="self-stretch py-6 flex justify-center items-center overflow-hidden relative z-10">
+      {/* <div className="self-stretch py-6 flex justify-center items-center overflow-hidden relative z-10">
         <div className="text-center text-neutral-400 text-sm font-normal font-inter-tight leading-normal tracking-wide">
           © 2025 U2U Network. All rights reserved.
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

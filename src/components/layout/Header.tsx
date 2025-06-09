@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Menu, ExternalLink, Sun, Moon } from "lucide-react";
+import { RiArrowDownSFill, RiSunFill, RiMoonFill, RiMenuLine } from '@remixicon/react'
 import { Link, useLocation } from "react-router-dom";
 import { useAppKit } from '@reown/appkit/react'
 import { useAuthStore } from '@/store/authStore'
 import { Button } from "@/components/ui/button";
 import U2U_LOGO from "@/assets/logo_text_white.png";
+import U2U_TOKEN_ICON from '@/assets/wallet/u2u_wallet.png'
 
 interface HeaderProps {
   sidebarOpen: boolean;
@@ -47,15 +48,14 @@ const Header: React.FC<HeaderProps> = ({ sidebarOpen, setSidebarOpen }) => {
   }
 
   return (
-    <header className="w-full px-4 tablet:px-8 desktop:px-6 py-3 relative bg-zinc-900 backdrop-blur-xl flex justify-center items-center overflow-hidden sticky top-0 z-40">
+    <header className="w-full px-4 tablet:px-8 desktop:px-6 py-3 bg-zinc-800 backdrop-blur-xl flex justify-center items-center overflow-hidden sticky top-0 z-40">
       {/* Background blur gradient */}
       <div className="w-full mobile:w-96 tablet:w-[1024px] desktop:w-[1440px] h-20 left-0 top-0 absolute overflow-hidden">
-        <div className="w-60 h-20 left-[802px] tablet:left-[394px] desktop:left-[602px] top-[-69px] absolute bg-gradient-to-r from-emerald-400 to-violet-600 rounded-full blur-[121.21px]" />
+        <div className="w-60 h-20 left-[802px] tablet:left-[394px] desktop:left-[602px] top-[-69px] absolute bg-gradient-to-bl from-amber-300 to-emerald-500 rounded-full blur-[100px]" />
       </div>
 
       {/* Header content container */}
       <div className="max-tablet:flex-1 tablet:w-full desktop:w-[1200px] flex justify-between items-center relative z-10">
-        
         {/* Left section */}
         <div className="flex justify-start items-center">
           {/* Logo section */}
@@ -66,49 +66,32 @@ const Header: React.FC<HeaderProps> = ({ sidebarOpen, setSidebarOpen }) => {
               </Link>
             </div>
           </div>
-
-          {/* Navigation - Hidden on mobile */}
-          <nav className="hidden tablet:flex justify-center items-center">
-            <div className="flex justify-center items-center">
-              {/* Cluster Dashboard */}
-              <div className="px-4 tablet:px-4 desktop:px-6 py-2 tablet:py-2 desktop:py-2 flex justify-center items-center overflow-hidden">
-                <Link 
-                  to="/" 
-                  className={`text-center justify-center text-sm tablet:text-sm desktop:text-base font-medium font-inter-tight leading-normal tracking-wide hover:text-white transition-colors ${
-                    isActiveRoute('/') ? 'text-white' : 'text-neutral-400'
-                  }`}
-                >
-                  Cluster Dashboard
-                </Link>
-              </div>
-
-              {/* My Wallet */}
-              <div className="px-4 tablet:px-4 desktop:px-6 py-2 tablet:py-2 desktop:py-2 flex justify-center items-center overflow-hidden">
-                <Link 
-                  to="/wallet" 
-                  className={`text-center justify-center text-sm tablet:text-sm desktop:text-base font-medium font-inter-tight leading-normal tracking-wide hover:text-white transition-colors ${
-                    isActiveRoute('/wallet') ? 'text-white' : 'text-neutral-400'
-                  }`}
-                >
-                  My Wallet
-                </Link>
-              </div>
-
-              {/* U2U DePIN Client Hub */}
-              <div className="px-4 tablet:px-4 desktop:px-6 py-2 tablet:py-2 desktop:py-2 flex justify-center items-center gap-2 overflow-hidden">
-                <Link 
-                  to="/depin-hub" 
-                  className={`text-center justify-center text-sm tablet:text-sm desktop:text-base font-medium font-inter-tight leading-normal tracking-wide hover:text-white transition-colors ${
-                    isActiveRoute('/depin-hub') ? 'text-white' : 'text-neutral-400'
-                  }`}
-                >
-                  U2U DePIN Client Hub
-                </Link>
-                <ExternalLink className="w-6 h-6 text-neutral-400" strokeWidth={2.25} />
-              </div>
-            </div>
-          </nav>
         </div>
+        {/* Navigation - Hidden on mobile */}
+        <nav className="hidden tablet:flex justify-center items-center absolute left-1/2 -translate-x-1/2">
+          <div className="self-stretch inline-flex justify-center items-center gap-4 overflow-hidden">
+            <Link
+              to="/"
+              className={`self-stretch px-4 py-2 ${isActiveRoute('/') && 'bg-zinc-800'} flex justify-center items-center gap-1 overflow-hidden ${
+                isActiveRoute('/') ? 'text-white' : 'text-gray-500'
+              }`}
+            >
+              <div className="text-center justify-center text-sm font-medium font-['Figtree'] leading-normal">
+                Overview
+              </div>
+            </Link>
+            <Link
+              to="/wallet"
+              className={`self-stretch px-4 py-2 ${isActiveRoute('/wallet') && 'bg-zinc-800'} flex justify-center items-center gap-1 overflow-hidden ${
+                isActiveRoute('/wallet') ? 'text-white' : 'text-gray-500'
+              }`}
+            >
+              <div className="text-center justify-cente text-sm font-medium font-['Figtree'] leading-normal">
+                My Wallet
+              </div>
+            </Link>
+          </div>
+        </nav>
 
         {/* Right section */}
         <div className="flex-1 flex justify-end items-center gap-2 tablet:gap-4 desktop:gap-4">
@@ -121,25 +104,28 @@ const Header: React.FC<HeaderProps> = ({ sidebarOpen, setSidebarOpen }) => {
             aria-label="Toggle dark mode"
           >
             {isDark ? (
-              <Sun className="w-5 h-5 text-yellow-400" />
+              <RiSunFill className="w-5 h-5 text-yellow-400" />
             ) : (
-              <Moon className="w-5 h-5 text-zinc-700" />
+              <RiMoonFill className="w-5 h-5 text-zinc-700" />
             )}
           </Button>
 
+          
           {/* Connect Wallet Button - Hidden on mobile */}
           <Button
             onClick={handleConnectWallet}
-            className="hidden tablet:flex px-4 py-2 tablet:py-2 desktop:py-3 bg-zinc-900 rounded-lg tablet:rounded-lg desktop:rounded-xl border-2 border-emerald-400 justify-center items-center gap-2 overflow-hidden hover:opacity-90 transition-opacity"
-            style={{
-              background: 'linear-gradient(135deg, #33CC99 0%, #714CF9 100%)',
-            }}
+            className="hidden tablet:flex px-3 py-2 bg-zinc-800 justify-start items-center gap-2 overflow-hidden hover:opacity-90 transition-opacity"
           >
-            <span className="text-center justify-center text-white text-sm tablet:text-sm desktop:text-base font-semibold font-inter-tight leading-normal tracking-wide">
+            <div className="w-6 h-6 relative rounded-md overflow-hidden">
+              <img src={U2U_TOKEN_ICON} alt="U2U Token" className="w-6 h-6" />
+            </div>
+            <span className="text-center justify-center text-white text-sm font-semibold font-inter-tight leading-normal tracking-wide">
               {isConnected && address ? formatAddress(address) : 'Connect Wallet'}
             </span>
+            <div className="w-6 h-6 relative overflow-hidden">
+              <RiArrowDownSFill className="w-5 h-5 text-white" />
+            </div>
           </Button>
-
           {/* Mobile menu button - Only visible on mobile */}
           <div className="tablet:hidden w-10 h-10 flex justify-center items-center">
             <button
@@ -147,7 +133,7 @@ const Header: React.FC<HeaderProps> = ({ sidebarOpen, setSidebarOpen }) => {
               className="w-6 h-6 relative"
               aria-label="Toggle menu"
             >
-              <Menu className="w-6 h-6 text-neutral-400" strokeWidth={1.5} />
+              <RiMenuLine className="w-6 h-6 text-neutral-400" strokeWidth={1.5} />
             </button>
           </div>
         </div>

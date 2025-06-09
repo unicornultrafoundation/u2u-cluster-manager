@@ -8,7 +8,9 @@ import DePINHub from '@/pages/DePINHub'
 import Login from './pages/Login'
 import { useAccount } from 'wagmi'
 import { useAuthStore } from '@/store/authStore'
+// import 'remixicon/fonts/remixicon.css'
 import '@/styles/globals.css'
+import NewCluster from './pages/NewCluster'
 
 function App() {
   const { address: wagmiAddress, isConnected: wagmiConnected } = useAccount()
@@ -69,7 +71,7 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-zinc-900">
+      <div className="min-h-screen">
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         
         {/* Mobile-only sidebar */}
@@ -80,10 +82,14 @@ function App() {
             <Route path="/" element={<ClusterDashboard />} />
             <Route path="/wallet" element={<MyWallet />} />
             <Route path="/depin-hub" element={<DePINHub />} />
+            <Route path="/cluster/new" element={<NewCluster />} />
             {/* Catch all route - redirect to dashboard */}
             <Route path="*" element={<ClusterDashboard />} />
           </Routes>
         </main>
+        <div className="self-stretch w-full py-6 border-t border-gray-300 inline-flex justify-center items-center overflow-hidden">
+          <div className="text-center justify-start text-neutral-600 text-sm font-normal font-['Figtree'] leading-normal">© 2025 U2U Network. All rights reserved.</div>
+        </div>
       </div>
     </Router>
   )

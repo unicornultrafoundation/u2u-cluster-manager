@@ -12,6 +12,7 @@ interface AuthState {
   setConnected: (connected: boolean, address?: string) => void
   setAddress: (address: string | null) => void
   reset: () => void
+  disconnect: () => void
   
   // Connection flow methods
   startConnection: () => void
@@ -46,6 +47,15 @@ export const useAuthStore = create<AuthState>()(
           isConnected: false, 
           address: null 
         }),
+      
+      disconnect: () => {
+        console.log('🔄 Disconnecting wallet...')
+        set({ 
+          isConnecting: false, 
+          isConnected: false, 
+          address: null 
+        })
+      },
       
       // Connection flow methods
       startConnection: () => {

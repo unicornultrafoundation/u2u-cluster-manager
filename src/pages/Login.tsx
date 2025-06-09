@@ -96,9 +96,11 @@ const Login: React.FC = () => {
 
       {/* Main Content */}
       <div className="self-stretch flex-1 px-4 tablet:px-0 desktop:px-0 flex flex-col justify-center items-center relative z-10">
-        <div className="w-full tablet:w-[560px] desktop:w-[560px] bg-white rounded-xl tablet:rounded-xl desktop:rounded-2xl flex flex-col justify-start items-start overflow-hidden">
+        <div className="w-full tablet:w-[560px] desktop:w-[560px] bg-white flex flex-col justify-start items-start overflow-hidden">
           {/* Header */}
-          <img src={DEFIO_LOGO} />
+          <div className='p-4 tablet:p-6 desktop:p-6 w-full flex'>
+            <img className='h-8' src={DEFIO_LOGO} />
+          </div>
           <div className="self-stretch p-4 tablet:p-6 desktop:p-6 flex justify-start items-center overflow-hidden">
             <div className="text-zinc-900 text-xl tablet:text-2xl desktop:text-2xl font-semibold font-title leading-loose">
               Log In With Wallet
@@ -111,11 +113,11 @@ const Login: React.FC = () => {
             <button 
               onClick={() => handleWalletConnect('metamask', 'U2U Wallet')}
               disabled={isConnecting}
-              className={`self-stretch p-3 tablet:p-4 desktop:p-4 rounded-xl outline outline-1 outline-offset-[-1px] outline-zinc-300 flex justify-start items-center gap-2 overflow-hidden transition-colors ${
+              className={`self-stretch p-3 tablet:p-4 desktop:p-4 outline outline-1 outline-offset-[-1px] outline-zinc-300 flex justify-start items-center gap-2 overflow-hidden transition-colors ${
                 isConnecting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50 cursor-pointer'
               }`}
             >
-              <div className="w-6 h-6 relative rounded-md overflow-hidden">
+              <div className="w-6 h-6 relative overflow-hidden">
                 <img src={U2U_ICON} alt="U2U Wallet" className="w-6 h-6" />
               </div>
               <div className="flex-1 text-left text-zinc-900 text-sm tablet:text-base desktop:text-base font-medium leading-normal tracking-wide">
@@ -134,7 +136,7 @@ const Login: React.FC = () => {
             <button 
               onClick={() => handleWalletConnect('metamask', 'Metamask')}
               disabled={isConnecting}
-              className={`self-stretch p-3 tablet:p-4 desktop:p-4 rounded-xl outline outline-1 outline-offset-[-1px] outline-zinc-300 flex justify-start items-center gap-2 overflow-hidden transition-colors ${
+              className={`self-stretch p-3 tablet:p-4 desktop:p-4 outline outline-1 outline-offset-[-1px] outline-zinc-300 flex justify-start items-center gap-2 overflow-hidden transition-colors ${
                 isConnecting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50 cursor-pointer'
               }`}
             >
@@ -157,7 +159,7 @@ const Login: React.FC = () => {
             <button 
               onClick={() => handleWalletConnect('walletConnect', 'Wallet Connect')}
               disabled={isConnecting}
-              className={`self-stretch p-3 tablet:p-4 desktop:p-4 rounded-xl outline outline-1 outline-offset-[-1px] outline-zinc-300 flex justify-start items-center gap-2 overflow-hidden transition-colors ${
+              className={`self-stretch p-3 tablet:p-4 desktop:p-4 outline outline-1 outline-offset-[-1px] outline-zinc-300 flex justify-start items-center gap-2 overflow-hidden transition-colors ${
                 isConnecting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50 cursor-pointer'
               }`}
             >

@@ -1,15 +1,22 @@
 import React from 'react'
-import { Home, Wallet, Server, Settings, Activity, ChevronDown, Shield, ExternalLink } from 'lucide-react'
+import { RiHome3Line, RiWalletLine, RiArrowDownSLine, RiExternalLinkLine, RiCheckboxCircleLine, RiLogoutBoxRLine } from '@remixicon/react'
 import { Link, useLocation } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import U2ULogo from '@/assets/u2u_logo.png'
 import { useAuthStore } from '@/store/authStore'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import type { NavigationItem } from '@/types'
+import { useDisconnect } from "@reown/appkit/react";
 
 const navigation: NavigationItem[] = [
-  { name: 'Dashboard', href: '/', icon: Home, current: false },
-  { name: 'My Wallet', href: '/wallet', icon: Wallet, current: false },
-  { name: 'DePIN Hub', href: '/depin-hub', icon: Server, current: false },
+  { name: 'Overview', href: '/', icon: RiHome3Line, current: false },
+  { name: 'My Wallet', href: '/wallet', icon: RiWalletLine, current: false },
+  // { name: 'DePIN Hub', href: '/depin-hub', icon: Server, current: false },
   // { name: 'Monitoring', href: '/monitoring', icon: Activity, current: false },
   // { name: 'Security', href: '/security', icon: Shield, current: false },
   // { name: 'Settings', href: '/settings', icon: Settings, current: false },
@@ -22,7 +29,8 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation()
-  const { address } = useAuthStore()
+  const { address, disconnect } = useAuthStore()
+  const { disconnect: appkitDisconnect } = useDisconnect()
 
   const isActiveRoute = (href: string) => {
     return location.pathname === href
@@ -73,7 +81,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
                       {item.name}
                     </div>
                     {isDePINHub && (
-                      <ExternalLink className="w-6 h-6 text-neutral-400" strokeWidth={2} />
+                      <RiExternalLinkLine className="w-6 h-6 text-neutral-400" />
                     )}
                   </Link>
                 </div>
@@ -83,19 +91,47 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, setSidebarOpen }) => {
 
           {/* Wallet Connection Section */}
           {address && (
-            <div className="self-stretch px-4 py-3 rounded-xl outline outline-1 outline-offset-[-1px] outline-neutral-700 flex justify-between items-center overflow-hidden">
-              <div className="flex-1 flex justify-start items-center gap-3">
-                <div className="w-6 h-6 relative rounded-md overflow-hidden bg-transparent flex items-center justify-center">
-                  <img src={U2ULogo} alt="U2U Logo" className="w-6 h-6" />
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger className='w-full'>
+                <div className="self-stretch px-4 py-3 outline outline-1 outline-offset-[-1px] outline-neutral-700 flex justify-between items-center overflow-hidden">
+                  <div className="flex-1 flex justify-start items-center gap-3">
+                    <div className="w-6 h-6 relative rounded-md overflow-hidden bg-transparent flex items-center justify-center">
+                      <img src={U2ULogo} alt="U2U Logo" className="w-6 h-6" />
+                    </div>
+                    <div className="text-center justify-center text-white text-sm font-semibold font-inter-tight leading-normal tracking-wide">
+                      {formatAddress(address)}
+                    </div>
+                  </div>
+                  <div className="w-6 h-6 relative overflow-hidden flex items-center justify-center">
+                    <RiArrowDownSLine className="w-6 h-6 text-neutral-400" />
+                  </div>
                 </div>
-                <div className="text-center justify-center text-white text-sm font-semibold font-inter-tight leading-normal tracking-wide">
-                  {formatAddress(address)}
-                </div>
-              </div>
-              <div className="w-6 h-6 relative overflow-hidden flex items-center justify-center">
-                <ChevronDown className="w-6 h-6 text-neutral-400" strokeWidth={2} />
-              </div>
-            </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-[var(--radix-dropdown-menu-trigger-width)] rounded-none" align="start">
+                <DropdownMenuItem>
+                  <div className="flex items-center gap-2">
+                    <RiExternalLinkLine className="w-4 h-4" />
+                    <span>U2U Explorer</span>
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <div className="flex items-center gap-2">
+                    <RiCheckboxCircleLine className="w-4 h-4" />
+                    <span>Copy Address</span>
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={async () => {
+                  await appkitDisconnect();
+                  disconnect();
+                  setSidebarOpen(false);
+                }}>
+                  <div className="flex items-center gap-2">
+                    <RiLogoutBoxRLine className="w-4 h-4" />
+                    <span>Disconnect</span>
+                  </div>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
         </div>
       </aside>

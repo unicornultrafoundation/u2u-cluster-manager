@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink } from 'lucide-react';
+import { RiExternalLinkLine } from '@remixicon/react';
 
 const DePINHub: React.FC = () => {
   return (
@@ -7,7 +7,7 @@ const DePINHub: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center gap-3 mb-6">
           <h1 className="text-3xl font-bold text-white">U2U DePIN Client Hub</h1>
-          <ExternalLink className="w-6 h-6 text-neutral-400" strokeWidth={2} />
+          <RiExternalLinkLine className="w-6 h-6 text-neutral-400" />
         </div>
         
         {/* Overview Cards */}
@@ -38,7 +38,7 @@ const DePINHub: React.FC = () => {
               <p className="text-neutral-400 mb-4">Contribute computing power to the distributed network</p>
               <div className="flex justify-between items-center">
                 <span className="text-emerald-400 font-semibold">Active</span>
-                <ExternalLink className="w-4 h-4 text-neutral-400" />
+                <RiExternalLinkLine className="w-4 h-4 text-neutral-400" />
               </div>
             </div>
             
@@ -47,7 +47,7 @@ const DePINHub: React.FC = () => {
               <p className="text-neutral-400 mb-4">Provide decentralized storage capacity</p>
               <div className="flex justify-between items-center">
                 <span className="text-violet-400 font-semibold">Active</span>
-                <ExternalLink className="w-4 h-4 text-neutral-400" />
+                <RiExternalLinkLine className="w-4 h-4 text-neutral-400" />
               </div>
             </div>
             
@@ -56,7 +56,7 @@ const DePINHub: React.FC = () => {
               <p className="text-neutral-400 mb-4">Participate in distributed AI model training</p>
               <div className="flex justify-between items-center">
                 <span className="text-orange-400 font-semibold">Coming Soon</span>
-                <ExternalLink className="w-4 h-4 text-neutral-400" />
+                <RiExternalLinkLine className="w-4 h-4 text-neutral-400" />
               </div>
             </div>
           </div>

@@ -1,14 +1,14 @@
 import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Activity, Server, Database, AlertCircle } from 'lucide-react'
+import { RiLineChartLine, RiServerLine, RiDatabase2Line, RiErrorWarningLine } from '@remixicon/react'
 import useClusterStore from '@/store/clusterStore'
 import type { StatCard } from '@/types'
 
 const stats: StatCard[] = [
-  { name: 'Total Clusters', value: '12', icon: Server, color: 'text-blue-600' },
-  { name: 'Active Nodes', value: '48', icon: Database, color: 'text-green-600' },
-  { name: 'CPU Usage', value: '72%', icon: Activity, color: 'text-orange-600' },
-  { name: 'Alerts', value: '3', icon: AlertCircle, color: 'text-red-600' },
+  { name: 'Total Clusters', value: '12', icon: RiServerLine, color: 'text-blue-600' },
+  { name: 'Active Nodes', value: '48', icon: RiDatabase2Line, color: 'text-green-600' },
+  { name: 'CPU Usage', value: '72%', icon: RiLineChartLine, color: 'text-orange-600' },
+  { name: 'Alerts', value: '3', icon: RiErrorWarningLine, color: 'text-red-600' },
 ]
 
 const Dashboard: React.FC = () => {

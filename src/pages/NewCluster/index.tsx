@@ -51,17 +51,17 @@ const NewCluster = () => {
       <NewClusterForm form={form} onSubmit={onSubmit} />
       {/* Right: Summary bill section */}
       <div className="flex-1">
-        <div className="sticky top-24 z-20">
+        <div className="sticky top-24 z-2 h-[476px] w-[560px] flex flex-col">
           <img
             src={BILL_BACKGROUND}
             alt="Bill Background"
-            className="object-cover absolute top-0 left-0 right-0"
+            className="object-cover absolute top-0 left-0 right-0 h-[476px] w-[560px]"
           />
-          <div className="relative z-10 p-6 w-full">
+          <div className="relative z-10 p-6 w-full h-full flex-1">
             <div className="justify-start text-zinc-900 text-lg font-normal font-['Pixelyze'] uppercase leading-7">
               Summary
             </div>
-            <div className="self-stretch inline-flex flex-col justify-start items-start gap-4 w-full">
+            <div className="self-stretch flex-1 inline-flex flex-col justify-start items-start gap-4 w-full">
               <div className="self-stretch inline-flex justify-between items-center">
                 <div className="justify-center text-gray-500 text-base font-medium font-['Figtree'] leading-normal">
                   Cluster name
@@ -110,6 +110,9 @@ const NewCluster = () => {
                   {renderTypeOfWorkload(form.watch("typeOfWorkload"))}
                 </div>
               </div>
+            </div>
+            <div>
+              abc
             </div>
           </div>
         </div>

@@ -3,6 +3,9 @@ import NewClusterForm from "./NewClusterForm";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { RiInformationFill } from "@remixicon/react";
+import { useMemo } from "react";
 
 export const formSchema = z.object({
   name: z.string(),
@@ -15,6 +18,7 @@ export const formSchema = z.object({
 
 const NewCluster = () => {
   const form = useForm<z.infer<typeof formSchema>>({
+    mode: "onBlur",
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -25,6 +29,12 @@ const NewCluster = () => {
       typeOfWorkload: "",
     },
   });
+
+  const [name, cpu, ram, gpu, activeTime, typeOfWorkload] = form.watch(["name", "cpu", "ram", "gpu", "activeTime", "typeOfWorkload"]);
+
+  const estimatePrice = useMemo(() => {
+    return 0;
+  }, [name, cpu, ram, gpu, activeTime, typeOfWorkload]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
@@ -57,7 +67,7 @@ const NewCluster = () => {
             alt="Bill Background"
             className="object-cover absolute top-0 left-0 right-0 h-[476px] w-[560px]"
           />
-          <div className="relative z-10 p-6 w-full h-full flex-1">
+          <div className="relative z-10 p-6 w-full h-full flex-1 flex flex-col">
             <div className="justify-start text-zinc-900 text-lg font-normal font-['Pixelyze'] uppercase leading-7">
               Summary
             </div>
@@ -111,8 +121,19 @@ const NewCluster = () => {
                 </div>
               </div>
             </div>
-            <div>
-              abc
+            <div className="flex flex-col gap-4">
+              <div className="self-stretch inline-flex justify-between items-center">
+                <div className="flex justify-start items-center gap-2">
+                  <div className="justify-center text-gray-500 text-base font-medium font-['Figtree'] leading-normal">Estimate price</div>
+                  <RiInformationFill className="w-5 h-5 text-stone-300" />
+                </div>
+                <div className="justify-center text-zinc-900 text-2xl font-normal font-['Pixelyze'] uppercase leading-loose">
+                  {estimatePrice === 0 ? '---' : `${estimatePrice}`}
+                </div>
+            </div>
+              <Button className="w-full">
+                Proceed to payment
+              </Button>
             </div>
           </div>
         </div>

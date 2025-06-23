@@ -100,6 +100,7 @@ const NewClusterForm = ({
                     <div className="flex gap-2 items-center">
                       <Input
                         {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
                         type="number"
                         placeholder="Ex: 16"
                         className="w-32 px-4 py-3 border border-[#EEF0F0] bg-white text-[#181B1E] focus:outline-none focus:ring-2 focus:ring-[#56A890]"
@@ -179,6 +180,7 @@ const NewClusterForm = ({
                     <div className="flex gap-2 items-center">
                       <Input
                         {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
                         type="number"
                         placeholder="Ex: 24"
                         className="w-32 px-4 py-3 border border-[#EEF0F0] bg-white text-[#181B1E] focus:outline-none focus:ring-2 focus:ring-[#56A890]"
@@ -258,6 +260,7 @@ const NewClusterForm = ({
                     <div className="flex gap-2 items-center">
                       <Input
                         {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
                         type="number"
                         placeholder="Ex: 64"
                         className="w-32 px-4 py-3 border border-[#EEF0F0] bg-white text-[#181B1E] focus:outline-none focus:ring-2 focus:ring-[#56A890]"
@@ -334,12 +337,14 @@ const NewClusterForm = ({
                         <SelectValue placeholder="Select time..." />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="30m">30 minutes</SelectItem>
-                        <SelectItem value="1h">1 hour</SelectItem>
-                        <SelectItem value="2h">2 hours</SelectItem>
-                        <SelectItem value="6h">6 hours</SelectItem>
-                        <SelectItem value="12h">12 hours</SelectItem>
-                        <SelectItem value="24h">24 hours</SelectItem>
+                        <SelectItem value="1d">1 day</SelectItem>
+                        <SelectItem value="3d">3 days</SelectItem>
+                        <SelectItem value="1w">1 week</SelectItem>
+                        <SelectItem value="2w">2 weeks</SelectItem>
+                        <SelectItem value="1m">1 month</SelectItem>
+                        <SelectItem value="3m">3 months</SelectItem>
+                        <SelectItem value="6m">6 months</SelectItem>
+                        <SelectItem value="1y">1 year</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -402,6 +407,7 @@ const NewClusterForm = ({
                       <div className="flex gap-2 items-center relative">
                         <Input
                           {...field}
+                          onChange={(e) => field.onChange(Number(e.target.value))}
                           type="number"
                           placeholder="Ex: 16 USD"
                           className="w-full pr-4 px-4 py-3 border border-[#EEF0F0] bg-white text-[#181B1E] focus:outline-none focus:ring-2 focus:ring-[#56A890]"
@@ -427,6 +433,7 @@ const NewClusterForm = ({
                       <div className="flex gap-2 items-center relative">
                         <Input
                           {...field}
+                          onChange={(e) => field.onChange(Number(e.target.value))}
                           type="number"
                           placeholder="Ex: 16 USD"
                           className="w-full pr-4 px-4 py-3 border border-[#EEF0F0] bg-white text-[#181B1E] focus:outline-none focus:ring-2 focus:ring-[#56A890]"

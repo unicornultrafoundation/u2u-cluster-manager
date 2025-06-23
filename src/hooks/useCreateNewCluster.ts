@@ -20,8 +20,8 @@ interface CreateNewClusterProps {
 }
 
 export const useCreateNewCluster = () => {
-  const { data: hash, writeContract } = useWriteContract()
-  const {mutate: createNewCluster} = useMutation({
+  const { data: hash, writeContract, reset: resetWriteContract } = useWriteContract()
+  const {mutate: createNewCluster, reset: resetCreateNewCluster} = useMutation({
     mutationFn: async (params: CreateNewClusterProps) => {
       return writeContract({
         address: BID_MARKETPLACE_CONTRACT_ADDRESS,
@@ -49,6 +49,10 @@ export const useCreateNewCluster = () => {
 
   return {
     createNewCluster,
-    hash
+    hash,
+    reset: () => {
+      resetWriteContract();
+      resetCreateNewCluster();
+    }
   };
 };

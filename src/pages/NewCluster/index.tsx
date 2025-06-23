@@ -32,8 +32,7 @@ const NewCluster = () => {
       cpu: 0,
       ram: 0,
       gpu: 0,
-      rentingTime: "",
-      // typeOfWorkload: "",
+      rentingTime: "1d",
       region: "1",
       machineType: "1",
     },
@@ -45,37 +44,52 @@ const NewCluster = () => {
     return 0;
   }, [cpu, ram, gpu, rentingTime]);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    // console.log(values);
+    const validated = await form.trigger();
+    console.log('validated', validated);
+    if (!validated) {
+      return;
+    }
+
     console.log(values);
-    createNewCluster({
-      machineType: 0,
-      duration: 0,
-      minBidPrice: 0,
-      maxBidPrice: 0,
-      region: 0,
-      cpuCores: 0,
-      gpuCores: 0,
-      gpuMemory: 0,
-      memoryMB: 0,
-      diskGB: 0,
-      uploadMbps: 0,
-      downloadMbps: 0,
-      specs: "",
-    })
+    // createNewCluster({
+    //   machineType: 0,
+    //   duration: 0,
+    //   minBidPrice: 0,
+    //   maxBidPrice: 0,
+    //   region: 0,
+    //   cpuCores: 0,
+    //   gpuCores: 0,
+    //   gpuMemory: 0,
+    //   memoryMB: 0,
+    //   diskGB: 0,
+    //   uploadMbps: 0,
+    //   downloadMbps: 0,
+    //   specs: "",
+    // })
   }
 
-  function renderTypeOfWorkload(typeOfWorkload: string) {
+  function renderRentingTime(typeOfWorkload: string) {
     switch (typeOfWorkload) {
-      case "ml":
-        return "Machine Learning";
-      case "data":
-        return "Data Processing";
-      case "web":
-        return "Web Hosting";
-      case "other":
-        return "Other";
+      case "1d":
+        return "1 day";
+      case "3d":
+        return "3 days";
+      case "1w":
+        return "1 week";
+      case "2w":
+        return "2 weeks";
+      case "1m":
+        return "1 month";
+      case "3m":
+        return "3 months";
+      case "6m":
+        return "6 months";
+      case "1y":
+        return "1 year";
     }
   }
 
@@ -133,7 +147,7 @@ const NewCluster = () => {
                   Renting time
                 </div>
                 <div className="justify-center text-zinc-900 text-base font-semibold font-['Figtree'] leading-normal">
-                  {form.watch("rentingTime")}
+                  {renderRentingTime(form.watch("rentingTime"))}
                 </div>
               </div>
               {/* <div className="self-stretch inline-flex justify-between items-center">
@@ -155,7 +169,7 @@ const NewCluster = () => {
                   {estimatePrice === 0 ? '---' : `${estimatePrice}`}
                 </div>
             </div>
-              <Button className="w-full">
+              <Button className="w-full" onClick={() => onSubmit(form.getValues())}>
                 Proceed to payment
               </Button>
             </div>

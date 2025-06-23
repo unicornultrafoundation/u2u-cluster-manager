@@ -6,40 +6,64 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { RiInformationFill } from "@remixicon/react";
 import { useMemo } from "react";
+import { useCreateNewCluster } from "@/hooks/useCreateNewCluster";
 
 export const formSchema = z.object({
-  name: z.string(),
+  // name: z.string(),
   cpu: z.number().min(1),
   ram: z.number().min(1),
   gpu: z.number().min(1),
-  activeTime: z.string(),
-  typeOfWorkload: z.string(),
+  minBidPrice: z.number().min(1),
+  maxBidPrice: z.number().min(1),
+  rentingTime: z.string(),
+  // typeOfWorkload: z.string(),
+  description: z.string(),
+  region: z.string(),
+  machineType: z.string(),
 });
 
 const NewCluster = () => {
+  const { createNewCluster } = useCreateNewCluster();
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onBlur",
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      description: "",
       cpu: 0,
       ram: 0,
       gpu: 0,
-      activeTime: "",
-      typeOfWorkload: "",
+      rentingTime: "",
+      // typeOfWorkload: "",
+      region: "1",
+      machineType: "1",
     },
   });
 
-  const [name, cpu, ram, gpu, activeTime, typeOfWorkload] = form.watch(["name", "cpu", "ram", "gpu", "activeTime", "typeOfWorkload"]);
+  const [cpu, ram, gpu, rentingTime] = form.watch(["description", "cpu", "ram", "gpu", "rentingTime"]);
 
   const estimatePrice = useMemo(() => {
     return 0;
-  }, [name, cpu, ram, gpu, activeTime, typeOfWorkload]);
+  }, [cpu, ram, gpu, rentingTime]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+    createNewCluster({
+      machineType: 0,
+      duration: 0,
+      minBidPrice: 0,
+      maxBidPrice: 0,
+      region: 0,
+      cpuCores: 0,
+      gpuCores: 0,
+      gpuMemory: 0,
+      memoryMB: 0,
+      diskGB: 0,
+      uploadMbps: 0,
+      downloadMbps: 0,
+      specs: "",
+    })
   }
 
   function renderTypeOfWorkload(typeOfWorkload: string) {
@@ -74,10 +98,10 @@ const NewCluster = () => {
             <div className="self-stretch flex-1 inline-flex flex-col justify-start items-start gap-4 w-full">
               <div className="self-stretch inline-flex justify-between items-center">
                 <div className="justify-center text-gray-500 text-base font-medium font-['Figtree'] leading-normal">
-                  Cluster name
+                  Requirement
                 </div>
                 <div className="justify-center text-zinc-900 text-base font-semibold font-['Figtree'] leading-normal">
-                  {form.watch("name")}
+                  {form.watch("description")}
                 </div>
               </div>
               <div className="self-stretch inline-flex justify-between items-center">
@@ -109,17 +133,17 @@ const NewCluster = () => {
                   Renting time
                 </div>
                 <div className="justify-center text-zinc-900 text-base font-semibold font-['Figtree'] leading-normal">
-                  {form.watch("activeTime")}
+                  {form.watch("rentingTime")}
                 </div>
               </div>
-              <div className="self-stretch inline-flex justify-between items-center">
+              {/* <div className="self-stretch inline-flex justify-between items-center">
                 <div className="justify-center text-gray-500 text-base font-medium font-['Figtree'] leading-normal">
                   Type
                 </div>
                 <div className="justify-center text-zinc-900 text-base font-semibold font-['Figtree'] leading-normal">
                   {renderTypeOfWorkload(form.watch("typeOfWorkload"))}
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="flex flex-col gap-4">
               <div className="self-stretch inline-flex justify-between items-center">

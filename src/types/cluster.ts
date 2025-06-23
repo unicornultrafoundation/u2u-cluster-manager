@@ -3,6 +3,7 @@ export interface Cluster {
   name: string
   status: 'active' | 'inactive' | 'pending' | 'error'
   nodes: number
+  machineType: 'Docker' | 'Kubernetes' | 'Kvm'
   region?: string
   version?: string
   createdAt?: Date

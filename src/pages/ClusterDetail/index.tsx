@@ -8,7 +8,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import ILLUS from "@/assets/cluster_detail_page/illus.png";
 import STAT_BG from "@/assets/cluster_detail_page/stat_bg.png";
-import {RiFileCopyLine, RiShutDownFill, RiEditBoxFill, RiTimerFlashFill} from '@remixicon/react'
+import STAT_BG_MOBILE from "@/assets/cluster_detail_page/stat_bg_mobile.png";
+import {RiFileCopyLine, RiShutDownFill, RiEditBoxFill, RiTimerFlashFill, RiFlashlightFill} from '@remixicon/react'
 import { useClusterDetail } from "@/hooks/useClusterDetail";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,45 +18,45 @@ const ClusterDetail = () => {
   const { clusterDetail } = useClusterDetail();
 
   function renderControlSection() {
-    if (clusterDetail.status === "ACTIVE") {
+    if (clusterDetail.status === "CREATING") {
       return (
-        <div className="self-stretch inline-flex justify-start items-start gap-4">
-          <Button variant="secondary" className="flex-1 flex">
-            <RiShutDownFill className="w-6 h-6 text-neutral-400" />
-            <div className="h-6 flex justify-center items-center gap-2">
-              <div className="text-center justify-center text-neutral-600 text-base font-semibold font-['Figtree'] leading-normal">
-                Turn OFF
-              </div>
-            </div>
-          </Button>
-          <Button variant="secondary" className="flex-1 flex">
-            <RiEditBoxFill className="w-6 h-6 text-neutral-400" />
-            <div className="h-6 flex justify-center items-center gap-2">
-              <div className="text-center justify-center text-neutral-600 text-base font-semibold font-['Figtree'] leading-normal">
-                Edit resources
-              </div>
-            </div>
-          </Button>
-          <Button variant="secondary" className="flex-1 flex">
-            <RiTimerFlashFill className="w-6 h-6 text-neutral-400" />
-            <div className="h-6 flex justify-center items-center gap-2">
-              <div className="text-center justify-center text-neutral-600 text-base font-semibold font-['Figtree'] leading-normal">
-                Extend time
-              </div>
-            </div>
-          </Button>
-        </div>
+        <Button variant="destructive" className="flex-1 flex w-full">
+          <div className="text-center justify-center text-stone-50 text-base font-semibold font-['Figtree'] leading-normal">Cancel order</div>
+        </Button>
       );
     }
     return (
-      <Button variant="destructive" className="flex-1 flex w-full">
-        <div className="text-center justify-center text-stone-50 text-base font-semibold font-['Figtree'] leading-normal">Cancel order</div>
-      </Button>
+      <div className="grid grid-cols-1 md:grid-cols-3 justify-between items-center gap-4 w-full">
+        <Button variant="secondary" className="flex-1 flex">
+          {clusterDetail.status === "ACTIVE" ? <RiShutDownFill className="w-6 h-6 text-neutral-400" /> : <RiFlashlightFill className="w-6 h-6 text-neutral-400" />}
+          <div className="h-6 flex justify-center items-center gap-2">
+            <div className="text-center justify-center text-neutral-600 text-base font-semibold font-['Figtree'] leading-normal">
+              {clusterDetail.status === "ACTIVE" ? "Turn OFF" : "Turn ON"}
+            </div>
+          </div>
+        </Button>
+        <Button variant="secondary" className="flex-1 flex">
+          <RiEditBoxFill className="w-6 h-6 text-neutral-400" />
+          <div className="h-6 flex justify-center items-center gap-2">
+            <div className="text-center justify-center text-neutral-600 text-base font-semibold font-['Figtree'] leading-normal">
+              Edit resources
+            </div>
+          </div>
+        </Button>
+        <Button variant="secondary" className="flex-1 flex">
+          <RiTimerFlashFill className="w-6 h-6 text-neutral-400" />
+          <div className="h-6 flex justify-center items-center gap-2">
+            <div className="text-center justify-center text-neutral-600 text-base font-semibold font-['Figtree'] leading-normal">
+              Extend time
+            </div>
+          </div>
+        </Button>
+      </div>
     );
   }
 
   return (
-    <div className="self-stretch w-full pt-12 pb-24 inline-flex justify-center items-start gap-16 overflow-hidden bg-stone-50">
+    <div className="self-stretch w-full pt-12 pb-24 px-4 inline-flex justify-center items-start gap-16 overflow-hidden bg-stone-50">
       <div
         data-device="Desktop"
         data-state="Creating"
@@ -86,18 +87,17 @@ const ClusterDetail = () => {
           </div>
         </div>
         <div
-          data-device="Desktop"
-          data-state="Default"
-          className="self-stretch p-6 relative bg-white inline-flex justify-start items-start gap-6 overflow-hidden"
+          className="self-stretch p-4 md:p-6 relative bg-white grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 overflow-hidden"
         >
-          <div className="w-[768px] h-28 left-0 top-0 absolute">
-            <div className="w-[768px] left-0 top-[100px] bg-white absolute inline-flex justify-start items-center gap-1">
+          <div className="w-full h-56 md:h-28 left-0 top-0 absolute">
+            <div className="w-[768px] hidden md:inline-flex left-0 top-[100px] bg-white absolute justify-start items-center gap-1">
               <div className="flex-1 h-2 bg-neutral-600" />
               <div className="flex-1 h-2 bg-neutral-600" />
             </div>
-            <img src={STAT_BG} alt="stat_bg" className="w-full h-full" />
+            <img src={STAT_BG} alt="stat_bg" className="w-full hidden md:block" />
+            <img src={STAT_BG_MOBILE} alt="stat_bg_mobile" className="w-full h-full block md:hidden" />
           </div>
-          <div className="flex-1 z-10 relative h-14 inline-flex flex-col justify-start items-center gap-1">
+          <div className="flex-1 z-10 relative h-12 inline-flex flex-col justify-start items-center gap-1">
             <div className="justify-center text-gray-500 text-sm font-semibold font-['Figtree'] uppercase leading-normal tracking-wide">
               Total CPU cores
             </div>
@@ -105,7 +105,7 @@ const ClusterDetail = () => {
               32 Cores
             </div>
           </div>
-          <div className="flex-1 z-10 relative h-14 inline-flex flex-col justify-start items-center gap-1">
+          <div className="flex-1 z-10 relative h-12 inline-flex flex-col justify-start items-center gap-1">
             <div className="justify-center text-gray-500 text-sm font-semibold font-['Figtree'] uppercase leading-normal tracking-wide">
               Total RAM memory
             </div>
@@ -113,7 +113,7 @@ const ClusterDetail = () => {
               64 GB
             </div>
           </div>
-          <div className="flex-1 z-10 relative h-14 inline-flex flex-col justify-start items-center gap-1">
+          <div className="flex-1 z-10 relative h-12 inline-flex flex-col justify-start items-center gap-1">
             <div className="justify-center text-gray-500 text-sm font-semibold font-['Figtree'] uppercase leading-normal tracking-wide">
               Total GPU memory
             </div>

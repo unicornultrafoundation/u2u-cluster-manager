@@ -3,7 +3,8 @@ export const useClusterDetail = () => {
     clusterDetail: {
       status: 'ACTIVE',
       id: '102534',
-      name: 'SKYNET LLM server'
+      name: 'SKYNET LLM server',
+      
     },
   };
 };

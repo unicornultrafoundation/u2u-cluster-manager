@@ -71,43 +71,6 @@ const NewClusterForm = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6 py-8 w-full"
         >
-          {/* Cluster Name */}
-          <div className="space-y-1">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Cluster's name
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <RiInformationFill className="w-4 h-4 text-neutral-300" />
-                      </TooltipTrigger>
-                      <TooltipContent side="right">
-                        The system will automatically assign a random name if
-                        this field is left empty
-                      </TooltipContent>
-                    </Tooltip>
-                  </FormLabel>
-                  <FormControl>
-                    {/* <Input placeholder="shadcn" {...field} /> */}
-                    <Input
-                      {...field}
-                      type="text"
-                      placeholder="Enter cluster's name..."
-                      className="w-full px-4 py-3 border border-[#EEF0F0] bg-white text-[#181B1E] focus:outline-none focus:ring-2 focus:ring-[#56A890]"
-                    />
-                  </FormControl>
-                  <FormDescription className="text-xs text-[#748382] mt-1">
-                    The system will automatically assign a random name if this
-                    field is left empty.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
           {/* Total CPU Cores */}
           <div className="space-y-1">
             <FormField
@@ -344,15 +307,15 @@ const NewClusterForm = ({
               )}
             />
           </div>
-          {/* Active Time Dropdown */}
+          {/* Renting Time Dropdown */}
           <div className="space-y-1">
             <FormField
               control={form.control}
-              name="activeTime"
+              name="rentingTime"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Active time <span className="text-[#EC003F]">*</span>
+                    Renting time <span className="text-[#EC003F]">*</span>
                     <Tooltip>
                       <TooltipTrigger>
                         <RiInformationFill className="w-4 h-4 text-neutral-300" />
@@ -386,7 +349,7 @@ const NewClusterForm = ({
             />
           </div>
           {/* Type of Workload Dropdown */}
-          <div className="space-y-1">
+          {/* <div className="space-y-1">
             <FormField
               control={form.control}
               name="typeOfWorkload"
@@ -419,6 +382,179 @@ const NewClusterForm = ({
                       </SelectContent>
                     </Select>
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div> */}
+          {/* Bid price */}
+          <div className="flex gap-4">
+            <div className="space-y-1 flex-1">
+              <FormField
+                control={form.control}
+                name="minBidPrice"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Min bid price<span className="text-[#EC003F]">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <div className="flex gap-2 items-center relative">
+                        <Input
+                          {...field}
+                          type="number"
+                          placeholder="Ex: 16 USD"
+                          className="w-full pr-4 px-4 py-3 border border-[#EEF0F0] bg-white text-[#181B1E] focus:outline-none focus:ring-2 focus:ring-[#56A890]"
+                        />
+                        <span className="text-[#929E9D] text-sm absolute right-4">USD</span>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="space-y-1 flex-1">
+              <FormField
+                control={form.control}
+                name="maxBidPrice"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Max bid price<span className="text-[#EC003F]">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <div className="flex gap-2 items-center relative">
+                        <Input
+                          {...field}
+                          type="number"
+                          placeholder="Ex: 16 USD"
+                          className="w-full pr-4 px-4 py-3 border border-[#EEF0F0] bg-white text-[#181B1E] focus:outline-none focus:ring-2 focus:ring-[#56A890]"
+                        />
+                        <span className="text-[#929E9D] text-sm absolute right-4">USD</span>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+          {/* Region */}
+          <div className="space-y-1">
+            <FormField
+              control={form.control}
+              name="region"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Region <span className="text-[#EC003F]">*</span>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <RiInformationFill className="w-4 h-4 text-neutral-300" />
+                      </TooltipTrigger>
+                      <TooltipContent side="right">
+                        <p>Select cluster region</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger className="w-full rounded-none px-4 py-3 border border-[#EEF0F0] bg-white text-[#181B1E] focus:outline-none focus:ring-2 focus:ring-[#56A890]">
+                        <SelectValue placeholder="Select region..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="1">US Central (us-central1)</SelectItem>
+                        <SelectItem value="2">US East (us-east1)</SelectItem>
+                        <SelectItem value="3">US East 4 (us-east4)</SelectItem>
+                        <SelectItem value="4">US West (us-west1)</SelectItem>
+                        <SelectItem value="5">Europe West 1 (europe-west1)</SelectItem>
+                        <SelectItem value="6">Europe West 2 (europe-west2)</SelectItem>
+                        <SelectItem value="7">Europe West 3 (europe-west3)</SelectItem>
+                        <SelectItem value="8">Asia East 1 (asia-east1)</SelectItem>
+                        <SelectItem value="9">Asia Northeast 1 (asia-northeast1)</SelectItem>
+                        <SelectItem value="10">Asia Southeast 1 (asia-southeast1)</SelectItem>
+                        <SelectItem value="11">Australia Southeast 1 (australia-southeast1)</SelectItem>
+                        <SelectItem value="12">South America East 1 (southamerica-east1)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          {/* Machine type */}
+          <div className="space-y-1">
+            <FormField
+              control={form.control}
+              name="machineType"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Machine type <span className="text-[#EC003F]">*</span>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <RiInformationFill className="w-4 h-4 text-neutral-300" />
+                      </TooltipTrigger>
+                      <TooltipContent side="right">
+                        <p>Select cluster type</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger className="w-full rounded-none px-4 py-3 border border-[#EEF0F0] bg-white text-[#181B1E] focus:outline-none focus:ring-2 focus:ring-[#56A890]">
+                        <SelectValue placeholder="Select type..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="1">Docker</SelectItem>
+                        <SelectItem value="2">Kubernetes</SelectItem>
+                        <SelectItem value="3">Kvm</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          {/* Cluster Special Requirement */}
+          <div className="space-y-1">
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Description
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <RiInformationFill className="w-4 h-4 text-neutral-300" />
+                      </TooltipTrigger>
+                      <TooltipContent side="right">
+                        Cluster's special requirement
+                      </TooltipContent>
+                    </Tooltip>
+                  </FormLabel>
+                  <FormControl>
+                    {/* <Input placeholder="shadcn" {...field} /> */}
+                    <Input
+                      {...field}
+                      type="text"
+                      placeholder="Enter cluster's special requirement..."
+                      className="w-full px-4 py-3 border border-[#EEF0F0] bg-white text-[#181B1E] focus:outline-none focus:ring-2 focus:ring-[#56A890]"
+                    />
+                  </FormControl>
+                  <FormDescription className="text-xs text-[#748382] mt-1">
+                    Cluster's special requirement
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

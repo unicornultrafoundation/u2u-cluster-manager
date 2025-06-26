@@ -1,20 +1,28 @@
 import BILL_BACKGROUND from "@/assets/new_cluster_page/bill_background.png";
 import NewClusterForm from "./NewClusterForm";
 import { z } from "zod";
+import { toast } from "sonner"
+import { parseEventLogs } from 'viem'
+import BID_ABI from "@/abi/SUBNET_BID_MARKETPLACE.json";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { RiInformationFill } from "@remixicon/react";
 import { useMemo } from "react";
 import { useCreateNewCluster } from "@/hooks/useCreateNewCluster";
+import { convertTimeToDurationInSeconds } from "@/utils/datetime";
+import { Link } from "react-router-dom";
 
 export const formSchema = z.object({
   // name: z.string(),
   cpu: z.number().min(1),
   ram: z.number().min(1),
   gpu: z.number().min(1),
+  disk: z.number().min(1),
   minBidPrice: z.number().min(1),
   maxBidPrice: z.number().min(1),
+  downloadMbps: z.number(),
+  uploadMbps: z.number(),
   rentingTime: z.string(),
   // typeOfWorkload: z.string(),
   description: z.string(),
@@ -23,7 +31,7 @@ export const formSchema = z.object({
 });
 
 const NewCluster = () => {
-  const { createNewCluster } = useCreateNewCluster();
+  const { createNewCluster, isPending } = useCreateNewCluster();
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "onBlur",
     resolver: zodResolver(formSchema),
@@ -32,9 +40,12 @@ const NewCluster = () => {
       cpu: 0,
       ram: 0,
       gpu: 0,
+      disk: 0,
       rentingTime: "1d",
       region: "1",
       machineType: "1",
+      downloadMbps: 500,
+      uploadMbps: 200,
     },
   });
 
@@ -49,27 +60,49 @@ const NewCluster = () => {
     // ✅ This will be type-safe and validated.
     // console.log(values);
     const validated = await form.trigger();
-    console.log('validated', validated);
     if (!validated) {
       return;
     }
 
-    console.log(values);
-    // createNewCluster({
-    //   machineType: 0,
-    //   duration: 0,
-    //   minBidPrice: 0,
-    //   maxBidPrice: 0,
-    //   region: 0,
-    //   cpuCores: 0,
-    //   gpuCores: 0,
-    //   gpuMemory: 0,
-    //   memoryMB: 0,
-    //   diskGB: 0,
-    //   uploadMbps: 0,
-    //   downloadMbps: 0,
-    //   specs: "",
-    // })
+    try {
+      const rs = await createNewCluster({
+        machineType: Number(values.machineType),
+        duration: convertTimeToDurationInSeconds(values.rentingTime),
+        minBidPrice: values.minBidPrice,
+        maxBidPrice: values.maxBidPrice,
+        region: Number(values.region),
+        cpuCores: values.cpu,
+        gpuCores: values.gpu,
+        gpuMemory: values.gpu,
+        memoryMB: values.ram * 1024,
+        diskGB: values.disk,
+        uploadMbps: values.uploadMbps,
+        downloadMbps: values.downloadMbps,
+        specs: values.description,
+      })
+
+      const parsedLogs = parseEventLogs({ 
+        abi: BID_ABI, 
+        eventName: 'OrderCreated', 
+        logs: rs.logs,
+      })
+
+      if (parsedLogs[0]) {
+        const orderId = Number((parsedLogs[0] as any).args.orderId);
+        
+        toast.success('Cluster created successfully', {
+          description: () => (
+            <div>
+              <Link className="underline" to={`/cluster/${orderId}`}>View detail</Link>
+            </div>
+          ),
+        });
+      }
+    } catch (error) {
+      toast.error('Failed to create cluster', {
+        description: `Failed to create cluster. Error: ${error}`,
+      });
+    }
   }
 
   function renderRentingTime(typeOfWorkload: string) {
@@ -128,6 +161,14 @@ const NewCluster = () => {
               </div>
               <div className="self-stretch inline-flex justify-between items-center">
                 <div className="justify-center text-gray-500 text-base font-medium font-['Figtree'] leading-normal">
+                  Total Disk
+                </div>
+                <div className="justify-center text-zinc-900 text-base font-semibold font-['Figtree'] leading-normal">
+                  {form.watch("disk")} GB
+                </div>
+              </div>
+              <div className="self-stretch inline-flex justify-between items-center">
+                <div className="justify-center text-gray-500 text-base font-medium font-['Figtree'] leading-normal">
                   Total RAM
                 </div>
                 <div className="justify-center text-zinc-900 text-base font-semibold font-['Figtree'] leading-normal">
@@ -169,7 +210,7 @@ const NewCluster = () => {
                   {estimatePrice === 0 ? '---' : `${estimatePrice}`}
                 </div>
             </div>
-              <Button className="w-full" onClick={() => onSubmit(form.getValues())}>
+              <Button disabled={isPending} className="w-full" onClick={() => onSubmit(form.getValues())}>
                 Proceed to payment
               </Button>
             </div>

@@ -1,7 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
+import { waitForTransactionReceipt } from '@wagmi/core'
 import BID_ABI from "@/abi/SUBNET_BID_MARKETPLACE.json";
 import { useWriteContract } from "wagmi";
 import { BID_MARKETPLACE_CONTRACT_ADDRESS } from "@/config/constant";
+import { useEffect } from "react";
+import { config } from "@/config/wagmi";
 
 interface CreateNewClusterProps {
   machineType: number;
@@ -20,10 +23,10 @@ interface CreateNewClusterProps {
 }
 
 export const useCreateNewCluster = () => {
-  const { data: hash, writeContract, reset: resetWriteContract } = useWriteContract()
-  const {mutate: createNewCluster, reset: resetCreateNewCluster} = useMutation({
+  const { data: hash, writeContractAsync, reset: resetWriteContract } = useWriteContract()
+  const {mutateAsync: createNewCluster, reset: resetCreateNewCluster, isPending} = useMutation({
     mutationFn: async (params: CreateNewClusterProps) => {
-      return writeContract({
+      const rs = await writeContractAsync({
         address: BID_MARKETPLACE_CONTRACT_ADDRESS,
         abi: BID_ABI,
         functionName: 'createOrder',
@@ -43,13 +46,25 @@ export const useCreateNewCluster = () => {
           params.specs
         ],
       })
-      
+      // const rs = '0x554b2631cdfbf9b74a7593b021194225df2899dc76d9c8dac048bf826b9b5e00'
+      // console.log('create order hash', rs);
+      const transactionReceipt = await waitForTransactionReceipt(config, {
+        hash: rs, 
+      })
+      return transactionReceipt;
     },
   });
+
+  useEffect(() => {
+    if (hash) {
+      console.log(hash);
+    }
+  }, [hash]);
 
   return {
     createNewCluster,
     hash,
+    isPending,
     reset: () => {
       resetWriteContract();
       resetCreateNewCluster();

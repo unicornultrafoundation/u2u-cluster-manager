@@ -96,7 +96,7 @@ const Header: React.FC<HeaderProps> = ({ sidebarOpen, setSidebarOpen }) => {
         {/* Right section */}
         <div className="flex-1 flex justify-end items-center gap-2 tablet:gap-4 desktop:gap-4">
           {/* Dark mode switch button */}
-          <Button
+          {/* <Button
             variant="ghost"
             size="icon"
             onClick={toggleDarkMode}
@@ -108,7 +108,7 @@ const Header: React.FC<HeaderProps> = ({ sidebarOpen, setSidebarOpen }) => {
             ) : (
               <RiMoonFill className="w-5 h-5 text-zinc-700" />
             )}
-          </Button>
+          </Button> */}
 
           
           {/* Connect Wallet Button - Hidden on mobile */}

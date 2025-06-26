@@ -310,6 +310,158 @@ const NewClusterForm = ({
               )}
             />
           </div>
+          {/* Disk */}
+          <div className="space-y-1">
+            <FormField
+              control={form.control}
+              name="disk"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Total Disk <span className="text-[#EC003F]">*</span>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <RiInformationFill className="w-4 h-4 text-neutral-300" />
+                      </TooltipTrigger>
+                      <TooltipContent side="right">
+                        <p>
+                          Disk is a storage device that stores data on a physical medium, such as a hard drive or solid-state drive. It is used to store and retrieve data, and is an essential component of any computer system.
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </FormLabel>
+                  <FormControl>
+                    <div className="flex gap-2 items-center">
+                      <Input
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        type="number"
+                        placeholder="Ex: 64"
+                        className="w-32 px-4 py-3 border border-[#EEF0F0] bg-white text-[#181B1E] focus:outline-none focus:ring-2 focus:ring-[#56A890]"
+                      />
+                      <span className="text-[#929E9D] text-sm">GB</span>
+                    </div>
+                  </FormControl>
+                  <FormDescription>
+                    <div className="flex items-center gap-2 mt-1 flex-wrap">
+                      <span className="text-xs text-[#748382]">Available:</span>
+                      {/* <Button
+                        onClick={() => form.setValue("disk", 64)}
+                        size="sm"
+                        variant="outline"
+                        className="px-3 py-0 border border-[#D9DEDE] rounded text-xs text-[#181B1E]"
+                      >
+                        64 GB
+                      </Button>
+                      <Button
+                        onClick={() => form.setValue("disk", 96)}
+                        size="sm"
+                        variant="outline"
+                        className="px-3 py-0 border border-[#D9DEDE] rounded text-xs text-[#181B1E]"
+                      >
+                        96 GB
+                      </Button>
+                      <Button
+                        onClick={() => form.setValue("disk", 128)}
+                        size="sm"
+                        variant="outline"
+                        className="px-3 py-0 border border-[#D9DEDE] rounded text-xs text-[#181B1E]"
+                      >
+                        128 GB
+                      </Button> */}
+                      <Button
+                        onClick={() => form.setValue("disk", 256)}
+                        size="sm"
+                        variant="outline"
+                        className="px-3 py-0 border border-[#D9DEDE] rounded text-xs text-[#181B1E]"
+                      >
+                        256 GB
+                      </Button>
+                      <Button
+                        onClick={() => form.setValue("disk", 512)}
+                        size="sm"
+                        variant="outline"
+                        className="px-3 py-0 border border-[#D9DEDE] rounded text-xs text-[#181B1E]"
+                      >
+                        512 GB
+                      </Button>
+                      <Button
+                        onClick={() => form.setValue("disk", 1024)}
+                        size="sm"
+                        variant="outline"
+                        className="px-3 py-0 border border-[#D9DEDE] rounded text-xs text-[#181B1E]"
+                      >
+                        1024 GB
+                      </Button>
+                      <Button
+                        onClick={() => form.setValue("disk", 2048)}
+                        size="sm"
+                        variant="outline"
+                        className="px-3 py-0 border border-[#D9DEDE] rounded text-xs text-[#181B1E]"
+                      >
+                        2048 GB
+                      </Button>
+                    </div>
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex gap-4">
+            <div className="space-y-1 flex-1">
+              <FormField
+                control={form.control}
+                name="downloadMbps"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Download Mbps<span className="text-[#EC003F]">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <div className="flex gap-2 items-center relative">
+                        <Input
+                          {...field}
+                          onChange={(e) => field.onChange(Number(e.target.value))}
+                          type="number"
+                          placeholder="Ex: 500 Mbps"
+                          className="w-full pr-4 px-4 py-3 border border-[#EEF0F0] bg-white text-[#181B1E] focus:outline-none focus:ring-2 focus:ring-[#56A890]"
+                        />
+                        <span className="text-[#929E9D] text-sm absolute right-4">Mbps</span>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="space-y-1 flex-1">
+              <FormField
+                control={form.control}
+                name="uploadMbps"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Upload Mbps<span className="text-[#EC003F]">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <div className="flex gap-2 items-center relative">
+                        <Input
+                          {...field}
+                          onChange={(e) => field.onChange(Number(e.target.value))}
+                          type="number"
+                          placeholder="Ex: 200 Mbps"
+                          className="w-full pr-4 px-4 py-3 border border-[#EEF0F0] bg-white text-[#181B1E] focus:outline-none focus:ring-2 focus:ring-[#56A890]"
+                        />
+                        <span className="text-[#929E9D] text-sm absolute right-4">Mbps</span>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
           {/* Renting Time Dropdown */}
           <div className="space-y-1">
             <FormField

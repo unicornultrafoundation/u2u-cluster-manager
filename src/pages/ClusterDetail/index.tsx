@@ -13,15 +13,51 @@ import {RiFileCopyLine, RiShutDownFill, RiEditBoxFill, RiTimerFlashFill, RiFlash
 import { useClusterDetail } from "@/hooks/useClusterDetail";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner"
+import { Link, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useCancelOrder } from "@/hooks/useCancelOrder";
 
 const ClusterDetail = () => {
-  const { clusterDetail } = useClusterDetail();
+  const { id } = useParams();
+  const { clusterDetail, isLoading, error, refetch } = useClusterDetail(id as string);
+  const { cancelOrder, isPending, error: cancelOrderError } = useCancelOrder()
+
+  useEffect(() => {
+    if (clusterDetail) {
+      console.log(clusterDetail);
+    }
+  }, [clusterDetail]);
+
+  async function handleCancelOrder() {
+    try {
+      await cancelOrder(id as string)
+      await refetch()
+      toast.success('Cluster cancelled successfully');
+    } catch (error) {
+      toast.error('Failed to cancel cluster', {
+        description: `Failed to cancel cluster. Error: ${error}`,
+      });
+    }
+  }
 
   function renderControlSection() {
-    if (clusterDetail.status === "CREATING") {
+    if (!clusterDetail) return null;
+    if (clusterDetail.status === "Created") {
       return (
-        <Button variant="destructive" className="flex-1 flex w-full">
+        <Button
+          variant="destructive" className="flex-1 flex w-full"
+          onClick={handleCancelOrder}
+          disabled={isPending}
+        >
           <div className="text-center justify-center text-stone-50 text-base font-semibold font-['Figtree'] leading-normal">Cancel order</div>
+        </Button>
+      );
+    }
+    if (clusterDetail.status === "Cancelled") {
+      return (
+        <Button disabled variant="secondary" className="flex-1 flex w-full">
+          Cancelled
         </Button>
       );
     }
@@ -53,6 +89,13 @@ const ClusterDetail = () => {
         </Button>
       </div>
     );
+  }
+
+  if (isLoading || !clusterDetail) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>Error: {error.message}</div>;
   }
 
   return (
@@ -102,7 +145,7 @@ const ClusterDetail = () => {
               Total CPU cores
             </div>
             <div className="justify-center text-white text-xl font-normal font-['Pixelyze'] uppercase leading-loose">
-              32 Cores
+              {clusterDetail.cpuCores} Cores
             </div>
           </div>
           <div className="flex-1 z-10 relative h-12 inline-flex flex-col justify-start items-center gap-1">
@@ -110,7 +153,7 @@ const ClusterDetail = () => {
               Total RAM memory
             </div>
             <div className="justify-center text-white text-xl font-normal font-['Pixelyze'] uppercase leading-loose">
-              64 GB
+              {clusterDetail.memoryMB} GB
             </div>
           </div>
           <div className="flex-1 z-10 relative h-12 inline-flex flex-col justify-start items-center gap-1">
@@ -118,7 +161,7 @@ const ClusterDetail = () => {
               Total GPU memory
             </div>
             <div className="justify-center text-white text-xl font-normal font-['Pixelyze'] uppercase leading-loose">
-              256 GB
+              {clusterDetail.gpuMemory} GB
             </div>
           </div>
         </div>
@@ -133,7 +176,7 @@ const ClusterDetail = () => {
           </div>
           <div className="self-stretch inline-flex justify-between items-start">
             <div className="justify-start text-gray-500 text-base font-normal font-['Figtree'] leading-normal">
-              Cluster’s name
+              Cluster's name
             </div>
             <div className="justify-center text-zinc-900 text-base font-medium font-['Figtree'] leading-normal">
               {clusterDetail.name}
@@ -181,14 +224,7 @@ const ClusterDetail = () => {
               May 12, 2025 - 16:12:46
             </div>
           </div>
-          <div className="self-stretch inline-flex justify-between items-start">
-            <div className="justify-start text-gray-500 text-base font-normal font-['Figtree'] leading-normal">
-              Type of workload
-            </div>
-            <div className="justify-start text-zinc-900 text-base font-medium font-['Figtree'] leading-normal">
-              Data Processing
-            </div>
-          </div>
+          
           <div className="self-stretch inline-flex justify-between items-center">
             <div className="justify-start text-gray-500 text-base font-normal font-['Figtree'] leading-normal">
               Status
@@ -198,7 +234,7 @@ const ClusterDetail = () => {
                 clusterDetail.status === "ACTIVE" ? "success" : "processing"
               }
             >
-              {clusterDetail.status === "ACTIVE" ? "Active" : "Processing"}
+              {clusterDetail.status}
             </Badge>
           </div>
           {renderControlSection()}

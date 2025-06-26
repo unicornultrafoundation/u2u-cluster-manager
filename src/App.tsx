@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Toaster } from '@/components/ui/sonner'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Header from '@/components/layout/Header'
 import Sidebar from '@/components/layout/Sidebar'
@@ -93,6 +94,7 @@ function App() {
           <div className="text-center justify-start text-neutral-600 text-sm font-normal font-['Figtree'] leading-normal">© 2025 U2U Network. All rights reserved.</div>
         </div>
       </div>
+      <Toaster richColors />
     </Router>
   )
 }

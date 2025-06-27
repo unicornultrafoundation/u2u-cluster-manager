@@ -16,29 +16,12 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
-
-interface Cluster {
-  id: number
-  headNodeIp: string
-  dashboardIp: string
-  dateCreated: string
-  dateExpired: string
-  status: 'Processing' | 'Completed' | 'Cancel'
-}
-
-const mockClusters: Cluster[] = [
-  {
-    id: 1,
-    headNodeIp: '10.0.0.x:6479',
-    dashboardIp: '10.0.0.x:6479',
-    dateCreated: 'May 05, 2025 - 16:34:26',
-    dateExpired: 'May 05, 2025 - 16:34:26',
-    status: 'Completed'
-  },
-  // Add more mock data as needed
-]
+import { useMyOrder } from '@/hooks/useMyOrder'
+import { Cluster } from '@/types/cluster'
 
 const AllClusterSection = () => {
+  const { myOrders } = useMyOrder()
+
   const [selectedType, setSelectedType] = useState('All types')
   const [selectedStatus, setSelectedStatus] = useState('All status')
   const [selectedDateCreated, setSelectedDateCreated] = useState('Date created')
@@ -49,11 +32,11 @@ const AllClusterSection = () => {
 
   const getStatusColor = (status: Cluster['status']) => {
     switch (status) {
-      case 'Processing':
+      case 'Created':
         return 'bg-[#FFFBEB] text-[#D77A08]'
-      case 'Completed':
+      case 'Accepted':
         return 'bg-[#ECFDF5] text-[#009966]'
-      case 'Cancel':
+      case 'Cancelled':
         return 'bg-[#FFF1F2] text-[#EC003F]'
       default:
         return ''
@@ -150,8 +133,8 @@ const AllClusterSection = () => {
             <TableHeader>
               <TableRow className="border-b border-[#F0F0F0]">
                 <TableHead className="w-12 text-center font-figtree text-xs font-semibold text-[#4D5756]">ID</TableHead>
-                <TableHead className="font-figtree text-xs font-semibold text-[#4D5756]">IP Head node</TableHead>
-                <TableHead className="font-figtree text-xs font-semibold text-[#4D5756]">IP Dashboard</TableHead>
+                <TableHead className="font-figtree text-xs font-semibold text-[#4D5756]">Overlay IP</TableHead>
+                <TableHead className="font-figtree text-xs font-semibold text-[#4D5756]">Public IP</TableHead>
                 <TableHead className="font-figtree text-xs font-semibold text-[#4D5756]">Date Created</TableHead>
                 <TableHead className="font-figtree text-xs font-semibold text-[#4D5756]">Date Expired</TableHead>
                 <TableHead className="font-figtree text-xs font-semibold text-[#4D5756]">Status</TableHead>
@@ -159,27 +142,35 @@ const AllClusterSection = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockClusters.map((cluster) => (
+              {myOrders?.map((cluster: Cluster) => (
                 <TableRow key={cluster.id} className="border-b border-[#F0F0F0]">
                   <TableCell className="text-center font-figtree text-xs font-medium text-[#262B2B]">{cluster.id}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-1">
-                      <span className="font-figtree text-xs font-medium text-[#181B1E]">{cluster.headNodeIp}</span>
-                      <button onClick={() => navigator.clipboard.writeText(cluster.headNodeIp)}>
+                      <span className="font-figtree text-xs font-medium text-[#181B1E]">
+                        {cluster.acceptedMachine?.overlayIp || "--"}
+                      </span>
+                      <button onClick={() => navigator.clipboard.writeText(cluster.acceptedMachine?.overlayIp || "")}>
                         <RiFileCopyLine className="w-4 h-4 text-[#929E9D]" />
                       </button>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-1">
-                      <span className="font-figtree text-xs font-medium text-[#181B1E]">{cluster.dashboardIp}</span>
-                      <button onClick={() => navigator.clipboard.writeText(cluster.dashboardIp)}>
+                      <span className="font-figtree text-xs font-medium text-[#181B1E]">
+                        {cluster.acceptedMachine?.publicIp || "--"}
+                      </span>
+                      <button onClick={() => navigator.clipboard.writeText(cluster.acceptedMachine?.publicIp || "")}>
                         <RiFileCopyLine className="w-4 h-4 text-[#929E9D]" />
                       </button>
                     </div>
                   </TableCell>
-                  <TableCell className="font-figtree text-xs font-medium text-[#262B2B]">{cluster.dateCreated}</TableCell>
-                  <TableCell className="font-figtree text-xs font-medium text-[#262B2B]">{cluster.dateExpired}</TableCell>
+                  <TableCell className="font-figtree text-xs font-medium text-[#262B2B]">
+                    {cluster.createdAt?.toLocaleString() || "--"}
+                  </TableCell>
+                  <TableCell className="font-figtree text-xs font-medium text-[#262B2B]">
+                    {cluster.expiredAt?.toLocaleString() || "--"}
+                  </TableCell>
                   <TableCell>
                     <span className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(cluster.status)}`}>
                       {cluster.status}

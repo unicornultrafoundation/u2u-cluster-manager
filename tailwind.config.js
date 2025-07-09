@@ -21,9 +21,9 @@ export default {
         'title': ['Pixelyze', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
       },
       screens: {
-        'mobile': '360px',
-        'tablet': '1024px',
-        'desktop': '1440px',
+        mobile: "480px",
+        tablet: "768px",
+        desktop: "1280px",
       },
       colors: {
         border: "hsl(var(--border))",

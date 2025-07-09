@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react'
-import { Toaster } from '@/components/ui/sonner'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import {useEffect, useState} from 'react'
+import {Toaster} from '@/components/ui/sonner'
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import Header from '@/components/layout/Header'
 import Sidebar from '@/components/layout/Sidebar'
 import ClusterDashboard from '@/pages/ClusterDashboard'
 import MyWallet from '@/pages/MyWallet'
 import DePINHub from '@/pages/DePINHub'
 import Login from './pages/Login'
-import { useAccount } from 'wagmi'
-import { useAuthStore } from '@/store/authStore'
+import {useAccount} from 'wagmi'
+import {useAuthStore} from '@/store/authStore'
 // import 'remixicon/fonts/remixicon.css'
 import '@/styles/globals.css'
-import NewCluster from './pages/NewCluster'
+import NewOrder from './pages/NewOrder'
 import ClusterDetail from './pages/ClusterDetail'
 
 function App() {
@@ -84,7 +84,7 @@ function App() {
             <Route path="/" element={<ClusterDashboard />} />
             <Route path="/wallet" element={<MyWallet />} />
             <Route path="/depin-hub" element={<DePINHub />} />
-            <Route path="/cluster/new" element={<NewCluster />} />
+            <Route path="/cluster/new" element={<NewOrder />} />
             <Route path="/cluster/:id" element={<ClusterDetail />} />
             {/* Catch all route - redirect to dashboard */}
             <Route path="*" element={<ClusterDashboard />} />

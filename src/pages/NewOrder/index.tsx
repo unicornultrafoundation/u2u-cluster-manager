@@ -37,6 +37,7 @@ export const formSchema = z.object({
   description: z.string(),
   region: z.string(),
   machineType: z.string(),
+  
 });
 
 const NewOrder = () => {
@@ -54,8 +55,8 @@ const NewOrder = () => {
       rentingTime: "1d",
       region: "1",
       machineType: "1",
-      downloadMbps: 500,
-      uploadMbps: 200,
+      // downloadMbps: 500,
+      // uploadMbps: 200,
     },
   });
   
@@ -83,6 +84,7 @@ const NewOrder = () => {
         uploadMbps: values.uploadMbps,
         downloadMbps: values.downloadMbps,
         specs: values.description,
+        
       })
       
       const parsedLogs = parseEventLogs({
@@ -114,10 +116,9 @@ const NewOrder = () => {
       return <SelectApplication onContinue={() => setStep(2)}/>
     }
     if(step === 2) {
-      return <NewOrderForm onContinue={() => setStep(3)} onBack={() => setStep(1)} form={form}
-                           onSubmit={onSubmit}/>
+      return <NewOrderForm onContinue={() => setStep(3)} onBack={() => setStep(1)} form={form}/>
     }
-    return <OrderSummary form={form}/>
+    return <OrderSummary onBack={() => setStep(2)} form={form} onSubmit={onSubmit}/>
     
   }
   

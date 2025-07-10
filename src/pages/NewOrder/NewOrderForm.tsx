@@ -249,6 +249,39 @@ export const NewOrderForm =  ({
             ))}
           </div>
           
+          {/* DownloadMbps UploadMbps */}
+          <div className="flex flex-col tablet:flex-row gap-4 ">
+            {["downloadMbps", "uploadMbps"].map((name, idx) => (
+              <div className="flex-1 space-y-2" key={name}>
+                <FormField
+                  control={form.control}
+                  name={name as keyof z.infer<typeof formSchema>}
+                  render={({field}) => (
+                    <FormItem>
+                      <LabelWithTooltip
+                        label={idx === 0 ? "Download MB/s" : "Upload MB/s"}
+                        required
+                      />
+                      <FormControl>
+                        <div className="relative">
+                          <Input
+                            {...field}
+                            type="number"
+                            onChange={(e) => field.onChange(Number(e.target.value))}
+                            className="w-full px-4 py-3 border border-[#EEF0F0] bg-neutral-50 h-12 text-[#181B1E] !ring-0"
+                          />
+                          <span
+                            className="absolute right-3 top-3 text-sm text-[#929E9D]">MB</span>
+                        </div>
+                      </FormControl>
+                      <FormMessage/>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            ))}
+          </div>
+          
           {/* Region */}
           <FormField
             control={form.control}

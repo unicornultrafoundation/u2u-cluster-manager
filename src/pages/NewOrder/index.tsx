@@ -56,15 +56,15 @@ const NewOrder = () => {
       rentingTime: "1d",
       region: "1",
       machineType: "1",
-      downloadMbps: 500,
-      uploadMbps: 200,
+      downloadMbps: 0,
+      uploadMbps: 0,
     },
   });
   
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    // console.log(values);
     const validated = await form.trigger();
     if(!validated) {
       return;
@@ -82,8 +82,8 @@ const NewOrder = () => {
         gpuMemory: values.gpu,
         memoryMB: values.ram * 1024,
         diskGB: values.disk,
-        uploadMbps: 100,
-        downloadMbps: 200,
+        uploadMbps: Number(values.uploadMbps),
+        downloadMbps: Number(values.downloadMbps),
         specs: values.description,
         
       })

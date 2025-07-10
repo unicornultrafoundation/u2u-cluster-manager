@@ -11,8 +11,8 @@ import {useAccount} from 'wagmi'
 import {useAuthStore} from '@/store/authStore'
 // import 'remixicon/fonts/remixicon.css'
 import '@/styles/globals.css'
-import NewOrder from './pages/NewOrder'
 import ClusterDetail from './pages/ClusterDetail'
+import NewOrder from "@/pages/NewOrder";
 
 function App() {
   const { address: wagmiAddress, isConnected: wagmiConnected } = useAccount()

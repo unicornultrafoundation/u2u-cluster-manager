@@ -30,8 +30,8 @@ export const formSchema = z.object({
   disk: z.number().min(1),
   minBidPrice: z.number().min(1),
   maxBidPrice: z.number().min(1),
-  downloadMbps: z.number(),
-  uploadMbps: z.number(),
+  downloadMbps: z.number().optional(),
+  uploadMbps: z.number().optional(),
   rentingTime: z.string(),
   // typeOfWorkload: z.string(),
   description: z.string(),
@@ -44,7 +44,8 @@ const NewOrder = () => {
   const [step, setStep] = useState(1)
   const {createNewCluster} = useCreateNewCluster();
   const form = useForm<z.infer<typeof formSchema>>({
-    mode: "onBlur",
+    mode: "all",
+    reValidateMode: "onChange",
     resolver: zodResolver(formSchema),
     defaultValues: {
       description: "",
@@ -55,15 +56,15 @@ const NewOrder = () => {
       rentingTime: "1d",
       region: "1",
       machineType: "1",
-      // downloadMbps: 500,
-      // uploadMbps: 200,
+      downloadMbps: 500,
+      uploadMbps: 200,
     },
   });
   
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    // console.log(values);
+    console.log(values);
     const validated = await form.trigger();
     if(!validated) {
       return;
@@ -81,8 +82,8 @@ const NewOrder = () => {
         gpuMemory: values.gpu,
         memoryMB: values.ram * 1024,
         diskGB: values.disk,
-        uploadMbps: values.uploadMbps,
-        downloadMbps: values.downloadMbps,
+        uploadMbps: 100,
+        downloadMbps: 200,
         specs: values.description,
         
       })

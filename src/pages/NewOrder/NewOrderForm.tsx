@@ -50,7 +50,7 @@ const LabelWithTooltip = ({
   </FormLabel>
 )
 
-export const NewOrderForm = ({
+export const NewOrderForm =  ({
                                form,
                                onBack,
                                onContinue,
@@ -93,7 +93,6 @@ export const NewOrderForm = ({
   ]
   
   
-  
   const AvailableOptions = <
     TFieldName extends Path<z.infer<typeof formSchema>>
   >({
@@ -114,7 +113,10 @@ export const NewOrderForm = ({
           <Button
             type="button"
             key={val}
-            onClick={() => setValue(name, val)}
+            onClick={() =>{
+              setValue(name, val)
+              form.trigger(name)
+            }}
             size="sm"
             variant="outline"
             className="px-3 py-0 border border-[#D9DEDE] rounded text-xs text-[#181B1E]"
@@ -138,7 +140,10 @@ export const NewOrderForm = ({
   return (
     <div className="bg-white p-4 tablet:p-6 rounded-md w-full  mx-auto">
       <Form {...form}>
-        <form className="flex flex-col gap-2"  >
+        <form  className="flex flex-col gap-2"
+               onSubmit={form.handleSubmit(() => onContinue())}
+        >
+        
         {/* Application Display */}
           <div className="space-y-2">
             <FormLabel>Application</FormLabel>
@@ -333,8 +338,11 @@ export const NewOrderForm = ({
               Back
             </Button>
             <Button
-              onClick={() => onContinue()}
-              type="button"
+              type="submit"
+              onClick={() => {
+                console.log('Form values:', form.getValues());
+                console.log('Form errors:', form.formState.errors);
+              }}
               className="bg-black text-white px-8 py-3 rounded-md hover:bg-neutral-900 w-full"
             >
               Continue

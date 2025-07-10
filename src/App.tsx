@@ -13,6 +13,7 @@ import { useAuthStore } from '@/store/authStore'
 import '@/styles/globals.css'
 import NewCluster from './pages/NewCluster'
 import ClusterDetail from './pages/ClusterDetail'
+import NotFoundPage from "@/pages/NotFound.tsx";
 
 function App() {
   const { address: wagmiAddress, isConnected: wagmiConnected } = useAccount()
@@ -86,8 +87,8 @@ function App() {
             <Route path="/depin-hub" element={<DePINHub />} />
             <Route path="/cluster/new" element={<NewCluster />} />
             <Route path="/cluster/:id" element={<ClusterDetail />} />
-            {/* Catch all route - redirect to dashboard */}
-            <Route path="*" element={<ClusterDashboard />} />
+            {/* Catch all route - redirect to 404 page */}
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </main>
         <div className="self-stretch w-full py-6 border-t border-gray-300 inline-flex justify-center items-center overflow-hidden">

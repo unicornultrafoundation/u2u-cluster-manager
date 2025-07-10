@@ -15,7 +15,7 @@ const metadata = {
 }
 
 // Define U2U Network
-const u2uNetwork = {
+export const u2uNetwork = {
   id: 39, // U2U Subnet chain ID
   name: 'U2U Mainnet',
   nativeCurrency: {

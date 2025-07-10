@@ -1,18 +1,19 @@
-import { useState, useEffect } from 'react'
-import { Toaster } from '@/components/ui/sonner'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import {useEffect, useState} from 'react'
+import {Toaster} from '@/components/ui/sonner'
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import Header from '@/components/layout/Header'
 import Sidebar from '@/components/layout/Sidebar'
 import ClusterDashboard from '@/pages/ClusterDashboard'
 import MyWallet from '@/pages/MyWallet'
 import DePINHub from '@/pages/DePINHub'
 import Login from './pages/Login'
-import { useAccount } from 'wagmi'
-import { useAuthStore } from '@/store/authStore'
+import {useAccount} from 'wagmi'
+import {useAuthStore} from '@/store/authStore'
 // import 'remixicon/fonts/remixicon.css'
 import '@/styles/globals.css'
 import NewCluster from './pages/NewCluster'
 import ClusterDetail from './pages/ClusterDetail'
+import {SwitchNetworkModal} from "@/components/modal/SwitchNetworkModal.tsx";
 
 function App() {
   const { address: wagmiAddress, isConnected: wagmiConnected } = useAccount()
@@ -95,6 +96,7 @@ function App() {
         </div>
       </div>
       <Toaster richColors />
+      <SwitchNetworkModal />
     </Router>
   )
 }

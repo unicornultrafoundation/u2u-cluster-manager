@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { RiLineChartLine, RiServerLine, RiDatabase2Line, RiErrorWarningLine } from '@remixicon/react'
+import { RiLineChartLine, RiServerLine, RiDatabase2Line, RiErrorWarningLine , RiClose} from '@remixicon/react'
 import useClusterStore from '@/store/clusterStore'
 import type { StatCard } from '@/types'
 

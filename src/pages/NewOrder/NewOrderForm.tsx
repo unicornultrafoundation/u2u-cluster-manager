@@ -330,9 +330,9 @@ export const NewOrderForm =  ({
                       <SelectValue placeholder="Select type..."/>
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="docker">Docker</SelectItem>
-                      <SelectItem value="kubernetes">Kubernetes</SelectItem>
-                      <SelectItem value="kvm">KVM</SelectItem>
+                      <SelectItem value="1">Docker</SelectItem>
+                      <SelectItem value="2">Kubernetes</SelectItem>
+                      <SelectItem value="3">Kvm</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormControl>

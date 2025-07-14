@@ -30,14 +30,13 @@ export const formSchema = z.object({
   disk: z.number().min(1),
   minBidPrice: z.number().min(1),
   maxBidPrice: z.number().min(1),
-  downloadMbps: z.number().optional(),
-  uploadMbps: z.number().optional(),
+  downloadMbps: z.number(),
+  uploadMbps: z.number(),
   rentingTime: z.string(),
   // typeOfWorkload: z.string(),
   description: z.string(),
   region: z.string(),
   machineType: z.string(),
-  
 });
 
 const NewOrder = () => {
@@ -56,8 +55,8 @@ const NewOrder = () => {
       rentingTime: "1d",
       region: "1",
       machineType: "1",
-      downloadMbps: 0,
-      uploadMbps: 0,
+      downloadMbps: 500,
+      uploadMbps: 200,
     },
   });
   
@@ -82,10 +81,9 @@ const NewOrder = () => {
         gpuMemory: values.gpu,
         memoryMB: values.ram * 1024,
         diskGB: values.disk,
-        uploadMbps: Number(values.uploadMbps),
-        downloadMbps: Number(values.downloadMbps),
+        uploadMbps: values.uploadMbps,
+        downloadMbps: values.downloadMbps,
         specs: values.description,
-        
       })
       
       const parsedLogs = parseEventLogs({

@@ -22,6 +22,7 @@ import {z} from "zod"
 import {formSchema} from "."
 import u2u from "@/assets/u2u_logo.png";
 import {RENTING_TIMES} from "@/config/constant.ts";
+import { getMachineType } from "@/utils/machine"
 
 const LabelWithTooltip = ({
                             label,
@@ -330,9 +331,9 @@ export const NewOrderForm =  ({
                       <SelectValue placeholder="Select type..."/>
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="1">Docker</SelectItem>
-                      <SelectItem value="2">Kubernetes</SelectItem>
-                      <SelectItem value="3">Kvm</SelectItem>
+                      <SelectItem value="1">{getMachineType("1")}</SelectItem>
+                      <SelectItem value="2">{getMachineType("2")}</SelectItem>
+                      <SelectItem value="3">{getMachineType("3")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormControl>

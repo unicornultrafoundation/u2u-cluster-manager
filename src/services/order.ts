@@ -86,3 +86,21 @@ export const getOrderByOwner = async (owner: string) => {
   )
   return rs;
 }
+
+
+const GET_LIST_APPLICATION = gql`
+  query GetApplications() {
+    order(id: $id) {
+      ${ORDER_FIELD}
+    }
+  }
+`
+
+export const getApplications = async () => {
+  const rs = await request(
+    GRAPHQL_URL,
+    GET_LIST_APPLICATION,
+    { id: '' }
+  )
+  return rs;
+}

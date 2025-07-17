@@ -1,6 +1,7 @@
 export interface Machine {
   id: string
   name: string
+  status: 'Running' | 'Stopped' | 'Failed'
   description: string
   overlayIp: string
   host: string
@@ -18,6 +19,7 @@ export interface Machine {
   uploadSpeed: number
   downloadSpeed: number
   createdAt: number
+  expiredAt: number
   updatedAt: number
   removedAt: number
   unlockTime: number

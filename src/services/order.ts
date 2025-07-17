@@ -86,3 +86,21 @@ export const getOrderByOwner = async (owner: string) => {
   )
   return rs;
 }
+
+
+const GET_MACHINES_BY_OWNER = gql`
+  query GetMachinesByOwner($owner: String!) {
+    orders(where: { owner: $owner }) {
+      ${ORDER_FIELD}
+    }
+  }
+`
+
+export const getMachinesByOwner = async (owner: string) => {
+  const rs = await request(
+    GRAPHQL_URL,
+    GET_MACHINES_BY_OWNER,
+    { owner }
+  )
+  return rs;
+}

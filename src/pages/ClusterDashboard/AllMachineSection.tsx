@@ -107,6 +107,7 @@ const AllMachineSection = () => {
     return range;
   };
   
+  
   const pages = generatePagination(currentPage, totalPages);
   
   return (
@@ -283,7 +284,7 @@ const AllMachineSection = () => {
                         DATA PROCESSING
                       </div>
                       <div className="text-[#6D6D6D] text-sm mt-1">
-                        {format(machine.createdAt || "", 'MMMM d, yyyy')} – {format(machine.expiredAt || "", 'MMMM d, yyyy')}
+                        {format(machine.createdAt || "", 'MMMM d, yyyy')} – {machine.expiredAt ? format(machine.expiredAt , 'MMMM d, yyyy') : ""}
                       </div>
                     </div>
                   </div>

@@ -56,7 +56,7 @@ const ExtendTimePaymentDetail = ({
                 />
                 <InfoRow
                   label="Old expired time"
-                  value={formatDate(orderDetail.expiredAt || "")}
+                  value={orderDetail.expiredAt ? format(orderDetail.expiredAt , 'MMMM d, yyyy') : ""}
                 />
                 <InfoRow
                   label="New expired time"

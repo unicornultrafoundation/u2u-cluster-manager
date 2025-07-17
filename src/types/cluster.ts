@@ -35,4 +35,12 @@ export interface ResourceUsage {
   cpu: number
   memory: number
   storage: number
-} 
+}
+
+
+export interface Application {
+  id: string
+  name: string
+  createdAt?: Date
+  updatedAt?: Date
+}

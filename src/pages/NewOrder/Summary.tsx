@@ -4,6 +4,8 @@ import {z} from "zod";
 import {formSchema} from "@/pages/NewOrder/index.tsx";
 import {useMemo} from "react";
 import {RENTING_TIMES} from "@/config/constant.ts";
+import { getRegionCode } from "@/utils/region";
+import { getMachineType } from "@/utils/machine";
 
 interface OrderSummaryProps {
   form: UseFormReturn<z.infer<typeof formSchema>>;
@@ -21,8 +23,8 @@ export default function OrderSummary({form, onSubmit, onBack}: OrderSummaryProps
     {label: "Total Disk", value: `${values.disk} GB`},
     {label: "Total GPU", value: `${values.gpu} GB`},
     {label: "Renting time", value: RENTING_TIMES[values.rentingTime] || values.rentingTime},
-    {label: "Region", value: values.region},
-    {label: "Machine Type", value: values.machineType},
+    {label: "Region", value: getRegionCode(values.region)},
+    {label: "Machine Type", value: getMachineType(values.machineType)},
     {label: "Description", value: values.description || "--"},
   ];
   

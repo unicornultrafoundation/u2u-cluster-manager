@@ -1,4 +1,4 @@
-import CLUSTER_ILLUSTRATION from "@/assets/dashboard_page/cluster_manager.png";
+import CLUSTER_ILLUSTRATION from "@/assets/dashboard_page/dashboard.png";
 
 const StatSection = () => {
   return (

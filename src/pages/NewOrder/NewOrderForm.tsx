@@ -22,6 +22,7 @@ import {z} from "zod"
 import {formSchema} from "."
 import u2u from "@/assets/u2u_logo.png";
 import {RENTING_TIMES} from "@/config/constant.ts";
+import { getMachineType } from "@/utils/machine"
 
 const LabelWithTooltip = ({
                             label,
@@ -50,7 +51,7 @@ const LabelWithTooltip = ({
   </FormLabel>
 )
 
-export const NewOrderForm = ({
+export const NewOrderForm =  ({
                                form,
                                onBack,
                                onContinue,
@@ -93,7 +94,6 @@ export const NewOrderForm = ({
   ]
   
   
-  
   const AvailableOptions = <
     TFieldName extends Path<z.infer<typeof formSchema>>
   >({
@@ -114,7 +114,10 @@ export const NewOrderForm = ({
           <Button
             type="button"
             key={val}
-            onClick={() => setValue(name, val)}
+            onClick={() =>{
+              setValue(name, val)
+              form.trigger(name)
+            }}
             size="sm"
             variant="outline"
             className="px-3 py-0 border border-[#D9DEDE] rounded text-xs text-[#181B1E]"
@@ -138,7 +141,10 @@ export const NewOrderForm = ({
   return (
     <div className="bg-white p-4 tablet:p-6 rounded-md w-full  mx-auto">
       <Form {...form}>
-        <form className="flex flex-col gap-2"  >
+        <form  className="flex flex-col gap-2"
+               onSubmit={form.handleSubmit(() => onContinue())}
+        >
+        
         {/* Application Display */}
           <div className="space-y-2">
             <FormLabel>Application</FormLabel>
@@ -244,6 +250,39 @@ export const NewOrderForm = ({
             ))}
           </div>
           
+          {/* DownloadMbps UploadMbps */}
+          <div className="flex flex-col tablet:flex-row gap-4 ">
+            {["downloadMbps", "uploadMbps"].map((name, idx) => (
+              <div className="flex-1 space-y-2" key={name}>
+                <FormField
+                  control={form.control}
+                  name={name as keyof z.infer<typeof formSchema>}
+                  render={({field}) => (
+                    <FormItem>
+                      <LabelWithTooltip
+                        label={idx === 0 ? "Download MB/s" : "Upload MB/s"}
+                        required
+                      />
+                      <FormControl>
+                        <div className="relative">
+                          <Input
+                            {...field}
+                            type="number"
+                            onChange={(e) => field.onChange(Number(e.target.value))}
+                            className="w-full px-4 py-3 border border-[#EEF0F0] bg-neutral-50 h-12 text-[#181B1E] !ring-0"
+                          />
+                          <span
+                            className="absolute right-3 top-3 text-sm text-[#929E9D]">MB</span>
+                        </div>
+                      </FormControl>
+                      <FormMessage/>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            ))}
+          </div>
+          
           {/* Region */}
           <FormField
             control={form.control}
@@ -292,9 +331,9 @@ export const NewOrderForm = ({
                       <SelectValue placeholder="Select type..."/>
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="docker">Docker</SelectItem>
-                      <SelectItem value="kubernetes">Kubernetes</SelectItem>
-                      <SelectItem value="kvm">KVM</SelectItem>
+                      <SelectItem value="1">{getMachineType("1")}</SelectItem>
+                      <SelectItem value="2">{getMachineType("2")}</SelectItem>
+                      <SelectItem value="3">{getMachineType("3")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -333,8 +372,11 @@ export const NewOrderForm = ({
               Back
             </Button>
             <Button
-              onClick={() => onContinue()}
-              type="button"
+              type="submit"
+              onClick={() => {
+                console.log('Form values:', form.getValues());
+                console.log('Form errors:', form.formState.errors);
+              }}
               className="bg-black text-white px-8 py-3 rounded-md hover:bg-neutral-900 w-full"
             >
               Continue

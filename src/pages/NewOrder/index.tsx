@@ -37,14 +37,14 @@ export const formSchema = z.object({
   description: z.string(),
   region: z.string(),
   machineType: z.string(),
-  
 });
 
 const NewOrder = () => {
   const [step, setStep] = useState(1)
   const {createNewCluster} = useCreateNewCluster();
   const form = useForm<z.infer<typeof formSchema>>({
-    mode: "onBlur",
+    mode: "all",
+    reValidateMode: "onChange",
     resolver: zodResolver(formSchema),
     defaultValues: {
       description: "",
@@ -55,8 +55,8 @@ const NewOrder = () => {
       rentingTime: "1d",
       region: "1",
       machineType: "1",
-      // downloadMbps: 500,
-      // uploadMbps: 200,
+      downloadMbps: 500,
+      uploadMbps: 200,
     },
   });
   
@@ -84,7 +84,6 @@ const NewOrder = () => {
         uploadMbps: values.uploadMbps,
         downloadMbps: values.downloadMbps,
         specs: values.description,
-        
       })
       
       const parsedLogs = parseEventLogs({

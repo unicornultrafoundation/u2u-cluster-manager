@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import Header from '@/components/layout/Header'
 import Sidebar from '@/components/layout/Sidebar'
 import ClusterDashboard from '@/pages/ClusterDashboard'
+import MyWallet from '@/pages/MyWallet'
 import DePINHub from '@/pages/DePINHub'
 import Login from './pages/Login'
 import {useAccount} from 'wagmi'
@@ -12,7 +13,6 @@ import {useAuthStore} from '@/store/authStore'
 import '@/styles/globals.css'
 import MachineDetail from "@/pages/MachineDetail";
 import NewOrder from "@/pages/NewOrder";
-import MyWallet from "@/pages/MyWallet";
 
 function App() {
   const { address: wagmiAddress, isConnected: wagmiConnected } = useAccount()

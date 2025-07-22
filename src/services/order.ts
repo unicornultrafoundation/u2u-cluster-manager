@@ -88,6 +88,7 @@ export const getOrderByOwner = async (owner: string) => {
 }
 
 
+
 const GET_LIST_APPLICATION = gql`
   query GetApplications() {
     order(id: $id) {
@@ -95,6 +96,7 @@ const GET_LIST_APPLICATION = gql`
     }
   }
 `
+
 
 export const getApplications = async () => {
   const rs = await request(

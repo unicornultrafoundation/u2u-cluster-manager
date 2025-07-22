@@ -22,13 +22,8 @@ interface FilterModalProps {
   form: UseFormReturn<z.infer<typeof filterClusterSchema>>;
 }
 
-export const FilterClusterModal = ({
-                                     isOpen,
-                                     onClose,
-                                     resetFilter,
-                                     applyFilter,
-                                     form
-                                   }: FilterModalProps) => {
+export const FilterClusterModal = (props: FilterModalProps) => {
+  const {isOpen, onClose, resetFilter, applyFilter, form} = props;
   const [openCreatedDate, setOpenCreatedDate] = useState(false)
   const [openDateExpired, setOpenDateExpired] = useState(false)
   const selectedType = form.watch("type");

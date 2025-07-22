@@ -22,13 +22,8 @@ interface FilterModalProps {
   form: UseFormReturn<z.infer<typeof filterMachineSchema>>;
 }
 
-export const FilterMachineModal = ({
-                                     form,
-                                     isOpen,
-                                     onClose,
-                                     resetFilter,
-                                     applyFilter,
-                                   }: FilterModalProps) => {
+export const FilterMachineModal = (props: FilterModalProps) => {
+  const {isOpen, onClose, resetFilter, applyFilter, form} = props;
   const selectedType = form.watch("type");
   const selectedStatus = form.watch("status");
   const selectedApplication = form.watch("application");

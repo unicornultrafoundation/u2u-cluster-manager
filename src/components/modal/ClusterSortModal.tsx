@@ -17,13 +17,8 @@ interface FilterModalProps {
 
 const sortOptions = ["Sort by newest", "Sort by oldest", "Sort by status"];
 
-export const ClusterSortModal = ({
-                            isOpen,
-                            onClose,
-                            resetFilter,
-                            applyFilter,
-                            form
-                          }: FilterModalProps) => {
+export const ClusterSortModal = (props: FilterModalProps) => {
+  const {isOpen, onClose, resetFilter, applyFilter, form} = props;
   const selectedSort = form.watch('sortBy')
   
   useEffect(() => {
@@ -34,7 +29,6 @@ export const ClusterSortModal = ({
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
       <DrawerContent className="!rounded-t-[0px] px-6   bg-[#F7F8F8]">
-        {/* Header */}
         <DrawerHeader className="flex items-center justify-between px-0">
           <DrawerTitle className="text-xl font-title font-normal  text-[#181B1E]">
             SORT BY
@@ -43,8 +37,6 @@ export const ClusterSortModal = ({
             <RiCloseLine className="w-5 h-5 text-[#181B1E]"/>
           </DrawerClose>
         </DrawerHeader>
-        
-        {/* Options */}
         <div className="mt-6 space-y-2">
           {sortOptions.map((option) => (
             <button
@@ -64,8 +56,6 @@ export const ClusterSortModal = ({
             </button>
           ))}
         </div>
-        
-        {/* Footer */}
         <DrawerFooter className="mt-6 px-0 flex flex-row gap-4">
           <Button
             variant="outline"

@@ -89,27 +89,6 @@ const AllMachineSection = () => {
     currentPage * itemsPerPage
   );
   
-  const generatePagination = (current: number, total: number): (number | string)[] => {
-    const range = [];
-    
-    if(total <= 5) {
-      for (let i = 1; i <= total; i++) range.push(i);
-    } else {
-      if(current <= 3) {
-        range.push(1, 2, 3, '...', total);
-      } else if(current >= total - 2) {
-        range.push(1, '...', total - 2, total - 1, total);
-      } else {
-        range.push(1, '...', current - 1, current, current + 1, '...', total);
-      }
-    }
-    
-    return range;
-  };
-  
-  
-  const pages = generatePagination(currentPage, totalPages);
-  
   return (
     <div className="flex flex-col gap-6 ">
       {/* Filters */}
@@ -345,7 +324,6 @@ const AllMachineSection = () => {
       
       {/* Pagination */}
       <div className="flex justify-center items-center gap-2 mt-4">
-        {/* Prev */}
         <button
           onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
           disabled={currentPage === 1}
@@ -356,28 +334,6 @@ const AllMachineSection = () => {
           />
         </button>
         
-        {/* Numbered buttons */}
-        {pages.map((n, i) =>
-          typeof n === 'number' ? (
-            <button
-              key={i}
-              onClick={() => setCurrentPage(n)}
-              className={`w-8 h-8 rounded-full text-sm font-medium ${
-                n === currentPage
-                  ? 'bg-[#EEF0F0] text-[#181B1E]'
-                  : 'hover:bg-accent text-[#929E9D]'
-              }`}
-            >
-              {n}
-            </button>
-          ) : (
-            <p key={i} className="text-sm text-[#929E9D]">
-              {n}
-            </p>
-          )
-        )}
-        
-        {/* Next */}
         <button
           onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
           disabled={currentPage === totalPages}

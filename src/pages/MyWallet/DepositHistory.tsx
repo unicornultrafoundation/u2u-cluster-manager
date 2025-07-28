@@ -20,17 +20,11 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import FilterIcon from "@/assets/icons/filter.svg";
 import {Input} from "@/components/ui/input.tsx";
 import {toast} from "sonner";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink
-} from "@/components/ui/pagination.tsx";
+import {Pagination, PaginationContent, PaginationItem} from "@/components/ui/pagination.tsx";
 import {DepositSortModal} from "@/components/modal/DepositSortModal.tsx";
 import {useDepositHistory} from "@/hooks/useDepositHistory.ts";
 import {Deposit} from '@/types/deposit.ts'
-import {generatePagination, shortenAddress} from "@/utils/string.ts";
+import {shortenAddress} from "@/utils/string.ts";
 import {format} from "date-fns";
 import {Link} from "react-router-dom";
 import {FilterDepositModal} from "@/components/modal/FilterDepositModal.tsx";
@@ -102,7 +96,6 @@ const DepositHistory = () => {
   });
   
   const totalPages = totalItems / itemsPerPage;
-  const pages = generatePagination(totalPages)
   
   
   
@@ -364,26 +357,6 @@ const DepositHistory = () => {
                 <RiArrowLeftSFill className="w-6 h-6" />
               </button>
             </PaginationItem>
-            {pages.map((page, i) =>
-              typeof page === "number" ? (
-                <PaginationItem key={i}>
-                  <PaginationLink
-                    isActive={page === currentPage}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setCurrentPage(page)
-                    }}
-                    className={`${page === currentPage ? "bg-neutral-100 text-black" : "bg-transparent text-neutral-400"} border-0 cursor-pointer hover:bg-neutral-100`}
-                  >
-                    {page}
-                  </PaginationLink>
-                </PaginationItem>
-              ) : (
-                <PaginationItem key={i}>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )
-            )}
             <PaginationItem>
               <button
                 onClick={() => currentPage < totalPages && setCurrentPage(currentPage + 1)}

@@ -19,17 +19,11 @@ import NoDataImg from "@/assets/no_data.png";
 import {format} from "date-fns";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {Link} from "react-router-dom";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink
-} from '@/components/ui/pagination'
+import {Pagination, PaginationContent, PaginationItem} from '@/components/ui/pagination'
 import {FilterPaymentModal} from "@/components/modal/FilterPaymentModal.tsx";
 import {PaymentSortModal} from "@/components/modal/PaymentSortModal.tsx";
 import {usePaymentHistory} from "@/hooks/usePaymentHistory.ts";
-import {generatePagination, shortenAddress} from "@/utils/string.ts";
+import {shortenAddress} from "@/utils/string.ts";
 import {Payment} from "@/types/payment.ts";
 import {toast} from "sonner";
 import {Input} from "@/components/ui/input.tsx";
@@ -103,11 +97,7 @@ const PaymentHistory = () => {
     totalItems,
   } = usePaymentHistory({filters: filters});
   
-  
   const totalPages = totalItems / itemsPerPage;
-  const pages = generatePagination(totalPages)
-  
-  console.log(filters, 'filters')
   
   return (
     <div className="flex flex-col gap-6 ">
@@ -377,26 +367,6 @@ const PaymentHistory = () => {
                 <RiArrowLeftSFill className="w-6 h-6"/>
               </button>
             </PaginationItem>
-            {pages.map((page, i) =>
-              typeof page === "number" ? (
-                <PaginationItem key={i}>
-                  <PaginationLink
-                    isActive={page === currentPage}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setCurrentPage(page)
-                    }}
-                    className={`${page === currentPage ? "bg-neutral-100 text-black" : "bg-transparent text-neutral-400"} border-0 cursor-pointer hover:bg-neutral-100`}
-                  >
-                    {page}
-                  </PaginationLink>
-                </PaginationItem>
-              ) : (
-                <PaginationItem key={i}>
-                  <PaginationEllipsis/>
-                </PaginationItem>
-              )
-            )}
             <PaginationItem>
               <button
                 onClick={() => currentPage < totalPages && setCurrentPage(currentPage + 1)}

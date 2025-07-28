@@ -377,21 +377,7 @@ const AllClusterSection = () => {
         >
           <RiArrowLeftSFill className={`w-6 h-6 ${currentPage === 1 ? 'text-[#D9DEDE]' : 'text-[#181B1E]'}`}/>
         </button>
-        <div className="flex items-center gap-2">
-          <button
-            className="w-10 h-10 flex items-center justify-center bg-[#EEF0F0] rounded-full text-sm font-medium text-[#181B1E]">1
-          </button>
-          <button
-            className="w-10 h-10 flex items-center justify-center hover:bg-accent rounded-full text-sm font-medium text-[#929E9D]">2
-          </button>
-          <span className="text-sm text-[#929E9D]">...</span>
-          <button
-            className="w-10 h-10 flex items-center justify-center hover:bg-accent rounded-full text-sm font-medium text-[#929E9D]">19
-          </button>
-          <button
-            className="w-10 h-10 flex items-center justify-center hover:bg-accent rounded-full text-sm font-medium text-[#929E9D]">20
-          </button>
-        </div>
+       
         <button
           className={`w-10 h-10 flex items-center justify-center rounded-full ${currentPage !== totalPages ? 'hover:bg-accent' : ''}`}
           disabled={currentPage === totalPages}

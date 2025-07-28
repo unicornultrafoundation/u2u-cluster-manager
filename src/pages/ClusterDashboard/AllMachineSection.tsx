@@ -163,7 +163,7 @@ const AllMachineSection = () => {
               </DropdownMenuContent>
             </DropdownMenu>
             <Popover open={openCreatedDate} onOpenChange={setOpenCreatedDate}>
-              <PopoverTrigger asChild>
+              <PopoverTrigger asChild className="!w-auto">
                 <Button
                   variant="outline"
                   className="py-2 px-2 lg:px-4  gap-1 desktop:w-full items-center justify-between font-normal border-0"
@@ -220,11 +220,11 @@ const AllMachineSection = () => {
               <RiArrowDownSLine className="w-5 h-5 text-muted-foreground"/>
             </Button>
           </div>
-          <div className=" hidden tablet:flex flex-col mr-1 md:flex-row gap-4 w-full tablet:w-auto">
+          <div className=" hidden md:flex flex-col mr-1 md:flex-row gap-4 w-full md:w-auto">
             <DropdownMenu>
               <DropdownMenuTrigger asChild className="!w-auto">
                 <Button variant="outline"
-                        className="py-2 px-2 lg:px-4   gap-1 items-center border-0 bg-white justify-between rounded-none">
+                        className="py-2 px-2 lg:px-4 gap-1 items-center border-0 bg-white justify-between rounded-none">
                   <img src={FilterIcon} className="w-4 h-4" alt="CPU"/>
                   {selectedSortBy}
                   <RiArrowDownSLine className="w-5 h-5 text-muted-foreground"/>

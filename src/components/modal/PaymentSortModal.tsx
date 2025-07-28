@@ -5,26 +5,36 @@ import {RiCheckFill, RiCloseLine} from "@remixicon/react";
 import clsx from "clsx";
 import {UseFormReturn} from "react-hook-form";
 import {z} from "zod";
-import {filterUpfrontSchema} from "@/pages/MyWallet/UpfrontPayment.tsx";
+import {filterPaymentSchema} from "@/pages/MyWallet/PaymentHistory.tsx";
+import {usePaymentFilterStore} from "@/store/filter/payment-history/store.ts";
 
 interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
-  resetFilter?: () => void;
-  applyFilter?: () => void;
-  form: UseFormReturn<z.infer<typeof filterUpfrontSchema>>;
+  form: UseFormReturn<z.infer<typeof filterPaymentSchema>>;
 }
 
 const sortOptions = ["Sort by newest", "Sort by oldest", "Sort by status"];
 
-export const UpfrontSortModal = (props: FilterModalProps) => {
-  const {isOpen, onClose, resetFilter, applyFilter, form} = props;
-  const selectedSort = form.watch('sortBy')
+export const PaymentSortModal = (props: FilterModalProps) => {
+  const {isOpen, onClose, form} = props;
+  const {updateFilters, filters, resetFilters} = usePaymentFilterStore()
+  const selectedSort = form.watch('orderBy')
+  
+  const onFilter = () => {
+    const newFilters = {
+      ...filters,
+      orderBy: selectedSort || 'All',
+    }
+    updateFilters(newFilters);
+  }
+  
   useEffect(() => {
     if(selectedSort) {
-      return form.setValue("sortBy", selectedSort)
+      return form.setValue("orderBy", selectedSort)
     }
   }, [form])
+  
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
       <DrawerContent className="!rounded-t-[0px] px-6   bg-[#F7F8F8]">
@@ -46,7 +56,7 @@ export const UpfrontSortModal = (props: FilterModalProps) => {
                   ? "bg-white font-medium text-[#181B1E]"
                   : "text-[#6B7A78] hover:bg-white"
               )}
-              onClick={() => form.setValue('sortBy', option)}
+              onClick={() => form.setValue('orderBy', option)}
             >
               {option}
               {selectedSort === option && (
@@ -60,7 +70,7 @@ export const UpfrontSortModal = (props: FilterModalProps) => {
             variant="outline"
             className="w-full bg-white"
             onClick={() => {
-              resetFilter?.();
+              resetFilters();
               onClose();
             }}
           >
@@ -69,7 +79,7 @@ export const UpfrontSortModal = (props: FilterModalProps) => {
           <Button
             className="w-full bg-[#181B1E] text-white"
             onClick={() => {
-              applyFilter?.()
+              onFilter();
               onClose();
             }}
           >

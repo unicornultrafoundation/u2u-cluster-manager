@@ -12,4 +12,9 @@ export interface StatCard {
   value: string
   icon: RemixiconComponentType
   color: string
-} 
+}
+
+export interface Pagination {
+  page?: number;
+  limit?: number;
+}

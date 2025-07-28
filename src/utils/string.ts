@@ -12,3 +12,14 @@ export const shortenAddress = (
     return str;
   }
 };
+
+export function generatePagination(totalPages: number): (number | string)[] {
+  if (totalPages <= 6) {
+    return Array.from({ length: totalPages }, (_, i) => i + 1)
+  }
+  
+  const firstPages = [1, 2, 3]
+  const lastPages = [totalPages - 1, totalPages]
+  
+  return [...firstPages, '...', ...lastPages]
+}

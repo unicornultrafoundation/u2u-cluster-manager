@@ -148,7 +148,7 @@ const AllClusterSection = () => {
           </DropdownMenu>
           
           <Popover open={openCreatedDate} onOpenChange={setOpenCreatedDate}>
-            <PopoverTrigger asChild>
+            <PopoverTrigger asChild className="!w-auto">
               <Button
                 variant="outline"
                 className="py-2 px-2 lg:px-4  gap-1 desktop:w-full items-center justify-between font-normal border-0"
@@ -205,7 +205,7 @@ const AllClusterSection = () => {
             <RiArrowDownSLine className="w-5 h-5 text-muted-foreground"/>
           </Button>
         </div>
-        <div className="hidden tablet:flex flex-col md:flex-row gap-4 w-full tablet:w-auto">
+        <div className="hidden md:flex flex-col md:flex-row gap-4 w-full md:w-auto">
           {/* <Button variant="default" size="default" className="w-full md:w-auto rounded-none">
             <RiAddLine className="w-5 h-5" />
             Create New Cluster

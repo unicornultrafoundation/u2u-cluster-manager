@@ -12,25 +12,35 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.t
 import {z} from "zod";
 import {UseFormReturn} from "react-hook-form";
 import {Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle} from "@/components/ui/sheet.tsx";
-import {filterUpfrontSchema} from "@/pages/MyWallet/UpfrontPayment.tsx";
+import {filterPaymentSchema} from "@/pages/MyWallet/PaymentHistory.tsx";
+import {usePaymentFilterStore} from "@/store/filter/payment-history/store.ts";
 
 interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
-  resetFilter?: () => void;
-  applyFilter?: () => void;
-  form: UseFormReturn<z.infer<typeof filterUpfrontSchema>>;
+  form: UseFormReturn<z.infer<typeof filterPaymentSchema>>;
 }
 
-export const FilterUpfrontModal = (props: FilterModalProps) => {
-  const {isOpen, onClose, resetFilter, applyFilter, form} = props;
+export const FilterPaymentModal = (props: FilterModalProps) => {
+  const {isOpen, onClose,form} = props;
   const [openCreatedDate, setOpenCreatedDate] = useState(false)
-  const [openDateExpired, setOpenDateExpired] = useState(false)
   const selectedType = form.watch("type");
-  const selectedStatus = form.watch("status");
   const selectedApplication = form.watch("application");
-  const selectedDateCreated = form.watch("createdDate");
-  const selectedDateExpired = form.watch("expiredDate");
+  const selectedDate = form.watch("date");
+  
+  const {updateFilters, resetFilters, filters} = usePaymentFilterStore()
+  
+  const handleApplyFilter = () => {
+    const newFilters = {
+      ...filters,
+      application: selectedApplication,
+      type: selectedType,
+      date: selectedDate ? selectedDate.getTime() : 0,
+    };
+    
+    updateFilters(newFilters);
+  }
+  
   return (
     <Sheet modal={true} open={isOpen} onOpenChange={onClose}>
       <SheetContent showCloseButton={false}
@@ -75,20 +85,6 @@ export const FilterUpfrontModal = (props: FilterModalProps) => {
                 {/* Add more types */}
               </DropdownMenuContent>
             </DropdownMenu>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild className="w-full md:w-[200px]">
-                <Button variant="outline" className="w-full justify-between border-0 rounded-none">
-                  {selectedStatus}
-                  <RiArrowDownSLine className="w-5 h-5 text-muted-foreground"/>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className='w-[var(--radix-dropdown-menu-trigger-width)] border-0 rounded-none'>
-                <DropdownMenuItem onClick={() => form.setValue('status','All status')}>
-                  All status
-                </DropdownMenuItem>
-                {/* Add more statuses */}
-              </DropdownMenuContent>
-            </DropdownMenu>
           </div>
           
           <div className="flex gap-4">
@@ -100,45 +96,18 @@ export const FilterUpfrontModal = (props: FilterModalProps) => {
                   variant="outline"
                   className="w-full justify-between font-normal border-0"
                 >
-                  {selectedDateCreated ? selectedDateCreated.toLocaleDateString() : "Date created"}
+                  {selectedDate ? selectedDate.toLocaleDateString() : "Date created"}
                   <RiArrowDownSLine className="w-5 h-5 text-muted-foreground"/>
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-full overflow-hidden mt-10" align="start">
                 <Calendar
                   mode="single"
-                  selected={selectedDateCreated}
+                  selected={selectedDate}
                   captionLayout="label"
                   onSelect={(date) => {
-                    form.setValue('createdDate',date)
+                    form.setValue('date',date)
                     setOpenCreatedDate(false)
-                  }}
-                  className="rounded-none !w-[345px]"
-                />
-              </PopoverContent>
-            </Popover>
-            
-            
-            <Popover open={openDateExpired} onOpenChange={setOpenDateExpired}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  type="button"
-                  className="w-full justify-between font-normal border-0 "
-                >
-                  {selectedDateExpired ? selectedDateExpired.toLocaleDateString() : "Date expired"}
-                  <RiArrowDownSLine className="w-5 h-5 text-muted-foreground"/>
-                </Button>
-              
-              </PopoverTrigger>
-              <PopoverContent className="w-full overflow-hidden mt-10" align="end">
-                <Calendar
-                  mode="single"
-                  selected={selectedDateExpired}
-                  captionLayout="label"
-                  onSelect={(date) => {
-                    form.setValue('expiredDate',date)
-                    setOpenDateExpired(false)
                   }}
                   className="rounded-none !w-[345px]"
                 />
@@ -150,13 +119,13 @@ export const FilterUpfrontModal = (props: FilterModalProps) => {
         
         <div className="flex justify-between gap-4 pt-4">
           <Button variant="ghost" className="w-full bg-white" onClick={() => {
-            resetFilter?.()
+            resetFilters()
             onClose()
           }}>
             Reset
           </Button>
           <Button className="w-full" onClick={() => {
-            applyFilter?.()
+            handleApplyFilter()
             onClose()
           }}>
             Confirm

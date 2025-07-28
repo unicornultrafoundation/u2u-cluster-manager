@@ -148,7 +148,7 @@ const AllClusterSection = () => {
           </DropdownMenu>
           
           <Popover open={openCreatedDate} onOpenChange={setOpenCreatedDate}>
-            <PopoverTrigger asChild>
+            <PopoverTrigger asChild className="!w-auto">
               <Button
                 variant="outline"
                 className="py-2 px-2 lg:px-4  gap-1 desktop:w-full items-center justify-between font-normal border-0"
@@ -205,7 +205,7 @@ const AllClusterSection = () => {
             <RiArrowDownSLine className="w-5 h-5 text-muted-foreground"/>
           </Button>
         </div>
-        <div className="hidden tablet:flex flex-col md:flex-row gap-4 w-full tablet:w-auto">
+        <div className="hidden md:flex flex-col md:flex-row gap-4 w-full md:w-auto">
           {/* <Button variant="default" size="default" className="w-full md:w-auto rounded-none">
             <RiAddLine className="w-5 h-5" />
             Create New Cluster
@@ -377,21 +377,7 @@ const AllClusterSection = () => {
         >
           <RiArrowLeftSFill className={`w-6 h-6 ${currentPage === 1 ? 'text-[#D9DEDE]' : 'text-[#181B1E]'}`}/>
         </button>
-        <div className="flex items-center gap-2">
-          <button
-            className="w-10 h-10 flex items-center justify-center bg-[#EEF0F0] rounded-full text-sm font-medium text-[#181B1E]">1
-          </button>
-          <button
-            className="w-10 h-10 flex items-center justify-center hover:bg-accent rounded-full text-sm font-medium text-[#929E9D]">2
-          </button>
-          <span className="text-sm text-[#929E9D]">...</span>
-          <button
-            className="w-10 h-10 flex items-center justify-center hover:bg-accent rounded-full text-sm font-medium text-[#929E9D]">19
-          </button>
-          <button
-            className="w-10 h-10 flex items-center justify-center hover:bg-accent rounded-full text-sm font-medium text-[#929E9D]">20
-          </button>
-        </div>
+       
         <button
           className={`w-10 h-10 flex items-center justify-center rounded-full ${currentPage !== totalPages ? 'hover:bg-accent' : ''}`}
           disabled={currentPage === totalPages}

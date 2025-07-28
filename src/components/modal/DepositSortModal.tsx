@@ -1,31 +1,34 @@
-import {useEffect} from "react";
 import {Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle,} from "@/components/ui/drawer";
 import {Button} from "@/components/ui/button";
 import {RiCheckFill, RiCloseLine} from "@remixicon/react";
 import clsx from "clsx";
 import {UseFormReturn} from "react-hook-form";
 import {z} from "zod";
-import {filterClusterSchema} from "@/pages/ClusterDashboard/AllClusterSection.tsx";
+import {filterDepositSchema} from "@/pages/MyWallet/DepositHistory.tsx";
+import {useDepositFilterStore} from "@/store/filter/deposit-history/store.ts";
 
 interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
-  resetFilter?: () => void;
-  applyFilter?: () => void;
-  form: UseFormReturn<z.infer<typeof filterClusterSchema>>;
+  form: UseFormReturn<z.infer<typeof filterDepositSchema>>;
 }
 
 const sortOptions = ["Sort by newest", "Sort by oldest", "Sort by status"];
 
-export const ClusterSortModal = (props: FilterModalProps) => {
-  const {isOpen, onClose, resetFilter, applyFilter, form} = props;
+export const DepositSortModal = (props: FilterModalProps) => {
+  const {isOpen, onClose, form} = props;
   const selectedSort = form.watch('sortBy')
   
-  useEffect(() => {
-    if(selectedSort) {
-      return form.setValue("sortBy", selectedSort)
+  const {updateFilters, filters, resetFilters} = useDepositFilterStore()
+  
+  const onFilter = () => {
+    const newFilters = {
+      ...filters,
+      orderBy: selectedSort || 'All',
     }
-  }, [form])
+    updateFilters(newFilters);
+  }
+  
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
       <DrawerContent className="!rounded-t-[0px] px-6   bg-[#F7F8F8]">
@@ -47,7 +50,7 @@ export const ClusterSortModal = (props: FilterModalProps) => {
                   ? "bg-white font-medium text-[#181B1E]"
                   : "text-[#6B7A78] hover:bg-white"
               )}
-              onClick={() => form.setValue('sortBy',option)}
+              onClick={() => form.setValue('sortBy', option)}
             >
               {option}
               {selectedSort === option && (
@@ -61,7 +64,7 @@ export const ClusterSortModal = (props: FilterModalProps) => {
             variant="outline"
             className="w-full bg-white"
             onClick={() => {
-              resetFilter?.();
+              resetFilters();
               onClose();
             }}
           >
@@ -70,7 +73,7 @@ export const ClusterSortModal = (props: FilterModalProps) => {
           <Button
             className="w-full bg-[#181B1E] text-white"
             onClick={() => {
-              applyFilter?.()
+              onFilter()
               onClose();
             }}
           >

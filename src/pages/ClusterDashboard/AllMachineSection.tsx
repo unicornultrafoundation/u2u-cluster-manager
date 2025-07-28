@@ -89,27 +89,6 @@ const AllMachineSection = () => {
     currentPage * itemsPerPage
   );
   
-  const generatePagination = (current: number, total: number): (number | string)[] => {
-    const range = [];
-    
-    if(total <= 5) {
-      for (let i = 1; i <= total; i++) range.push(i);
-    } else {
-      if(current <= 3) {
-        range.push(1, 2, 3, '...', total);
-      } else if(current >= total - 2) {
-        range.push(1, '...', total - 2, total - 1, total);
-      } else {
-        range.push(1, '...', current - 1, current, current + 1, '...', total);
-      }
-    }
-    
-    return range;
-  };
-  
-  
-  const pages = generatePagination(currentPage, totalPages);
-  
   return (
     <div className="flex flex-col gap-6 ">
       {/* Filters */}
@@ -163,7 +142,7 @@ const AllMachineSection = () => {
               </DropdownMenuContent>
             </DropdownMenu>
             <Popover open={openCreatedDate} onOpenChange={setOpenCreatedDate}>
-              <PopoverTrigger asChild>
+              <PopoverTrigger asChild className="!w-auto">
                 <Button
                   variant="outline"
                   className="py-2 px-2 lg:px-4  gap-1 desktop:w-full items-center justify-between font-normal border-0"
@@ -220,11 +199,11 @@ const AllMachineSection = () => {
               <RiArrowDownSLine className="w-5 h-5 text-muted-foreground"/>
             </Button>
           </div>
-          <div className=" hidden tablet:flex flex-col mr-1 md:flex-row gap-4 w-full tablet:w-auto">
+          <div className=" hidden md:flex flex-col mr-1 md:flex-row gap-4 w-full md:w-auto">
             <DropdownMenu>
               <DropdownMenuTrigger asChild className="!w-auto">
                 <Button variant="outline"
-                        className="py-2 px-2 lg:px-4   gap-1 items-center border-0 bg-white justify-between rounded-none">
+                        className="py-2 px-2 lg:px-4 gap-1 items-center border-0 bg-white justify-between rounded-none">
                   <img src={FilterIcon} className="w-4 h-4" alt="CPU"/>
                   {selectedSortBy}
                   <RiArrowDownSLine className="w-5 h-5 text-muted-foreground"/>
@@ -345,7 +324,6 @@ const AllMachineSection = () => {
       
       {/* Pagination */}
       <div className="flex justify-center items-center gap-2 mt-4">
-        {/* Prev */}
         <button
           onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
           disabled={currentPage === 1}
@@ -356,28 +334,6 @@ const AllMachineSection = () => {
           />
         </button>
         
-        {/* Numbered buttons */}
-        {pages.map((n, i) =>
-          typeof n === 'number' ? (
-            <button
-              key={i}
-              onClick={() => setCurrentPage(n)}
-              className={`w-8 h-8 rounded-full text-sm font-medium ${
-                n === currentPage
-                  ? 'bg-[#EEF0F0] text-[#181B1E]'
-                  : 'hover:bg-accent text-[#929E9D]'
-              }`}
-            >
-              {n}
-            </button>
-          ) : (
-            <p key={i} className="text-sm text-[#929E9D]">
-              {n}
-            </p>
-          )
-        )}
-        
-        {/* Next */}
         <button
           onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
           disabled={currentPage === totalPages}

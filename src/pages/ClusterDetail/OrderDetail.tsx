@@ -1,5 +1,5 @@
 import React from "react";
-import {Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle} from "@/components/ui/dialog";
+import {Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import {RiCloseLine} from "@remixicon/react";
 import {useScreenSize} from "@/hooks/useScreenSize.ts";
 import {Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle} from "@/components/ui/drawer.tsx";
@@ -71,6 +71,7 @@ const OrderDetail = ({id, openOrderDetail, onClose}: Props) => {
                 <DialogTitle className="text-2xl !font-normal uppercase">
                   Order Detail
                 </DialogTitle>
+                <DialogDescription/>
                 <DialogClose onClick={onClose} className="rounded hover:bg-muted">
                   <RiCloseLine className="w-6 h-6 text-neutral-500"/>
                 </DialogClose>

@@ -33,7 +33,7 @@ const ButtonWrap: React.FC<Props> = ({children}) => {
           className="px-3 w-full md:w-auto hover:bg-neutral-200 rounded-none flex items-center gap-1 text-black font-semibold bg-red-100"
           onClick={handleSwitchNetwork}
         >
-          <span className="hidden md:block">  {isPending ? "Switching..." : "Switch Network"}</span>
+          <span className="">  {isPending ? "Switching..." : "Switch Network"}</span>
         </Button>
         :
         <>

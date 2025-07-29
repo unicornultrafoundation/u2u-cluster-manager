@@ -6,6 +6,7 @@ import {useAuthStore} from '@/store/authStore'
 import {Button} from "@/components/ui/button";
 import U2U_LOGO from "@/assets/logo_text_white.png";
 import U2U_TOKEN_ICON from '@/assets/wallet/u2u_wallet.png'
+import ButtonWrap from "@/components/ButtonWrap.tsx";
 
 interface HeaderProps {
   sidebarOpen: boolean;
@@ -115,13 +116,14 @@ const Header: React.FC<HeaderProps> = ({sidebarOpen, setSidebarOpen}) => {
             )}
           </Button> */}
             
-            
-            <Link to="/cluster/new" className="">
-              <Button variant="default" size="default" className="px-3 w-full md:w-auto hover:bg-neutral-200 rounded-none flex items-center gap-1 text-black font-semibold bg-white">
-                <RiAddLine className="w-5 h-5 "/>
-               <p className="hidden md:block"> Create New Order</p>
-              </Button>
-            </Link>
+            <ButtonWrap>
+              <Link to="/cluster/new" className="">
+                <Button variant="default" size="default" className="px-3 w-full md:w-auto hover:bg-neutral-200 rounded-none flex items-center gap-1 text-black font-semibold bg-white">
+                  <RiAddLine className="w-5 h-5 "/>
+                  <p className="hidden md:block"> Create New Order</p>
+                </Button>
+              </Link>
+            </ButtonWrap>
             {/* Connect Wallet Button - Hidden on mobile */}
             <Button
               onClick={handleConnectWallet}

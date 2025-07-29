@@ -133,7 +133,6 @@ const Login: React.FC = () => {
           <span className="text-zinc-900 font-medium">Terms of Service</span>.
         </div>
       </div>
-      
       <SwitchNetworkModal />
     </div>
   )

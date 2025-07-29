@@ -76,7 +76,7 @@ const ClusterDetail = () => {
                   <img src={CANCEL_ORDER_ILLUS} alt="cancel_order_illus" className="w-28 h-28" />
                 </div>
                 <div className="self-stretch inline-flex flex-col justify-start items-center gap-3">
-                  <div className="justify-start text-zinc-900 text-2xl font-normal font-['Pixelyze'] uppercase leading-loose">cancel order</div>
+                  <div className="justify-start text-zinc-900 text-2xl font-normal font-['Pixelyze'] uppercase leading-loose">cancel order </div>
                   <div className="self-stretch text-center justify-start text-gray-500 text-base font-medium font-['Figtree'] leading-normal">Are you sure you want to cancel this order? We will refund your payment once you confirm canceling this order.</div>
                 </div>
                 <div className="flex justify-center items-center gap-4 mt-8">

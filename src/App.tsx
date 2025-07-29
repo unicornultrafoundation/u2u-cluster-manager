@@ -13,6 +13,7 @@ import {useAuthStore} from '@/store/authStore'
 import '@/styles/globals.css'
 import MachineDetail from "@/pages/MachineDetail";
 import NewOrder from "@/pages/NewOrder";
+import {SwitchNetworkModal} from "@/components/modal/SwitchNetworkModal.tsx";
 
 function App() {
   const { address: wagmiAddress, isConnected: wagmiConnected } = useAccount()
@@ -95,6 +96,7 @@ function App() {
         </div>
       </div>
       <Toaster richColors />
+      <SwitchNetworkModal />
     </Router>
   )
 }

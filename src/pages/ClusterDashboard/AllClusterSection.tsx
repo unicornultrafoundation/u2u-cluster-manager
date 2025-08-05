@@ -30,7 +30,6 @@ export const filterClusterSchema = z.object({
 type FilterForm = z.infer<typeof filterClusterSchema>
 
 const AllClusterSection = () => {
-  const {myOrders} = useMyOrder()
   const [openCreatedDate, setOpenCreatedDate] = useState(false)
   const [openDateExpired, setOpenDateExpired] = useState(false)
   const [openSortFilter, setOpenSortFilter] = useState(false)
@@ -58,8 +57,9 @@ const AllClusterSection = () => {
   const [showOrderDetail, setShowOrderDetail] = useState(false)
   const [orderId, setOrderId] = useState("")
   
-  const [currentPage, setCurrentPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(20)
+  const [currentPage, setCurrentPage] = useState(10)
+  const [totalPages, setTotalPages] = useState(10)
+  const {myOrders} = useMyOrder({limit: totalPages, page: currentPage} )
   
   const getStatusColor = (status: Cluster['status']) => {
     switch (status) {
@@ -98,7 +98,7 @@ const AllClusterSection = () => {
   return (
     <div className="flex flex-col gap-4 h-full overflow-y-auto">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <h2 className="font-pixelyze text-lg md:text-xl uppercase tracking-tighter">All Orders</h2>
+        <h2 className="font-pixelyze text-lg md:text-xl uppercase tracking-tighter">all requests</h2>
       </div>
       <div className="flex flex-row justify-between w-full gap-4 md:gap-0">
         <div className="hidden md:flex md:flex-row gap-2 w-full desktop:gap-4 flex-1">
@@ -267,14 +267,12 @@ const AllClusterSection = () => {
             </TableHeader>
             <TableBody>
               {myOrders && myOrders.length > 0 ? (
-                myOrders.map((cluster: Cluster) => (
+                myOrders.map((cluster: any) => (
                   <TableRow key={cluster.id} className="border-b border-[#F0F0F0]">
                     <TableCell
                       className="text-center font-figtree text-xs font-medium text-black">{cluster.id}
                     </TableCell>
-                    <TableCell
-                      className="text-center font-figtree flex items-center gap-2 text-xs font-medium text-black">
-                      {/*<img src={img} alt="wallet" className="w-5 h-5"/>*/}
+                    <TableCell className="font-figtree text-xs font-medium text-black">
                       {cluster.name}
                     </TableCell>
                     <TableCell className="font-figtree text-xs font-medium text-black">
@@ -295,7 +293,7 @@ const AllClusterSection = () => {
                     <TableCell className="text-right">
                       {["Cancelled", "Closed"].includes(cluster.status) ? (
                         <button
-                          className="p-2 rounded-full cursor-not-allowed opacity-40"
+                          className="px-2 rounded-full cursor-not-allowed opacity-40"
                           disabled
                         >
                           <RiMoreLine className="w-5 h-5 text-[#8D8D8D]"/>
@@ -303,7 +301,7 @@ const AllClusterSection = () => {
                       ) : (
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <button className="p-2 hover:bg-accent rounded-full">
+                            <button className="px-2 hover:bg-accent rounded-full">
                               <RiMoreLine className="w-5 h-5 text-[#8D8D8D]"/>
                             </button>
                           </DropdownMenuTrigger>
@@ -324,17 +322,20 @@ const AllClusterSection = () => {
                             
                             {cluster.status === 'Accepted' && (
                               <>
-                                <DropdownMenuItem onClick={() => {
-                                  setOrderId(cluster.id)
-                                  setShowOrderDetail(true)
-                                }}>
-                                  View detail
+                                {/*<DropdownMenuItem onClick={() => {*/}
+                                {/*  setOrderId(cluster.id)*/}
+                                {/*  setShowOrderDetail(true)*/}
+                                {/*}}>*/}
+                                {/*  View detail*/}
+                                {/*</DropdownMenuItem>*/}
+                                <DropdownMenuItem onClick={() => console.log('Request detail')}>
+                                  <Link to={`/request/${cluster.id}`}>  Upfront payment</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={() => console.log('Machine detail')}>
                                   <Link to={`/machine/${cluster.id}`}> Machine details</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={() => console.log('Upfront payment')}>
-                                  Upfront payment
+                                  <Link to={`/#`}>  Payment history</Link>
                                 </DropdownMenuItem>
                               </>
                             )}
@@ -377,21 +378,6 @@ const AllClusterSection = () => {
         >
           <RiArrowLeftSFill className={`w-6 h-6 ${currentPage === 1 ? 'text-[#D9DEDE]' : 'text-[#181B1E]'}`}/>
         </button>
-        <div className="flex items-center gap-2">
-          <button
-            className="w-10 h-10 flex items-center justify-center bg-[#EEF0F0] rounded-full text-sm font-medium text-[#181B1E]">1
-          </button>
-          <button
-            className="w-10 h-10 flex items-center justify-center hover:bg-accent rounded-full text-sm font-medium text-[#929E9D]">2
-          </button>
-          <span className="text-sm text-[#929E9D]">...</span>
-          <button
-            className="w-10 h-10 flex items-center justify-center hover:bg-accent rounded-full text-sm font-medium text-[#929E9D]">19
-          </button>
-          <button
-            className="w-10 h-10 flex items-center justify-center hover:bg-accent rounded-full text-sm font-medium text-[#929E9D]">20
-          </button>
-        </div>
         <button
           className={`w-10 h-10 flex items-center justify-center rounded-full ${currentPage !== totalPages ? 'hover:bg-accent' : ''}`}
           disabled={currentPage === totalPages}

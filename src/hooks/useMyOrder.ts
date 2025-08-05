@@ -4,7 +4,14 @@ import { getRegionCode } from "@/utils/region";
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "wagmi";
 
-export const useMyOrder = () => {
+
+interface Props {
+  page?: number
+  limit?: number
+}
+
+export const useMyOrder = (props: Props) => {
+  const { page, limit } = props;
   const { address } = useAccount()
   const { data: myOrders, isLoading, error, refetch } = useQuery<Cluster[]>({
     queryKey: ["myOrder", address],
@@ -12,7 +19,7 @@ export const useMyOrder = () => {
       if (!address) {
         return [] as Cluster[];
       }
-      const rs = await getOrderByOwner(address) as any;
+      const rs = await getOrderByOwner(address, limit, page) as any;
 
       return rs.orders.map((order: any) => {
         return {

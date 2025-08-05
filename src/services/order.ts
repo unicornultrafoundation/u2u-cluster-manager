@@ -71,18 +71,18 @@ export const getOrderById = async (id: string) => {
 }
 
 const GET_ORDER_BY_OWNER = gql`
-  query GetOrderByOwner($owner: String!) {
-    orders(where: { owner: $owner }) {
+  query GetOrderByOwner($owner: String!,  $first: Int, $skip: Int,) {
+    orders(first: $first, orderDirection: desc, skip: $skip , where: { owner: $owner }) {
       ${ORDER_FIELD}
     }
   }
 `
 
-export const getOrderByOwner = async (owner: string) => {
+export const getOrderByOwner = async (owner: string, first?: number, skip?: number) => {
   const rs = await request(
     GRAPHQL_URL,
     GET_ORDER_BY_OWNER,
-    { owner }
+    { owner, first, skip }
   )
   return rs;
 }

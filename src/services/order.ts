@@ -29,6 +29,22 @@ const PROVIDER_FIELD = gql`
   description
 `
 
+const BID_FIELD = gql`
+  id
+  owner
+  pricePerSecond
+  status
+  createdAt
+  bidIndex
+  transactionHash
+  provider {
+    ${PROVIDER_FIELD}
+  }
+  machine {
+    ${MACHINE_FIELD}
+  }
+`
+
 const ORDER_FIELD = gql`
   id
   name
@@ -54,6 +70,9 @@ const ORDER_FIELD = gql`
   }
   acceptedMachine {
     ${MACHINE_FIELD}
+  }
+  bids {
+    ${BID_FIELD}
   }
   startAt
   expiredAt

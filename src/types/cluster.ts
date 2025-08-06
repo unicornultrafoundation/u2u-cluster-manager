@@ -1,6 +1,6 @@
 import { Machine } from "./machine"
 
-export interface Cluster {
+export interface Order {
   id: string
   name: string
   status: 'Created' | 'Accepted' | 'Closed' | 'Cancelled'

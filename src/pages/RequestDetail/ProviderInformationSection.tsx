@@ -4,16 +4,16 @@ import RamIcon from "@/assets/icons/ram.svg";
 import GpuIcon from "@/assets/icons/gpu.svg";
 import {RiDownload2Fill, RiUpload2Fill} from "@remixicon/react";
 import {Machine} from "@/types/machine.ts";
-import {Cluster} from "@/types";
+import {Order} from "@/types";
 import MachineActions from "@/pages/RequestDetail/MachineActions.tsx";
 
 interface Props {
-  clusterDetail?: Cluster;
+  orderDetail?: Order;
   refetch?: () => void;
 }
 
-const ProviderInformationSection = ({clusterDetail, refetch}: Props) => {
-  const acceptedMachine = clusterDetail?.acceptedMachine;
+const ProviderInformationSection = ({orderDetail, refetch}: Props) => {
+  const acceptedMachine = orderDetail?.acceptedMachine;
   const getStatusColor = (status: Machine['status']) => {
     switch (status) {
       case 'Running':
@@ -110,7 +110,7 @@ const ProviderInformationSection = ({clusterDetail, refetch}: Props) => {
           </div>
         </div>
       </div>
-      <MachineActions clusterDetail={clusterDetail} refetch={refetch}/>
+      <MachineActions orderDetail={orderDetail} refetch={refetch}/>
     </>
   
   

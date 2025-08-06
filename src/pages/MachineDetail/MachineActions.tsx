@@ -10,27 +10,27 @@ import {Button} from "@/components/ui/button";
 import {RiCloseLine,} from "@remixicon/react";
 import CANCEL_ORDER_ILLUS from "@/assets/cluster_detail_page/cancel_order_illus.png";
 import {useState} from "react";
-import type {Cluster} from "@/types";
 import {toast} from "sonner";
 import {useCancelOrder} from "@/hooks/useCancelOrder.ts";
 import EditResource from "@/pages/MachineDetail/EditResource.tsx";
 import ExtendTime from "@/pages/MachineDetail/ExtendTime.tsx";
+import {Order} from "@/types";
 
 interface Props {
-  clusterDetail?: Cluster;
+  orderDetail?: Order;
   refetch: () => void;
   id?: string;
 }
 
 export default function MachineActions({
-                                         clusterDetail,
+                                         orderDetail,
                                          refetch,
                                          id
                                        }: Props) {
   const [openCancelOrderDialog, setOpenCancelOrderDialog] = useState(false);
   const {cancelOrder, isPending, error: cancelOrderError} = useCancelOrder()
   
-  if(clusterDetail?.status !== "Accepted") return null;
+  if(orderDetail?.status !== "Accepted") return null;
   
   async function handleCancelOrder() {
     try {
@@ -49,9 +49,9 @@ export default function MachineActions({
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 justify-between items-center gap-4 w-full mt-6">
       {/* Edit Resources Sheet */}
-      <EditResource orderDetail={clusterDetail}/>
+      <EditResource orderDetail={orderDetail}/>
       {/* Extend Time Dialog */}
-      <ExtendTime orderDetail={clusterDetail}/>
+      <ExtendTime orderDetail={orderDetail}/>
       {/* Cancel Process Dialog */}
       <Dialog
         open={openCancelOrderDialog}

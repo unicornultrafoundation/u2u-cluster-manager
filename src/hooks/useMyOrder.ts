@@ -1,8 +1,8 @@
-import { getOrderByOwner } from "@/services/order";
-import { Cluster } from "@/types/cluster";
-import { getRegionCode } from "@/utils/region";
-import { useQuery } from "@tanstack/react-query";
-import { useAccount } from "wagmi";
+import {getOrderByOwner} from "@/services/order";
+import {Order} from "@/types/cluster";
+import {getRegionCode} from "@/utils/region";
+import {useQuery} from "@tanstack/react-query";
+import {useAccount} from "wagmi";
 
 
 interface Props {
@@ -13,11 +13,11 @@ interface Props {
 export const useMyOrder = (props: Props) => {
   const { page, limit } = props;
   const { address } = useAccount()
-  const { data: myOrders, isLoading, error, refetch } = useQuery<Cluster[]>({
+  const { data: myOrders, isLoading, error, refetch } = useQuery<Order[]>({
     queryKey: ["myOrder", address],
     queryFn: async () => {
       if (!address) {
-        return [] as Cluster[];
+        return [] as Order[];
       }
       const rs = await getOrderByOwner(address, limit, page) as any;
 

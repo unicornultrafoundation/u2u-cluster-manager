@@ -8,13 +8,13 @@ import {format} from "date-fns";
 import {useScreenSize} from "@/hooks/useScreenSize.ts";
 import ExtendTimePaymentDetail from "@/pages/MachineDetail/ExtendTimePaymentDetail.tsx";
 import {useState} from "react";
-import type {Cluster} from "@/types";
+import type {Order} from "@/types";
 
 const TIME_UNITS = ["Minutes", "Hour", "Day", "Week", "Month"] as const;
 type TimeUnit = typeof TIME_UNITS[number];
 
 interface Props {
-  orderDetail: Cluster;
+  orderDetail: Order;
 }
 
 function calculateNewExpiredAt(

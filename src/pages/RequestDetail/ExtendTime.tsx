@@ -6,13 +6,13 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.t
 import {format} from "date-fns";
 import {useScreenSize} from "@/hooks/useScreenSize.ts";
 import React, {useState} from "react";
-import type {Cluster} from "@/types";
+import type {Order} from "@/types";
 import {Calendar} from "@/components/ui/calendar.tsx";
 import {formatDateWithTime} from "@/config/constant.ts";
 
 
 interface Props {
-  orderDetail: Cluster;
+  orderDetail: Order;
 }
 
 

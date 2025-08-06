@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import ILLUS from "@/assets/dashboard_page/request-detail.png";
 import {useParams} from "react-router-dom";
-import {useClusterDetail} from "@/hooks/useClusterDetail.ts";
+import {useOrderDetail} from "@/hooks/useOrderDetail.ts";
 import RequestDetailSection from "@/pages/RequestDetail/RequestDetailSection.tsx";
 import ProviderOfferSection from "@/pages/RequestDetail/ProviderOfferSection.tsx";
 import ProviderInformationSection from "@/pages/RequestDetail/ProviderInformationSection.tsx";
@@ -16,12 +16,12 @@ import {useMemo} from "react";
 
 const RequestDetail = () => {
   const {id} = useParams();
-  const {clusterDetail, refetch} = useClusterDetail(id as string);
+  const {orderDetail, refetch} = useOrderDetail(id as string);
   
   const machineStatus = useMemo(() => {
-    if (!clusterDetail) return '';
-    return clusterDetail.status
-  }, [clusterDetail]);
+    if (!orderDetail) return '';
+    return orderDetail.status
+  }, [orderDetail]);
   
   return (
     <div
@@ -49,10 +49,10 @@ const RequestDetail = () => {
             </div>
           </div>
         </div>
-        <RequestDetailSection data={clusterDetail}/>
+        <RequestDetailSection data={orderDetail}/>
         <hr className="self-stretch h-0 my-8 outline outline-1 outline-offset-[-0.50px] outline-gray-300"/>
         {machineStatus === 'Accepted' ? (
-          <ProviderInformationSection clusterDetail={clusterDetail} refetch={refetch}/>
+          <ProviderInformationSection orderDetail={orderDetail} refetch={refetch}/>
         ) : (
           <ProviderOfferSection/>
         )}

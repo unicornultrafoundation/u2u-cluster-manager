@@ -3,15 +3,15 @@ import Img from "@/assets/u2u_logo.png";
 import CpuIcon from "@/assets/icons/cpu.svg";
 import RamIcon from "@/assets/icons/ram.svg";
 import GpuIcon from "@/assets/icons/gpu.svg";
-import {Cluster} from "@/types";
+import {Order} from "@/types";
 
 
 interface Props {
-  data?: Cluster;
+  data?: Order;
 }
 
 const RequestDetailSection = ({data}: Props) => {
-  const getStatusColor = (status: Cluster['status']) => {
+  const getStatusColor = (status: Order['status']) => {
     switch (status) {
       case 'Created':
         return 'bg-[#FFFBEB] text-[#D77A08]'

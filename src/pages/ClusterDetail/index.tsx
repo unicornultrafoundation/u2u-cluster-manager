@@ -19,7 +19,7 @@ import ILLUS from "@/assets/cluster_detail_page/illus.png";
 import STAT_BG from "@/assets/cluster_detail_page/stat_bg.png";
 import STAT_BG_MOBILE from "@/assets/cluster_detail_page/stat_bg_mobile.png";
 import {RiFileCopyLine, RiShutDownFill, RiEditBoxFill, RiTimerFlashFill, RiFlashlightFill} from '@remixicon/react'
-import { useClusterDetail } from "@/hooks/useClusterDetail";
+import { useOrderDetail } from "@/hooks/useOrderDetail.ts";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner"
@@ -30,17 +30,17 @@ import { useMachineStatus } from "@/hooks/useMachineStatus";
 
 const ClusterDetail = () => {
   const { id } = useParams();
-  const { clusterDetail, isLoading, error, refetch } = useClusterDetail(id as string);
+  const { orderDetail, isLoading, error, refetch } = useOrderDetail(id as string);
   const { cancelOrder, isPending, error: cancelOrderError } = useCancelOrder()
-  const { machineStatus } = useMachineStatus(clusterDetail?.acceptedMachine?.publicIp || "");
+  const { machineStatus } = useMachineStatus(orderDetail?.acceptedMachine?.publicIp || "");
 
   const [openCancelOrderDialog, setOpenCancelOrderDialog] = useState(false)
 
   useEffect(() => {
-    if (clusterDetail) {
-      console.log(clusterDetail);
+    if (orderDetail) {
+      console.log(orderDetail);
     }
-  }, [clusterDetail]);
+  }, [orderDetail]);
 
   async function handleCancelOrder() {
     try {
@@ -56,8 +56,8 @@ const ClusterDetail = () => {
   }
 
   function renderControlSection() {
-    if (!clusterDetail) return null;
-    if (clusterDetail.status === "Created") {
+    if (!orderDetail) return null;
+    if (orderDetail.status === "Created") {
       return (
         <Dialog open={openCancelOrderDialog} onOpenChange={setOpenCancelOrderDialog}>
           <DialogTrigger asChild>
@@ -93,7 +93,7 @@ const ClusterDetail = () => {
         </Dialog>
       );
     }
-    if (clusterDetail.status === "Cancelled") {
+    if (orderDetail.status === "Cancelled") {
       return (
         <Button disabled variant="secondary" className="flex-1 flex w-full">
           Cancelled
@@ -130,7 +130,7 @@ const ClusterDetail = () => {
     );
   }
 
-  if (isLoading || !clusterDetail) {
+  if (isLoading || !orderDetail) {
     return <div>Loading...</div>;
   }
   if (error) {
@@ -157,20 +157,20 @@ const ClusterDetail = () => {
           <img src={ILLUS} alt="illus" className="w-28 py-5 px-2" />
           <div className="self-stretch flex flex-col justify-start items-start">
             <div className="justify-start text-zinc-900 text-2xl font-normal font-['Pixelyze'] uppercase leading-loose">
-              {clusterDetail.status === "Created"
+              {orderDetail.status === "Created"
                 ? "Active cluster"
-                : clusterDetail.status === "Accepted"
+                : orderDetail.status === "Accepted"
                   ? "Cluster is being created..."
-                  : clusterDetail.status === "Cancelled"
+                  : orderDetail.status === "Cancelled"
                     ? "Cancelled"
                     : "Cluster is being created..."}
             </div>
             <div className="justify-start text-gray-500 text-sm font-normal font-['Figtree'] leading-normal">
-              {clusterDetail.status === "Created"
+              {orderDetail.status === "Created"
                 ? "This cluster is currently activated"
-                : clusterDetail.status === "Accepted"
+                : orderDetail.status === "Accepted"
                   ? "Please wait for your order to be completed"
-                  : clusterDetail.status === "Cancelled"
+                  : orderDetail.status === "Cancelled"
                     ? "The order has been cancelled"
                     : "Please wait for your order to be completed"}
             </div>
@@ -192,7 +192,7 @@ const ClusterDetail = () => {
               Total CPU cores
             </div>
             <div className="justify-center text-white text-xl font-normal font-['Pixelyze'] uppercase leading-loose">
-              {clusterDetail.cpuCores} Cores
+              {orderDetail.cpuCores} Cores
             </div>
           </div>
           <div className="flex-1 z-10 relative h-12 inline-flex flex-col justify-start items-center gap-1">
@@ -200,7 +200,7 @@ const ClusterDetail = () => {
               Total RAM memory
             </div>
             <div className="justify-center text-white text-xl font-normal font-['Pixelyze'] uppercase leading-loose">
-              {clusterDetail.memoryMB} GB
+              {orderDetail.memoryMB} GB
             </div>
           </div>
           <div className="flex-1 z-10 relative h-12 inline-flex flex-col justify-start items-center gap-1">
@@ -208,7 +208,7 @@ const ClusterDetail = () => {
               Total GPU memory
             </div>
             <div className="justify-center text-white text-xl font-normal font-['Pixelyze'] uppercase leading-loose">
-              {clusterDetail.gpuMemory} GB
+              {orderDetail.gpuMemory} GB
             </div>
           </div>
         </div>
@@ -218,7 +218,7 @@ const ClusterDetail = () => {
               Cluster ID
             </div>
             <div className="justify-center text-zinc-900 text-base font-medium font-['Figtree'] leading-normal">
-              #{clusterDetail.id}
+              #{orderDetail.id}
             </div>
           </div>
           <div className="self-stretch inline-flex justify-between items-start">
@@ -226,7 +226,7 @@ const ClusterDetail = () => {
               Cluster's name
             </div>
             <div className="justify-center text-zinc-900 text-base font-medium font-['Figtree'] leading-normal">
-              {clusterDetail.name}
+              {orderDetail.name}
             </div>
           </div>
           <div className="self-stretch inline-flex justify-between items-start">
@@ -278,10 +278,10 @@ const ClusterDetail = () => {
             </div>
             <Badge
               variant={
-                clusterDetail.status === "Created" ? "success" : "processing"
+                orderDetail.status === "Created" ? "success" : "processing"
               }
             >
-              {clusterDetail.status}
+              {orderDetail.status}
             </Badge>
           </div>
           {renderControlSection()}

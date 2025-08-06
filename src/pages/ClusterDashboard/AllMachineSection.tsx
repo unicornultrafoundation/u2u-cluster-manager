@@ -2,7 +2,7 @@ import {useState} from 'react'
 import {RiArrowDownSLine, RiArrowLeftSFill, RiArrowRightSFill, RiCloseLine} from '@remixicon/react'
 import {Button} from '@/components/ui/button'
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu"
-import {Cluster} from '@/types/cluster'
+import {Order} from '@/types/cluster'
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
 import {Calendar} from "@/components/ui/calendar.tsx";
 import z from "zod";
@@ -58,7 +58,7 @@ const AllMachineSection = () => {
   const selectedDateCreated = form.watch("createdDate")
   const selectedDateExpired = form.watch("expiredDate")
   
-  const getStatusStyle = (status: Cluster['status']) => {
+  const getStatusStyle = (status: Order['status']) => {
     switch (status) {
       case 'Accepted':
         return 'text-green-600'

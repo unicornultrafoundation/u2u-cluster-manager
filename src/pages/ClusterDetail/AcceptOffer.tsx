@@ -3,7 +3,7 @@ import {Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle} from "@/c
 import {RiCloseLine} from "@remixicon/react";
 import {useScreenSize} from "@/hooks/useScreenSize.ts";
 import {Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle} from "@/components/ui/drawer.tsx";
-import {useClusterDetail} from "@/hooks/useClusterDetail.ts";
+import {useOrderDetail} from "@/hooks/useOrderDetail.ts";
 import {Button} from "@/components/ui/button.tsx";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const AcceptOffer = ({id, show, onClose}: Props) => {
-  const {clusterDetail} = useClusterDetail(id as string);
+  const {orderDetail} = useOrderDetail(id as string);
   const screenSize = useScreenSize()
   
   const renderOrderDetails = () => {
@@ -21,13 +21,13 @@ const AcceptOffer = ({id, show, onClose}: Props) => {
       <>
         <div className="bg-neutral-100 p-4 md:p-6  w-full mx-auto overflow-hidden">
           <div className="space-y-3 text-sm text-[#181B1E]">
-            <InfoRow label="Application" value={clusterDetail?.name || "--"}/>
+            <InfoRow label="Application" value={orderDetail?.name || "--"}/>
             <InfoRow label="Provider address" value={"--"}/>
-            <InfoRow label="Total CPU" value={`${clusterDetail?.cpuCores} Cores`}/>
-            <InfoRow label="Total RAM" value={`${clusterDetail?.memoryMB} GB`}/>
-            <InfoRow label="Total GPU" value={`${clusterDetail?.gpuMemory} GB`}/>
-            <InfoRow label="Download speed" value={`${clusterDetail?.downloadMbps} MB`}/>
-            <InfoRow label="Upload speed" value={`${clusterDetail?.uploadMbps} MB`}/>
+            <InfoRow label="Total CPU" value={`${orderDetail?.cpuCores} Cores`}/>
+            <InfoRow label="Total RAM" value={`${orderDetail?.memoryMB} GB`}/>
+            <InfoRow label="Total GPU" value={`${orderDetail?.gpuMemory} GB`}/>
+            <InfoRow label="Download speed" value={`${orderDetail?.downloadMbps} MB`}/>
+            <InfoRow label="Upload speed" value={`${orderDetail?.uploadMbps} MB`}/>
             <InfoRow label="Start date" value={"--"}/>
             <InfoRow label="End date" value={"--"}/>
           </div>

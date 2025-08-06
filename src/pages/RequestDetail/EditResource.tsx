@@ -3,7 +3,7 @@ import {Button} from "@/components/ui/button.tsx";
 import {RiAddLine, RiArrowDownLine, RiCloseLine} from "@remixicon/react";
 import {useState} from "react";
 import {Input} from "@/components/ui/input.tsx";
-import type {Cluster} from "@/types";
+import type {Order} from "@/types";
 import z from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
@@ -72,7 +72,7 @@ const FieldBlock = ({
   </div>
 );
 
-const EditResource = ({orderDetail}: { orderDetail: Cluster }) => {
+const EditResource = ({orderDetail}: { orderDetail: Order }) => {
   const [openEditSheet, setOpenEditSheet] = useState(false);
   const [openPayment, setOpenPayment] = useState(false);
   

@@ -1,10 +1,10 @@
-import { getOrderById } from "@/services/order";
-import { Cluster } from "@/types/cluster";
-import { getRegionCode } from "@/utils/region";
-import { useQuery } from "@tanstack/react-query";
+import {getOrderById} from "@/services/order";
+import {Order} from "@/types/cluster";
+import {getRegionCode} from "@/utils/region";
+import {useQuery} from "@tanstack/react-query";
 
-export const useClusterDetail = (id: string) => {
-  const {data, isLoading, error, refetch} = useQuery<Cluster>({
+export const useOrderDetail = (id: string) => {
+  const {data, isLoading, error, refetch} = useQuery<Order>({
     queryKey: ['cluster-detail', id],
     queryFn: async () => {
       const rs = await getOrderById(id) as any
@@ -38,7 +38,7 @@ export const useClusterDetail = (id: string) => {
   })
 
   return {
-    clusterDetail: data,
+    orderDetail: data,
     isLoading,
     error,
     refetch,

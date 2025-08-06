@@ -4,7 +4,7 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
 import {Button} from '@/components/ui/button'
 import {useMyOrder} from '@/hooks/useMyOrder'
-import {Cluster} from '@/types/cluster'
+import {Order} from '@/types/cluster'
 import NoDataImg from "@/assets/no_data.png";
 
 import {Calendar} from "@/components/ui/calendar"
@@ -61,7 +61,7 @@ const AllClusterSection = () => {
   const [totalPages, setTotalPages] = useState(10)
   const {myOrders} = useMyOrder({limit: totalPages, page: currentPage} )
   
-  const getStatusColor = (status: Cluster['status']) => {
+  const getStatusColor = (status: Order['status']) => {
     switch (status) {
       case 'Created':
         return 'bg-[#FFFBEB] text-[#D77A08]'

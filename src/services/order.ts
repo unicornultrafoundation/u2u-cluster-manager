@@ -1,5 +1,5 @@
-import { GRAPHQL_URL } from '@/config/constant';
-import { gql, request } from 'graphql-request'
+import {GRAPHQL_URL} from '@/config/constant';
+import {gql, request} from 'graphql-request'
 
 const MACHINE_FIELD = gql`
   id
@@ -8,6 +8,14 @@ const MACHINE_FIELD = gql`
   machineType
   publicIp
   overlayIp
+  cpuCores
+  createdAt
+  description
+  gpuCores
+  gpuMemory
+  memoryMB
+  uploadSpeed
+  downloadSpeed
   bids {
     id
     pricePerSecond
@@ -65,7 +73,7 @@ export const getOrderById = async (id: string) => {
   const rs = await request(
     GRAPHQL_URL,
     GET_ORDER_BY_ID,
-    { id }
+    {id}
   )
   return rs;
 }
@@ -82,11 +90,10 @@ export const getOrderByOwner = async (owner: string, first?: number, skip?: numb
   const rs = await request(
     GRAPHQL_URL,
     GET_ORDER_BY_OWNER,
-    { owner, first, skip }
+    {owner, first, skip}
   )
   return rs;
 }
-
 
 
 const GET_LIST_APPLICATION = gql`
@@ -102,7 +109,7 @@ export const getApplications = async () => {
   const rs = await request(
     GRAPHQL_URL,
     GET_LIST_APPLICATION,
-    { id: '' }
+    {id: ''}
   )
   return rs;
 }

@@ -1,3 +1,6 @@
+import { format } from "date-fns";
+
+
 export const BID_MARKETPLACE_CONTRACT_ADDRESS = '0x3Cbb48bCe9b6Ab3cb49f314dcD39bE83a1bd0e30'
 export const GRAPHQL_URL = 'https://subnet-graph.u2u.xyz/subgraphs/name/subnet/market'
 
@@ -11,3 +14,20 @@ export const RENTING_TIMES: Record<string, string> = {
   "6m": "6 months",
   "1y": "1 year",
 };
+
+
+export function formatDateWithTime(date?: Date, timeStr?: string): string {
+  if (!date || !timeStr) return "--";
+  
+  const [hours, minutes, seconds] = timeStr.split(":").map(Number);
+  const combined = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    hours || 0,
+    minutes || 0,
+    seconds || 0
+  );
+  
+  return isNaN(combined.getTime()) ? "--" : format(combined, "MMMM d, yyyy - HH:mm:ss");
+}

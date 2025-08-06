@@ -16,7 +16,7 @@ import {useMemo} from "react";
 
 const RequestDetail = () => {
   const {id} = useParams();
-  const {clusterDetail} = useClusterDetail(id as string);
+  const {clusterDetail, refetch} = useClusterDetail(id as string);
   
   const machineStatus = useMemo(() => {
     if (!clusterDetail) return '';
@@ -52,11 +52,11 @@ const RequestDetail = () => {
         <RequestDetailSection data={clusterDetail}/>
         <hr className="self-stretch h-0 my-8 outline outline-1 outline-offset-[-0.50px] outline-gray-300"/>
         {machineStatus === 'Accepted' ? (
-          <ProviderInformationSection data={clusterDetail}/>
+          <ProviderInformationSection clusterDetail={clusterDetail} refetch={refetch}/>
         ) : (
           <ProviderOfferSection/>
         )}
-     
+        
       
       </div>
     </div>

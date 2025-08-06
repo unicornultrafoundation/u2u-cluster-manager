@@ -32,6 +32,7 @@ export const useClusterDetail = (id: string) => {
         transactionHash: order.transactionHash,
         createdAt: new Date(Number(order.createdAt) * 1000),
         updatedAt: new Date(Number(order.updatedAt) * 1000),
+        
       }
     }
   })

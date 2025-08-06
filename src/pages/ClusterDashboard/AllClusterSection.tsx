@@ -329,7 +329,7 @@ const AllClusterSection = () => {
                                 {/*  View detail*/}
                                 {/*</DropdownMenuItem>*/}
                                 <DropdownMenuItem onClick={() => console.log('Request detail')}>
-                                  <Link to={`/request/${cluster.id}`}>  Upfront payment</Link>
+                                  <Link to={`/request/${cluster.id}`}>  Request payment</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={() => console.log('Machine detail')}>
                                   <Link to={`/machine/${cluster.id}`}> Machine details</Link>

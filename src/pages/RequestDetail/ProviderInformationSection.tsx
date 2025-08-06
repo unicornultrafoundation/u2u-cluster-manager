@@ -2,17 +2,18 @@ import Img from "@/assets/u2u_logo.png";
 import CpuIcon from "@/assets/icons/cpu.svg";
 import RamIcon from "@/assets/icons/ram.svg";
 import GpuIcon from "@/assets/icons/gpu.svg";
-import {RiDownload2Fill, RiShareCircleLine, RiUpload2Fill} from "@remixicon/react";
+import {RiDownload2Fill, RiUpload2Fill} from "@remixicon/react";
 import {Machine} from "@/types/machine.ts";
 import {Cluster} from "@/types";
-import {Button} from "@/components/ui/button.tsx";
+import MachineActions from "@/pages/RequestDetail/MachineActions.tsx";
 
 interface Props {
-  data?: Cluster;
+  clusterDetail?: Cluster;
+  refetch?: () => void;
 }
 
-const ProviderInformationSection = ({data}: Props) => {
-  const acceptedMachine = data?.acceptedMachine;
+const ProviderInformationSection = ({clusterDetail, refetch}: Props) => {
+  const acceptedMachine = clusterDetail?.acceptedMachine;
   const getStatusColor = (status: Machine['status']) => {
     switch (status) {
       case 'Running':
@@ -109,10 +110,7 @@ const ProviderInformationSection = ({data}: Props) => {
           </div>
         </div>
       </div>
-      <Button variant="outline" className=" flex gap-2 border-0">
-        <p className="font-semibold">View machine details</p>
-        <RiShareCircleLine className="w-5 h-5 text-neutral-400"/>
-      </Button>
+      <MachineActions clusterDetail={clusterDetail} refetch={refetch}/>
     </>
   
   

@@ -129,13 +129,13 @@ const ExtendTime = ({orderDetail}: Props) => {
               <div>
                 <div className="text-sm font-medium text-[#181B1E]">Date created</div>
                 <div className="mt-1 w-full px-4 py-3 bg-white rounded text-sm text-gray-600">
-                  {format(orderDetail.createdAt || "", "MMMM dd, yyyy - HH:mm:ss")}
+                  {orderDetail.createdAt ? format(orderDetail.createdAt, "MMMM dd, yyyy - HH:mm:ss") : "----"}
                 </div>
               </div>
               <div>
                 <div className="text-sm font-medium text-[#181B1E]">Expired time</div>
                 <div className="mt-1 w-full px-4 py-3 bg-white rounded text-sm text-gray-600">
-                  {format(orderDetail.expiredAt || "", "MMMM dd, yyyy - HH:mm:ss")}
+                  {orderDetail.expiredAt ? format(orderDetail.expiredAt, "MMMM dd, yyyy - HH:mm:ss") : "----"}
                 </div>
               </div>
               <div>

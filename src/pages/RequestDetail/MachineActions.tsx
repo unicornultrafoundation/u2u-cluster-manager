@@ -13,19 +13,17 @@ import {useState} from "react";
 import type {Cluster} from "@/types";
 import {toast} from "sonner";
 import {useCancelOrder} from "@/hooks/useCancelOrder.ts";
-import EditResource from "@/pages/MachineDetail/EditResource.tsx";
-import ExtendTime from "@/pages/MachineDetail/ExtendTime.tsx";
+import EditResource from "@/pages/RequestDetail/EditResource.tsx";
+import ExtendTime from "@/pages/RequestDetail/ExtendTime.tsx";
 
 interface Props {
   clusterDetail?: Cluster;
-  refetch: () => void;
-  id?: string;
+  refetch?: () => void;
 }
 
 export default function MachineActions({
                                          clusterDetail,
                                          refetch,
-                                         id
                                        }: Props) {
   const [openCancelOrderDialog, setOpenCancelOrderDialog] = useState(false);
   const {cancelOrder, isPending, error: cancelOrderError} = useCancelOrder()
@@ -34,8 +32,8 @@ export default function MachineActions({
   
   async function handleCancelOrder() {
     try {
-      await cancelOrder(id as string)
-      refetch()
+      await cancelOrder(clusterDetail?.acceptedMachine?.id as string)
+      refetch?.()
       setOpenCancelOrderDialog(false);
       toast.success('Cluster cancelled successfully');
     } catch (error) {
@@ -47,7 +45,7 @@ export default function MachineActions({
   
   
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 justify-between items-center gap-4 w-full mt-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 justify-between items-center gap-4  mt-6">
       {/* Edit Resources Sheet */}
       <EditResource orderDetail={clusterDetail}/>
       {/* Extend Time Dialog */}
@@ -58,10 +56,10 @@ export default function MachineActions({
         onOpenChange={setOpenCancelOrderDialog}
       >
         <DialogTrigger asChild>
-          <Button variant="destructive" className="flex-1 flex" disabled={isPending}>
+          <Button variant="destructive" className="flex-1 flex " disabled={isPending}>
             <RiCloseLine className="w-6 h-6 text-white"/>
             <span className="ml-2 text-white text-base font-semibold font-['Figtree']">
-              Cancel process
+              Cancel machine
             </span>
           </Button>
         </DialogTrigger>
@@ -77,12 +75,12 @@ export default function MachineActions({
             <div className="self-stretch inline-flex flex-col justify-start items-center gap-3">
               <DialogTitle>
                 <div className="text-zinc-900 text-2xl font-normal font-['Pixelyze'] uppercase leading-loose">
-                  cancel order
+                  Cancel machine
                 </div>
               </DialogTitle>
               <DialogDescription className="text-center text-gray-500 text-base font-medium font-['Figtree']">
-                Are you sure you want to cancel this order? We will refund your payment once you confirm canceling
-                this order.
+                Are you sure you want to cancel this machine? We will refund your payment once you confirm canceling
+                this machine.
               </DialogDescription>
             </div>
             <div className="flex justify-center items-center gap-4 mt-8">

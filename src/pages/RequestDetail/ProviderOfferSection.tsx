@@ -4,14 +4,17 @@ import {useScreenSize} from "@/hooks/useScreenSize.ts";
 import NoDataImg from "@/assets/no_data.png";
 import Img from "@/assets/u2u_logo.png";
 
-import CpuIcon from "@/assets/icons/cpu.svg";
-import RamIcon from "@/assets/icons/ram.svg";
+import RamIcon from "@/assets/icons/cpu.svg";
+import CpuIcon from "@/assets/icons/ram.svg";
 import GpuIcon from "@/assets/icons/gpu.svg";
 import {Button} from "@/components/ui/button.tsx";
-import {useProviderOffers} from "@/hooks/useProviderOffers.ts";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
 import {toast} from "sonner";
 import AcceptOffer from "@/pages/ClusterDetail/AcceptOffer.tsx";
+import {Order} from "@/types";
+import {shortenAddress} from "@/utils/string.ts";
+import {formatUnits} from "viem";
+import {Bid} from "@/types/bid.ts";
 
 
 const SkeletonCard = () => (
@@ -38,15 +41,18 @@ const SkeletonCard = () => (
   </div>
 );
 
-const ProviderOfferSection = () => {
+interface Props {
+  orderDetail?: Order;
+  isLoading?: boolean;
+}
+
+const ProviderOfferSection = ({orderDetail, isLoading}: Props) => {
   const [showAcceptOffer, setShowAcceptOffer] = useState(false)
-  const [offerId, setOfferId] = useState('')
   const screenSize = useScreenSize()
   const itemsPerPage = screenSize === 'mobile' ? 3 : 6;
   const [currentPage, setCurrentPage] = useState(1)
-  const {providerOffers, isLoading, total} = useProviderOffers({page: currentPage, limit: itemsPerPage})
-  const totalPages = Math.ceil(total / itemsPerPage);
-  
+  const totalPages = Math.ceil(10 / itemsPerPage);
+  const [bidDetail, setBidDetail] = useState<Bid>();
   
   const handleCopyClick = (address: string) => {
     navigator.clipboard
@@ -59,8 +65,6 @@ const ProviderOfferSection = () => {
         toast.error('Unable to copy');
       });
   };
-  
-  
   return (
     <div className="flex flex-col gap-6 w-full">
       <h5 className="uppercase font-titlet text-xl">provider offer</h5>
@@ -71,7 +75,7 @@ const ProviderOfferSection = () => {
               <SkeletonCard key={i}/>
             ))}
           </div>
-        ) : total === 0 ? (
+        ) : orderDetail?.bids?.length === 0 ? (
           <div className="w-full text-center flex flex-col items-center h-full min-h-[300px] md:min-h-[600px]">
             <img
               className="w-[93px] h-[83px] mx-auto mb-4"
@@ -87,17 +91,17 @@ const ProviderOfferSection = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {providerOffers?.map((machine) => (
-              <div key={machine.id} className="bg-white p-4 flex flex-col gap-4">
+            {orderDetail?.bids?.map((bid) => (
+              <div key={bid.id} className="bg-white p-4 flex flex-col gap-4">
                 <div className="flex items-center gap-3">
                   <img src={Img} alt="App Logo" className="w-12 h-12"/>
                   <div>
                     <div className="text-[#181B1E] font-bold text-lg tracking-widest font-title uppercase">
-                      {machine.providerName}
+                      {bid.machine.name}
                     </div>
                     <div className="text-[#6D6D6D] text-sm flex items-center gap-1">
-                      <p>{machine.providerAddress}</p>
-                      <button onClick={() => handleCopyClick(machine.providerAddress)} className="p-0">
+                      <p>{shortenAddress(bid.owner)}</p>
+                      <button onClick={() => handleCopyClick(bid.owner)} className="p-0">
                         <RiFileCopyLine className="w-4 h-4 text-neutral-400"/>
                       </button>
                     </div>
@@ -110,39 +114,40 @@ const ProviderOfferSection = () => {
                       Price
                     </p>
                     <p className="font-title text-black text-lg uppercase">
-                      {machine.price} {machine.currency}
+                      {orderDetail?.acceptedBidPrice ? formatUnits(orderDetail?.acceptedBidPrice, 18) : "----"} SCU
                     </p>
                   </div>
                   <div className="w-full px-4 py-3 ">
                     <p className="text-sm uppercase text-neutral-400 font-semibold mb-2">
                       machine system
                     </p>
-                    <div className="flex items-center gap-2">
-                      <img src={RamIcon} className="w-4 h-4" alt="ram"/>
-                      <p className="text-xs font-semibold">{machine.system.cpu}</p>
-                    </div>
+                    
                     <div className="flex items-center gap-2 mt-1">
                       <img src={CpuIcon} className="w-4 h-4" alt="cpu"/>
-                      <p className="text-xs font-semibold">{machine.system.ram}</p>
+                      <p className="text-xs font-semibold">{bid.machine.cpuCores} Cores</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <img src={RamIcon} className="w-4 h-4" alt="ram"/>
+                      <p className="text-xs font-semibold">{bid.machine.memoryMB / 1024} GB</p>
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                       <img src={GpuIcon} className="w-4 h-4" alt="disk"/>
-                      <p className="text-xs font-semibold">{machine.system.disk}</p>
+                      <p className="text-xs font-semibold">{bid.machine.gpuMemory} GB</p>
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                       <RiDownload2Fill className="w-4 h-4 fill-neutral-400"/>
-                      <p className="text-xs font-semibold">{machine.system.downloadMb}</p>
+                      <p className="text-xs font-semibold">{bid.machine.downloadSpeed} Mb/s</p>
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                       <RiUpload2Fill className="w-4 h-4 fill-neutral-400"/>
-                      <p className="text-xs font-semibold">{machine.system.uploadMb}</p>
+                      <p className="text-xs font-semibold">{bid.machine.uploadSpeed} Mb/s</p>
                     </div>
                   </div>
                 </div>
                 
                 <Button onClick={() => {
                   setShowAcceptOffer(true)
-                  setOfferId(machine.id)
+                  setBidDetail(bid)
                 }} variant="default" className="w-full">
                   Accept offer
                 </Button>
@@ -172,7 +177,7 @@ const ProviderOfferSection = () => {
           />
         </button>
       </div>
-      <AcceptOffer show={showAcceptOffer} onClose={() => setShowAcceptOffer(false)} id={offerId}/>
+      <AcceptOffer show={showAcceptOffer} onClose={() => setShowAcceptOffer(false)} orderId={orderDetail?.id} bidDetail={bidDetail}/>
     
     </div>
   )

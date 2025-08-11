@@ -11,9 +11,10 @@ interface OrderSummaryProps {
   form: UseFormReturn<z.infer<typeof formSchema>>;
   onBack?: () => void;
   onSubmit: (values: z.infer<typeof formSchema>) => void;
+  isLoading?: boolean;
 }
 
-export default function OrderSummary({form, onSubmit, onBack}: OrderSummaryProps) {
+export default function OrderSummary({form, onSubmit, onBack, isLoading}: OrderSummaryProps) {
   const values = form.watch();
   
   
@@ -57,18 +58,11 @@ export default function OrderSummary({form, onSubmit, onBack}: OrderSummaryProps
             </div>
           ))}
         </div>
-        {/* Dotted Line Separator */}
         <div className="relative my-6">
-          {/* Dotted line */}
           <div className="border-t border-dashed border-[#E5E7EB]"/>
-          
-          {/* Left circle */}
           <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-[32px] h-[32px] bg-neutral-50 rounded-full"/>
-          
-          {/* Right circle */}
           <div className="absolute -right-10 top-1/2 -translate-y-1/2 w-[32px] h-[32px] bg-neutral-50 rounded-full"/>
         </div>
-        {/* Transaction fee */}
         <div className="space-y-6 text-sm ">
           <div
             className="flex justify-between"
@@ -76,8 +70,6 @@ export default function OrderSummary({form, onSubmit, onBack}: OrderSummaryProps
             <span className="text-neutral-500">Transaction fee</span>
             <span className="font-medium">0.05 U2U</span>
           </div>
-          
-          {/* Total */}
           <div className="flex justify-between items-center text-sm mt-2">
             <p className="text-neutral-500">Total cost upfront</p>
             <p className="text-[#181B1E] font-title tracking-tight text-2xl">
@@ -85,7 +77,6 @@ export default function OrderSummary({form, onSubmit, onBack}: OrderSummaryProps
             </p>
           </div>
         </div>
-        {/* Buttons */}
         <div className="flex tablet:flex-row flex-col-reverse justify-between gap-4 pt-7">
           <Button
             onClick={onBack}
@@ -97,9 +88,10 @@ export default function OrderSummary({form, onSubmit, onBack}: OrderSummaryProps
           </Button>
           <Button
             type="submit"
+            disabled={isLoading}
             className="bg-black text-white w-full px-8 py-3  hover:bg-neutral-900"
           >
-            Proceed to payment
+            Send request
           </Button>
         </div>
       </form>

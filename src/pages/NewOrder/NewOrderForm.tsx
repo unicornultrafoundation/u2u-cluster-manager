@@ -1,28 +1,14 @@
-import {
-  Form,
-  FormControl, FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
+import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form"
 import {Input} from "@/components/ui/input"
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select"
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select"
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip"
 import {Button} from "@/components/ui/button"
 import {RiInformationFill} from "@remixicon/react"
 import {Path, PathValue, UseFormReturn} from "react-hook-form"
 import {z} from "zod"
 import {formSchema} from "."
-import u2u from "@/assets/u2u_logo.png";
 import {RENTING_TIMES} from "@/config/constant.ts";
-import { getMachineType } from "@/utils/machine"
+import {getMachineType} from "@/utils/machine"
 
 const LabelWithTooltip = ({
                             label,
@@ -60,7 +46,11 @@ export const NewOrderForm =  ({
   onBack: () => void
   onContinue: () => void
 }) => {
+  const {watch} = form
+  const appName = watch("name")
+  const appLogo = watch("logo")
   
+  console.log(form.getValues())
   
   const FORMS = [
     {
@@ -150,8 +140,8 @@ export const NewOrderForm =  ({
             <FormLabel>Application</FormLabel>
             <div
               className="w-full px-4 py-3 border border-[#EEF0F0] rounded bg-[#F8F9F9] flex items-center gap-2">
-              <img src={u2u} alt="logo" className="w-6 h-6 rounded-full"/>
-              <span className="text-sm text-[#181B1E] font-medium">U2U</span>
+              <img src={appLogo} alt="logo" className="w-6 h-6 rounded-full"/>
+              <span className="text-sm text-[#181B1E] font-medium">{appName}</span>
             </div>
           </div>
           

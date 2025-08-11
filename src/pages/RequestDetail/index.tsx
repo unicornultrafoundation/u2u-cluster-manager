@@ -16,7 +16,7 @@ import {useMemo} from "react";
 
 const RequestDetail = () => {
   const {id} = useParams();
-  const {orderDetail, refetch} = useOrderDetail(id as string);
+  const {orderDetail, refetch, isLoading} = useOrderDetail(id as string);
   
   const machineStatus = useMemo(() => {
     if (!orderDetail) return '';
@@ -54,7 +54,7 @@ const RequestDetail = () => {
         {machineStatus === 'Accepted' ? (
           <ProviderInformationSection orderDetail={orderDetail} refetch={refetch}/>
         ) : (
-          <ProviderOfferSection/>
+          <ProviderOfferSection orderDetail={orderDetail} isLoading={isLoading}/>
         )}
         
       

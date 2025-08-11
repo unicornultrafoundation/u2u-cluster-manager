@@ -1,4 +1,3 @@
-import {useEffect} from "react";
 import {Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle,} from "@/components/ui/drawer";
 import {Button} from "@/components/ui/button";
 import {RiCheckFill, RiCloseLine} from "@remixicon/react";
@@ -10,28 +9,32 @@ import {filterMachineSchema} from "@/pages/ClusterDashboard/AllMachineSection.ts
 interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
-  resetFilter?: () => void;
-  applyFilter?: (selected: string) => void;
+  applyFilter?: () => void;
   form: UseFormReturn<z.infer<typeof filterMachineSchema>>;
   
 }
 
-const sortOptions = ["Sort by newest", "Sort by oldest", "Sort by status"];
+const sortOptions = ["Date"];
 
 export const MachineSortModal = ({
                             isOpen,
                             onClose,
-                            resetFilter,
                             applyFilter,
                             form
                           }: FilterModalProps) => {
   const selectedSort = form.watch('sortBy')
   
-  useEffect(() => {
-    if(selectedSort) {
-      return form.setValue("sortBy", selectedSort)
+  const handleSortChange = (option: string) => {
+    if (option === "Date") {
+      form.setValue('sortBy', 'createdAt');
     }
-  }, [form])
+  };
+  
+  const resetFilter = () => {
+    form.setValue('sortBy', '')
+  }
+
+  
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
       <DrawerContent className="!rounded-t-[0px] px-6 bg-[#F7F8F8]">
@@ -51,12 +54,12 @@ export const MachineSortModal = ({
             <button
               key={option}
               className={clsx(
-                "w-full text-left px-4 py-3 rounded-md flex items-center justify-between",
+                "w-full text-left px-2 py-3 rounded-md flex items-center justify-between",
                 selectedSort === option
                   ? "bg-white font-medium text-[#181B1E]"
                   : "text-[#6B7A78] hover:bg-white"
               )}
-              onClick={() => form.setValue('sortBy',option)}
+              onClick={() => handleSortChange(option)}
             >
               {option}
               {selectedSort === option && (
@@ -72,7 +75,7 @@ export const MachineSortModal = ({
             variant="outline"
             className="w-full bg-white"
             onClick={() => {
-              resetFilter?.();
+              resetFilter();
               onClose();
             }}
           >
@@ -81,7 +84,7 @@ export const MachineSortModal = ({
           <Button
             className="w-full bg-[#181B1E] text-white"
             onClick={() => {
-              applyFilter?.(selectedSort ?? 'Sort by newest')
+              applyFilter?.()
               onClose();
             }}
           >

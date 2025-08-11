@@ -1,5 +1,6 @@
 import {GRAPHQL_URL} from '@/config/constant';
 import {gql, request} from 'graphql-request'
+import {getDayTimestamps} from "@/utils/string.ts";
 
 const MACHINE_FIELD = gql`
   id
@@ -97,22 +98,108 @@ export const getOrderById = async (id: string) => {
   return rs;
 }
 
-const GET_ORDER_BY_OWNER = gql`
-  query GetOrderByOwner($owner: String!,  $first: Int, $skip: Int,) {
-    orders(first: $first, orderDirection: desc, skip: $skip , where: { owner: $owner }) {
-      ${ORDER_FIELD}
-    }
-  }
-`
+// const GET_ORDER_BY_OWNER = gql`
+//   query GetOrderByOwner(
+//     $owner: String!
+//       $first: Int!
+//       $skip: Int!
+//       $orderStatus: String
+//       $machineType: String
+//       $createdGte: Int
+//       $createdLte: Int
+//       $expiredAt: Int
+//       $orderBy: String!
+//   ) {
+//   {
+//       orders(
+//         where: {
+//           owner: $owner
+//           ${orderStatus ? `status: $orderStatus` : ''}
+//           ${machineType ? `machineType: $machineType` : ''}
+//           ${createdGte ? `createdAt_gte: $createdGte` : ''}
+//           ${createdLte ? `createdAt_lte: $createdLte` : ''}
+//           ${expiredAt ? `expiredAt: $expiredAt` : ''}
+//         }
+//         first: $first
+//         skip: $skip
+//         orderBy: $orderBy
+//         orderDirection: desc
+//       ) {
+//         ${ORDER_FIELD}
+//       }
+//     }
+// `
 
-export const getOrderByOwner = async (owner: string, first?: number, skip?: number) => {
-  const rs = await request(
-    GRAPHQL_URL,
-    GET_ORDER_BY_OWNER,
-    {owner, first, skip}
-  )
-  return rs;
-}
+export const getOrderByOwner = async (
+  owner: string,
+  first: number = 10,
+  skip: number = 0,
+  orderStatus?: string,
+  machineType?: string,
+  createdAt?: number,
+  expiredAt?: number,
+  orderBy?: string,
+) => {
+  
+  let createdGte: number | undefined;
+  let createdLte: number | undefined;
+  
+  if (createdAt && !isNaN(createdAt)) {
+    const date = new Date(createdAt * 1000);
+    if (!isNaN(date.getTime())) {
+      const [fromSec, toSec] = getDayTimestamps(date);
+      createdGte = fromSec;
+      createdLte = toSec;
+    } else {
+      console.error("Invalid Date:", createdAt);
+    }
+  } else {
+    console.error("Invalid createdAt value:", createdAt);
+  }
+
+  const query = gql`
+    query GetOrders(
+      $owner: String!
+      $first: Int!
+      $skip: Int!
+      $orderStatus: String
+      $machineType: String
+      $createdGte: Int
+      $createdLte: Int
+      $expiredAt: Int
+      $orderBy: String
+    ) {
+      orders(
+        where: {
+          owner: $owner
+          ${orderStatus ? `status: $orderStatus` : ''}
+          ${machineType ? `machineType: $machineType` : ''}
+          ${createdGte ? `createdAt_gte: $createdGte` : ''}
+          ${createdLte ? `createdAt_lte: $createdLte` : ''}
+          ${expiredAt ? `expiredAt: $expiredAt` : ''}
+        }
+        first: $first
+        skip: $skip
+        ${orderBy ? `orderBy: $orderBy` :  ''}
+        orderDirection: desc
+      ) {
+        ${ORDER_FIELD}
+      }
+    }
+  `;
+  
+  return await request(GRAPHQL_URL, query, {
+    owner,
+    first,
+    skip,
+    orderStatus,
+    machineType,
+    createdGte,
+    createdLte,
+    expiredAt,
+    orderBy,
+  });
+};
 
 
 const GET_LIST_APPLICATION = gql`

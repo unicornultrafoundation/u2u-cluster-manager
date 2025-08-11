@@ -11,8 +11,9 @@ import {RiArrowDownSLine, RiCloseLine} from "@remixicon/react";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
 import {z} from "zod";
 import {UseFormReturn} from "react-hook-form";
-import {filterClusterSchema} from "@/pages/ClusterDashboard/AllClusterSection.tsx";
+import {filterClusterSchema} from "@/pages/ClusterDashboard/AllRequestSection.tsx";
 import {Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle} from "@/components/ui/sheet.tsx";
+import {getMachineType} from "@/utils/machine.ts";
 
 interface FilterModalProps {
   isOpen: boolean;
@@ -22,7 +23,7 @@ interface FilterModalProps {
   form: UseFormReturn<z.infer<typeof filterClusterSchema>>;
 }
 
-export const FilterClusterModal = ({
+export const FilterOrderModal = ({
                                      isOpen,
                                      onClose,
                                      resetFilter,
@@ -53,8 +54,8 @@ export const FilterClusterModal = ({
         <div className="space-y-4 flex-1 overflow-y-auto w-full">
           <DropdownMenu>
             <DropdownMenuTrigger asChild className="w-full md:w-[200px]">
-              <Button variant="outline" className="w-full justify-between border-0 rounded-none">
-                {selectedApplication}
+              <Button variant="outline" className="py-2 px-2 lg:px-4 w-full gap-1 items-center justify-between  border-0 rounded-none">
+                {selectedApplication ? selectedApplication : "Applications"}
                 <RiArrowDownSLine className="w-5 h-5 text-muted-foreground"/>
               </Button>
             </DropdownMenuTrigger>
@@ -68,30 +69,48 @@ export const FilterClusterModal = ({
           <div className="flex gap-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild className="w-full md:w-[200px]">
-                <Button variant="outline" className="w-full justify-between border-0 rounded-none">
-                  {selectedType}
+                <Button variant="outline"
+                        className="py-2 px-2 lg:px-4  w-full gap-1 items-center justify-between border-0 rounded-none">
+                  {selectedType ? getMachineType(selectedType) : "All Types"}
                   <RiArrowDownSLine className="w-5 h-5 text-muted-foreground"/>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className='w-[var(--radix-dropdown-menu-trigger-width)] border-0 rounded-none'>
-                <DropdownMenuItem onClick={() => form.setValue('type','All types')}>
-                  All types
+                <DropdownMenuItem onClick={() => form.setValue("type", '')}>
+                  All
                 </DropdownMenuItem>
-                {/* Add more types */}
+                <DropdownMenuItem onClick={() => form.setValue("type", '1')}>
+                  Docker
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => form.setValue("type", '2')}>
+                  Kubernetes
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => form.setValue("type", '3')}>
+                  Kvm
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <DropdownMenu>
               <DropdownMenuTrigger asChild className="w-full md:w-[200px]">
-                <Button variant="outline" className="w-full justify-between border-0 rounded-none">
-                  {selectedStatus}
+                <Button variant="outline"
+                        className="py-2 px-2 lg:px-4  w-full gap-1 items-center justify-between border-0 rounded-none">
+                  {selectedStatus ? selectedStatus : "All status"}
                   <RiArrowDownSLine className="w-5 h-5 text-muted-foreground"/>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className='w-[var(--radix-dropdown-menu-trigger-width)] border-0 rounded-none'>
-                <DropdownMenuItem onClick={() => form.setValue('status','All status')}>
-                  All status
+                <DropdownMenuItem onClick={() => form.setValue("status", '')}>
+                  All Status
                 </DropdownMenuItem>
-                {/* Add more statuses */}
+                <DropdownMenuItem onClick={() => form.setValue("status", 'Created')}>
+                  Created
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => form.setValue("status", 'Accepted')}>
+                  Accepted
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => form.setValue("status", 'Cancelled')}>
+                  Cancelled
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import StatSection from './StatSection';
-import AllClusterSection from './AllClusterSection';
+import AllRequestSection from './AllRequestSection.tsx';
 import AllMachineSection from "@/pages/ClusterDashboard/AllMachineSection.tsx";
 
 const ClusterDashboard: React.FC = () => {
@@ -16,7 +16,7 @@ const ClusterDashboard: React.FC = () => {
         <div className='py-8'>
           <div className="self-stretch h-0 outline outline-1 outline-offset-[-0.50px] outline-gray-300"></div>
         </div>
-        <AllClusterSection />
+        <AllRequestSection />
         
         {/* <div className="mt-8">
           <h2 className="text-2xl font-bold mb-4">Recent Activity</h2>

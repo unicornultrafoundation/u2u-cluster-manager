@@ -93,8 +93,7 @@ const ProviderInformationSection = ({orderDetail, refetch}: Props) => {
         
         <div className="bg-white p-4 w-full  flex flex-col gap-4">
           <div>
-            <p className="text-xs uppercase text-neutral-400 font-semibold"><p
-              className="text-xs uppercase text-neutral-400 font-semibold">download speed</p></p>
+            <p className="text-xs uppercase text-neutral-400 font-semibold">download speed</p>
             <div className="text-lg font-semibold text-zinc-900 flex items-center gap-2 mt-1">
               <RiDownload2Fill className="w-5 h-5 fill-neutral-400"/>
               <p className="text-xs uppercase">{acceptedMachine?.downloadSpeed} Mb/s</p>

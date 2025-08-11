@@ -23,9 +23,20 @@ export const useOrderDetail = (id: string) => {
         diskGB: Number(order.diskGB),
         uploadMbps: Number(order.uploadMbps),
         downloadMbps: Number(order.downloadMbps),
+        acceptedBidPrice: order.acceptedBidPrice,
         specs: order.specs,
         // acceptedProvider: string | null
         acceptedMachine: order.acceptedMachine,
+        bids: Array.isArray(order.bids)
+          ? order.bids.map((bid: any) => ({
+            id: bid.id,
+            status: bid.status,
+            bidIndex: bid.bidIndex,
+            owner: bid.owner,
+            acceptedBidPrice: bid.acceptedBidPrice,
+            machine: bid.machine,
+          }))
+          : null,
         startAt: order.startAt ? new Date(order.startAt) : null,
         expiredAt: order.expiredAt ? new Date(order.expiredAt) : null,
         lastPaidAt: order.lastPaidAt ? new Date(order.lastPaidAt) : null,

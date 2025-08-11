@@ -19,12 +19,14 @@ interface CreateNewClusterProps {
   diskGB: number;
   uploadMbps: number;
   downloadMbps: number;
-  specs: string;
+  specs: {
+    template_id: string;
+  };
 }
 
-export const useCreateNewCluster = () => {
+export const useCreateNewOrder = () => {
   const { data: hash, writeContractAsync, reset: resetWriteContract } = useWriteContract()
-  const {mutateAsync: createNewCluster, reset: resetCreateNewCluster, isPending} = useMutation({
+  const {mutateAsync: createNewOrder, reset: resetCreateNewOrder, isPending} = useMutation({
     mutationFn: async (params: CreateNewClusterProps) => {
       const rs = await writeContractAsync({
         address: BID_MARKETPLACE_CONTRACT_ADDRESS,
@@ -43,7 +45,7 @@ export const useCreateNewCluster = () => {
           params.diskGB,
           params.uploadMbps,
           params.downloadMbps,
-          params.specs
+          JSON.stringify(params.specs)
         ],
       })
       // const rs = '0x554b2631cdfbf9b74a7593b021194225df2899dc76d9c8dac048bf826b9b5e00'
@@ -62,12 +64,12 @@ export const useCreateNewCluster = () => {
   }, [hash]);
 
   return {
-    createNewCluster,
+    createNewOrder,
     hash,
     isPending,
     reset: () => {
       resetWriteContract();
-      resetCreateNewCluster();
+      resetCreateNewOrder();
     }
   };
 };

@@ -87,7 +87,7 @@ function App() {
             <Route path="/depin-hub" element={<DePINHub />} />
             <Route path="/machine/:id" element={<MachineDetail />} />
             <Route path="/request/:id" element={<RequestDetail />} />
-            <Route path="/cluster/new" element={<NewOrder />} />
+            <Route path="/order/new" element={<NewOrder />} />
             {/* Catch all route - redirect to dashboard */}
             <Route path="*" element={<ClusterDashboard />} />
           </Routes>

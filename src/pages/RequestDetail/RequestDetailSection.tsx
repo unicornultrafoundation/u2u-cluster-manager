@@ -1,7 +1,7 @@
 import {RiDownload2Fill, RiUpload2Fill} from "@remixicon/react";
 import Img from "@/assets/u2u_logo.png";
-import CpuIcon from "@/assets/icons/cpu.svg";
-import RamIcon from "@/assets/icons/ram.svg";
+import RamIcon from "@/assets/icons/cpu.svg";
+import CpuIcon from "@/assets/icons/ram.svg";
 import GpuIcon from "@/assets/icons/gpu.svg";
 import {Order} from "@/types";
 
@@ -73,24 +73,24 @@ const RequestDetailSection = ({data}: Props) => {
       
       <div className="bg-white p-4 w-full  border-b md:border-b-0 md:border-r border-[#EEF0F0] flex flex-col gap-4">
         <div>
-          <p className="text-xs uppercase text-neutral-400 font-semibold">ram required</p>
-          <div className="text-lg font-semibold text-zinc-900 flex items-center gap-2 mt-1">
-            <img src={RamIcon} className="w-5 h-5" alt="CPU"/>
-            <p className="text-xs uppercase">{data?.memoryMB} Cores</p>
-          </div>
-        </div>
-        <div>
           <p className="text-xs uppercase text-neutral-400 font-semibold">cpu required</p>
           <div className="text-lg font-semibold text-zinc-900 flex items-center gap-2 mt-1">
             <img src={CpuIcon} className="w-5 h-5" alt="CPU"/>
-            <p className="text-xs">{data?.cpuCores} GB </p>
+            <p className="text-xs uppercase">{data?.cpuCores} Cores</p>
+          </div>
+        </div>
+        <div>
+          <p className="text-xs uppercase text-neutral-400 font-semibold">ram required</p>
+          <div className="text-lg font-semibold text-zinc-900 flex items-center gap-2 mt-1">
+            <img src={RamIcon} className="w-5 h-5" alt="CPU"/>
+            <p className="text-xs">{data?.memoryMB} GB </p>
           </div>
         </div>
         <div>
           <p className="text-xs uppercase text-neutral-400 font-semibold">gpu required</p>
           <div className="text-lg font-semibold text-zinc-900 flex items-center gap-2 mt-1">
             <img src={GpuIcon} className="w-5 h-5" alt="CPU"/>
-            <p className="text-xs uppercase">{data?.gpuCores} GB</p>
+            <p className="text-xs uppercase">{data?.gpuMemory} GB</p>
           </div>
         </div>
       </div>

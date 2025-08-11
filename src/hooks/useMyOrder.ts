@@ -5,22 +5,36 @@ import {useQuery} from "@tanstack/react-query";
 import {useAccount} from "wagmi";
 
 
-interface Props {
-  page?: number
-  limit?: number
+export interface QueryParams {
+  page: number
+  limit: number
+  expiredAt?: number
+  createdAt?: number
+  status?: string
+  machineType?: string
+  orderBy?: string,
+  queryKey: string
 }
 
-export const useMyOrder = (props: Props) => {
-  const { page, limit } = props;
-  const { address } = useAccount()
-  const { data: myOrders, isLoading, error, refetch } = useQuery<Order[]>({
-    queryKey: ["myOrder", address],
+export const useMyOrder = (props: QueryParams) => {
+  const {
+    page, limit, queryKey,
+    createdAt, expiredAt,
+    status, machineType, orderBy
+  } = props;
+  
+  const {address} = useAccount()
+  const skip = (page - 1) * limit;
+  const {data: myOrders, isLoading, error, refetch} = useQuery<Order[]>({
+    queryKey: [queryKey, address, limit, skip, status, machineType, createdAt, expiredAt, orderBy],
     queryFn: async () => {
-      if (!address) {
+      if(!address) {
         return [] as Order[];
       }
-      const rs = await getOrderByOwner(address, limit, page) as any;
-
+      
+      const rs = await getOrderByOwner(address, limit, skip, status, machineType, createdAt, expiredAt, orderBy) as any;
+      
+      console.log(rs)
       return rs.orders.map((order: any) => {
         return {
           id: order.id,
@@ -49,7 +63,7 @@ export const useMyOrder = (props: Props) => {
       })
     },
   });
-
+  
   return {
     myOrders,
     isLoading,

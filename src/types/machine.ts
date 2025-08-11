@@ -31,3 +31,20 @@ export interface Machine {
   memoryPricePerSecond: number
   diskPricePerSecond: number
 }
+
+
+export interface ProviderOffer {
+  id: string
+  providerName: string
+  providerAddress: string
+  price: number
+  currency: string
+  system: {
+    cpu: string
+    ram: string
+    disk: string
+    uploadMb: string
+    downloadMb: string
+  }
+  status: "available" | "accepted" | "expired"
+}

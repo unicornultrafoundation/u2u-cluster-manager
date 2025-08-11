@@ -1,6 +1,6 @@
 import {Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger,} from "@/components/ui/sheet.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {RiArrowDownLine, RiCloseLine, RiEditBoxLine} from "@remixicon/react";
+import {RiAddLine, RiArrowDownLine, RiCloseLine} from "@remixicon/react";
 import {useState} from "react";
 import {Input} from "@/components/ui/input.tsx";
 import type {Order} from "@/types";
@@ -99,10 +99,10 @@ const EditResource = ({orderDetail}: { orderDetail: Order }) => {
     <>
       <Sheet open={openEditSheet} onOpenChange={setOpenEditSheet}>
         <SheetTrigger asChild>
-          <Button variant="secondary" className="flex-1 flex">
-            <RiEditBoxLine className="w-6 h-6 text-neutral-400"/>
+          <Button variant="outline" className="flex-1 flex border-0">
+            <RiAddLine className="w-6 h-6 text-neutral-400"/>
             <span className="ml-2 text-neutral-600 text-base font-semibold font-['Figtree']">
-            Edit resources
+            Request new resources
           </span>
           </Button>
         </SheetTrigger>
@@ -110,7 +110,7 @@ const EditResource = ({orderDetail}: { orderDetail: Order }) => {
                       className="w-full md:max-w-[480px] lg:max-w-[560px] flex flex-col justify-between p-4 md:p-6 bg-neutral-50 overflow-y-auto">
           <div>
             <SheetHeader className="flex flex-row items-center justify-between px-0 space-y-0">
-              <SheetTitle className="text-2xl !font-normal uppercase">Edit Cluster’s Resources</SheetTitle>
+              <SheetTitle className="text-2xl !font-normal uppercase">Request New Resources</SheetTitle>
               <SheetClose onClick={() => setOpenEditSheet(false)} className="rounded hover:bg-muted">
                 <RiCloseLine className="w-6 h-6 text-[#181B1E]"/>
               </SheetClose>

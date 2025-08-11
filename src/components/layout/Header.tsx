@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { RiArrowDownSFill, RiSunFill, RiMoonFill, RiMenuLine } from '@remixicon/react'
+import {RiArrowDownSFill, RiSunFill, RiMoonFill, RiMenuLine, RiAddLine} from '@remixicon/react'
 import { Link, useLocation } from "react-router-dom";
 import { useAppKit } from '@reown/appkit/react'
 import { useAuthStore } from '@/store/authStore'
@@ -109,7 +109,12 @@ const Header: React.FC<HeaderProps> = ({ sidebarOpen, setSidebarOpen }) => {
               <RiMoonFill className="w-5 h-5 text-zinc-700" />
             )}
           </Button> */}
-
+          <Link to="/order/new">
+            <Button variant="default" size="default" className="w-full md:w-auto rounded-none">
+              <RiAddLine className="w-5 h-5"/>
+              Create New Request
+            </Button>
+          </Link>
           
           {/* Connect Wallet Button - Hidden on mobile */}
           <Button

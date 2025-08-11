@@ -15,12 +15,12 @@ import {Button} from "@/components/ui/button";
 import {useParams} from "react-router-dom";
 import {useMachineStatus} from "@/hooks/useMachineStatus";
 import MachineActions from "@/pages/MachineDetail/MachineActions.tsx";
-import {useClusterDetail} from "@/hooks/useClusterDetail.ts";
+import {useOrderDetail} from "@/hooks/useOrderDetail.ts";
 
 const MachineDetail = () => {
   const {id} = useParams();
-  const {clusterDetail, isLoading, error, refetch} = useClusterDetail(id as string);
-  const {machineStatus} = useMachineStatus(clusterDetail?.acceptedMachine?.publicIp || "");
+  const {orderDetail, isLoading, error, refetch} = useOrderDetail(id as string);
+  const {machineStatus} = useMachineStatus(orderDetail?.acceptedMachine?.publicIp || "");
   
   // useEffect(() => {
   //   if(clusterDetail) {
@@ -30,13 +30,13 @@ const MachineDetail = () => {
   // }, [clusterDetail]);
   
   function renderControlSection() {
-    if(!clusterDetail) return null;
-    if(clusterDetail?.acceptedMachine?.status === "Running") {
+    if(!orderDetail) return null;
+    if(orderDetail?.acceptedMachine?.status === "Running") {
       return (
-        <MachineActions clusterDetail={clusterDetail} id={id} refetch={refetch}/>
+        <MachineActions orderDetail={orderDetail} id={id} refetch={refetch}/>
       );
     }
-    if(clusterDetail?.acceptedMachine?.status === "Failed") {
+    if(orderDetail?.acceptedMachine?.status === "Failed") {
       return (
         <Button disabled variant="secondary" className="flex-1 flex w-full">
           Cancelled
@@ -59,7 +59,7 @@ const MachineDetail = () => {
     );
   }
   
-  if(isLoading || !clusterDetail) {
+  if(isLoading || !orderDetail) {
     return <div>Loading...</div>;
   }
   if(error) {
@@ -87,20 +87,20 @@ const MachineDetail = () => {
           <img src={ILLUS} alt="illus" className="w-28 py-5 px-2"/>
           <div className="self-stretch flex flex-col justify-start items-start">
             <div className="justify-start text-zinc-900 text-2xl font-normal font-['Pixelyze'] uppercase leading-loose">
-              {clusterDetail.status === "Created"
+              {orderDetail.status === "Created"
                 ? "Active cluster"
-                : clusterDetail.status === "Accepted"
+                : orderDetail.status === "Accepted"
                   ? "Cluster is being created..."
-                  : clusterDetail.status === "Cancelled"
+                  : orderDetail.status === "Cancelled"
                     ? "Cancelled"
                     : "Cluster is being created..."}
             </div>
             <div className="justify-start text-gray-500 text-sm font-normal font-['Figtree'] leading-normal">
-              {clusterDetail.status === "Created"
+              {orderDetail.status === "Created"
                 ? "This cluster is currently activated"
-                : clusterDetail.status === "Accepted"
+                : orderDetail.status === "Accepted"
                   ? "Please wait for your order to be completed"
-                  : clusterDetail.status === "Cancelled"
+                  : orderDetail.status === "Cancelled"
                     ? "The order has been cancelled"
                     : "Please wait for your order to be completed"}
             </div>
@@ -124,7 +124,7 @@ const MachineDetail = () => {
               Total CPU cores
             </div>
             <div className="justify-center text-white text-xl font-normal font-['Pixelyze'] uppercase leading-loose">
-              {clusterDetail.cpuCores} Cores
+              {orderDetail.cpuCores} Cores
             </div>
           </div>
           <div className="flex-1 z-10 relative h-12 inline-flex flex-col justify-start items-center gap-1">
@@ -133,7 +133,7 @@ const MachineDetail = () => {
               Total RAM memory
             </div>
             <div className="justify-center text-white text-xl font-normal font-['Pixelyze'] uppercase leading-loose">
-              {clusterDetail.memoryMB} GB
+              {orderDetail.memoryMB} GB
             </div>
           </div>
           <div className="flex-1 z-10 relative h-12 inline-flex flex-col justify-start items-center gap-1">
@@ -142,7 +142,7 @@ const MachineDetail = () => {
               Total GPU memory
             </div>
             <div className="justify-center text-white text-xl font-normal font-['Pixelyze'] uppercase leading-loose">
-              {clusterDetail.gpuMemory} GB
+              {orderDetail.gpuMemory} GB
             </div>
           </div>
         </div>
@@ -155,7 +155,7 @@ const MachineDetail = () => {
             <div className="flex justify-center items-center gap-2">
               <div
                 className="justify-center  text-zinc-900 text-xs md:text-sm lg:text-base font-medium font-['Figtree'] leading-normal">
-                #{clusterDetail.id}
+                #{orderDetail.id}
               </div>
               <Button variant="ghost" size="sm" className="p-0">
                 <RiFileCopyLine className="w-6 h-6 text-neutral-500"/>
@@ -169,7 +169,7 @@ const MachineDetail = () => {
             </div>
             <div
               className="justify-center text-zinc-900 text-xs md:text-sm lg:text-base font-medium font-['Figtree'] leading-normal">
-              {clusterDetail.acceptedMachine?.machineType}
+              {orderDetail.acceptedMachine?.machineType}
             </div>
           </div>
           <div className="self-stretch inline-flex justify-between items-center">
@@ -179,10 +179,10 @@ const MachineDetail = () => {
             </div>
             <Badge
               variant={
-                clusterDetail.acceptedMachine?.status === "Running" ? "success" : "processing"
+                orderDetail.acceptedMachine?.status === "Running" ? "success" : "processing"
               }
             >
-              {clusterDetail.acceptedMachine?.status}
+              {orderDetail.acceptedMachine?.status}
             </Badge>
           </div>
           <div className="self-stretch inline-flex justify-between items-center">
@@ -242,7 +242,7 @@ const MachineDetail = () => {
             </div>
             <div
               className="justify-center text-zinc-900 text-xs md:text-sm lg:text-base font-medium font-['Figtree'] leading-normal">
-              {clusterDetail.acceptedMachine?.description}
+              {orderDetail.acceptedMachine?.description}
             </div>
           </div>
           

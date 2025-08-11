@@ -13,6 +13,7 @@ import {useAuthStore} from '@/store/authStore'
 import '@/styles/globals.css'
 import MachineDetail from "@/pages/MachineDetail";
 import NewOrder from "@/pages/NewOrder";
+import RequestDetail from "@/pages/RequestDetail";
 
 function App() {
   const { address: wagmiAddress, isConnected: wagmiConnected } = useAccount()
@@ -85,7 +86,8 @@ function App() {
             <Route path="/wallet" element={<MyWallet />} />
             <Route path="/depin-hub" element={<DePINHub />} />
             <Route path="/machine/:id" element={<MachineDetail />} />
-            <Route path="/cluster/new" element={<NewOrder />} />
+            <Route path="/request/:id" element={<RequestDetail />} />
+            <Route path="/order/new" element={<NewOrder />} />
             {/* Catch all route - redirect to dashboard */}
             <Route path="*" element={<ClusterDashboard />} />
           </Routes>

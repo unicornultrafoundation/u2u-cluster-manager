@@ -5,7 +5,7 @@ import BID_ABI from "@/abi/SUBNET_BID_MARKETPLACE.json";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
 import {useState} from "react";
-import {useCreateNewCluster} from "@/hooks/useCreateNewCluster";
+import {useCreateNewOrder} from "@/hooks/useCreateNewOrder.ts";
 import {convertTimeToDurationInSeconds} from "@/utils/datetime";
 import {Link} from "react-router-dom";
 import {
@@ -23,7 +23,8 @@ import {NewOrderForm} from "@/pages/NewOrder/NewOrderForm.tsx";
 import OrderSummary from "@/pages/NewOrder/Summary.tsx";
 
 export const formSchema = z.object({
-  // name: z.string(),
+  name: z.string(),
+  logo: z.string(),
   cpu: z.number().min(1),
   ram: z.number().min(1),
   gpu: z.number().min(1),
@@ -37,11 +38,13 @@ export const formSchema = z.object({
   description: z.string(),
   region: z.string(),
   machineType: z.string(),
+  templateId: z.number(),
 });
 
 const NewOrder = () => {
   const [step, setStep] = useState(1)
-  const {createNewCluster} = useCreateNewCluster();
+  const {createNewOrder, isPending} = useCreateNewOrder();
+  
   const form = useForm<z.infer<typeof formSchema>>({
     mode: "all",
     reValidateMode: "onChange",
@@ -61,16 +64,13 @@ const NewOrder = () => {
   });
   
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    // console.log(values);
     const validated = await form.trigger();
     if(!validated) {
       return;
     }
     
     try {
-      const rs = await createNewCluster({
+      const rs = await createNewOrder({
         machineType: Number(values.machineType),
         duration: convertTimeToDurationInSeconds(values.rentingTime),
         minBidPrice: values.minBidPrice,
@@ -79,11 +79,13 @@ const NewOrder = () => {
         cpuCores: values.cpu,
         gpuCores: values.gpu,
         gpuMemory: values.gpu,
-        memoryMB: values.ram * 1024,
+        memoryMB: values.ram,
         diskGB: values.disk,
         uploadMbps: values.uploadMbps,
         downloadMbps: values.downloadMbps,
-        specs: values.description,
+        specs: {
+          template_id: values.templateId.toString(),
+        }
       })
       
       const parsedLogs = parseEventLogs({
@@ -95,14 +97,16 @@ const NewOrder = () => {
       if(parsedLogs[0]) {
         const orderId = Number((parsedLogs[0] as any).args.orderId);
         
-        toast.success('Cluster created successfully', {
+        toast.success('Order created successfully', {
           description: () => (
             <div>
-              <Link className="underline" to={`/cluster/${orderId}`}>View detail</Link>
+              <Link className="underline" to={`/request/${orderId}`}>View detail</Link>
             </div>
           ),
         });
       }
+      setStep(1);
+      form.reset();
     } catch (error) {
       toast.error('Failed to create cluster', {
         description: `Failed to create cluster. Error: ${error}`,
@@ -112,12 +116,12 @@ const NewOrder = () => {
   
   const renderStep = () => {
     if(step === 1) {
-      return <SelectApplication onContinue={() => setStep(2)}/>
+      return <SelectApplication onContinue={() => setStep(2)} form={form}/>
     }
     if(step === 2) {
       return <NewOrderForm onContinue={() => setStep(3)} onBack={() => setStep(1)} form={form}/>
     }
-    return <OrderSummary onBack={() => setStep(2)} form={form} onSubmit={onSubmit}/>
+    return <OrderSummary isLoading={isPending} onBack={() => setStep(2)} form={form} onSubmit={onSubmit}/>
     
   }
   

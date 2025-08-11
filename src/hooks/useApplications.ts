@@ -1,26 +1,25 @@
-import {Application} from "@/types/cluster";
-import {useQuery} from "@tanstack/react-query";
-import {getApplications} from "@/services/order.ts";
+import { Application } from "@/types/cluster";
+import { useQuery } from "@tanstack/react-query";
+import {SUBNET_APPS_URL} from "@/config/constant.ts";
 
-export const useApplications = (id: string) => {
-  const {data, isLoading, error, refetch} = useQuery<Application>({
-    queryKey: ['list-application', id],
+export const useApplications = () => {
+  const { data, isLoading, error, refetch } = useQuery<Application[]>({
+    queryKey: ['list-application'],
     queryFn: async () => {
-      const rs = await getApplications() as any
-      const order = rs.order;
-      return {
-        id: order.id,
-        name: order.name,
-        createdAt: new Date(Number(order.createdAt) * 1000),
-        updatedAt: new Date(Number(order.updatedAt) * 1000),
+      const res = await fetch(SUBNET_APPS_URL);
+      if (!res.ok) {
+        throw new Error('Failed to fetch applications');
       }
-    }
-  })
-
+      const rawData = await res.json();
+      return rawData as Application[];
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+  
   return {
-    applications: data,
+    applications: data || [],
     isLoading,
     error,
     refetch,
-  }
+  };
 };

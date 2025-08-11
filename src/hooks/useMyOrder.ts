@@ -1,19 +1,40 @@
-import { getOrderByOwner } from "@/services/order";
-import { Cluster } from "@/types/cluster";
-import { getRegionCode } from "@/utils/region";
-import { useQuery } from "@tanstack/react-query";
-import { useAccount } from "wagmi";
+import {getOrderByOwner} from "@/services/order";
+import {Order} from "@/types/cluster";
+import {getRegionCode} from "@/utils/region";
+import {useQuery} from "@tanstack/react-query";
+import {useAccount} from "wagmi";
 
-export const useMyOrder = () => {
-  const { address } = useAccount()
-  const { data: myOrders, isLoading, error, refetch } = useQuery<Cluster[]>({
-    queryKey: ["myOrder", address],
+
+export interface QueryParams {
+  page: number
+  limit: number
+  expiredAt?: number
+  createdAt?: number
+  status?: string
+  machineType?: string
+  orderBy?: string,
+  queryKey: string
+}
+
+export const useMyOrder = (props: QueryParams) => {
+  const {
+    page, limit, queryKey,
+    createdAt, expiredAt,
+    status, machineType, orderBy
+  } = props;
+  
+  const {address} = useAccount()
+  const skip = (page - 1) * limit;
+  const {data: myOrders, isLoading, error, refetch} = useQuery<Order[]>({
+    queryKey: [queryKey, address, limit, skip, status, machineType, createdAt, expiredAt, orderBy],
     queryFn: async () => {
-      if (!address) {
-        return [] as Cluster[];
+      if(!address) {
+        return [] as Order[];
       }
-      const rs = await getOrderByOwner(address) as any;
-
+      
+      const rs = await getOrderByOwner(address, limit, skip, status, machineType, createdAt, expiredAt, orderBy) as any;
+      
+      console.log(rs)
       return rs.orders.map((order: any) => {
         return {
           id: order.id,
@@ -42,7 +63,7 @@ export const useMyOrder = () => {
       })
     },
   });
-
+  
   return {
     myOrders,
     isLoading,

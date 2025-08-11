@@ -1,36 +1,37 @@
-import {useEffect} from "react";
 import {Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle,} from "@/components/ui/drawer";
 import {Button} from "@/components/ui/button";
 import {RiCheckFill, RiCloseLine} from "@remixicon/react";
 import clsx from "clsx";
 import {UseFormReturn} from "react-hook-form";
 import {z} from "zod";
-import {filterClusterSchema} from "@/pages/ClusterDashboard/AllClusterSection.tsx";
+import {filterClusterSchema} from "@/pages/ClusterDashboard/AllRequestSection.tsx";
 
 interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
-  resetFilter?: () => void;
   applyFilter?: () => void;
   form: UseFormReturn<z.infer<typeof filterClusterSchema>>;
 }
 
-const sortOptions = ["Sort by newest", "Sort by oldest", "Sort by status"];
+const sortOptions = ["Date",];
 
-export const ClusterSortModal = ({
+export const OrderSortModal = ({
                             isOpen,
                             onClose,
-                            resetFilter,
                             applyFilter,
                             form
                           }: FilterModalProps) => {
   const selectedSort = form.watch('sortBy')
   
-  useEffect(() => {
-    if(selectedSort) {
-      return form.setValue("sortBy", selectedSort)
+  const handleSortChange = (option: string) => {
+    if (option === "Date") {
+      form.setValue('sortBy', 'createdAt');
     }
-  }, [form])
+  };
+  
+  const resetFilter = () => {
+    form.setValue('sortBy', '')
+  }
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
       <DrawerContent className="!rounded-t-[0px] px-6   bg-[#F7F8F8]">
@@ -55,7 +56,7 @@ export const ClusterSortModal = ({
                   ? "bg-white font-medium text-[#181B1E]"
                   : "text-[#6B7A78] hover:bg-white"
               )}
-              onClick={() => form.setValue('sortBy',option)}
+              onClick={() => handleSortChange(option)}
             >
               {option}
               {selectedSort === option && (

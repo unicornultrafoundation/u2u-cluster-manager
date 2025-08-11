@@ -3,7 +3,7 @@ import {Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle} from "@/c
 import {RiCloseLine} from "@remixicon/react";
 import {useScreenSize} from "@/hooks/useScreenSize.ts";
 import {Drawer, DrawerClose, DrawerContent, DrawerHeader, DrawerTitle} from "@/components/ui/drawer.tsx";
-import {useClusterDetail} from "@/hooks/useClusterDetail.ts";
+import {useOrderDetail} from "@/hooks/useOrderDetail.ts";
 
 interface Props {
   id: string;
@@ -12,24 +12,24 @@ interface Props {
 }
 
 const OrderDetail = ({id, openOrderDetail, onClose}: Props) => {
-  const {clusterDetail} = useClusterDetail(id as string);
+  const {orderDetail} = useOrderDetail(id as string);
   const screenSize = useScreenSize()
   
   const renderOrderDetails = () => {
     return (
       <div className="bg-white p-4 md:p-6  w-full mx-auto overflow-hidden">
         <div className="space-y-3 text-sm text-[#181B1E]">
-          <InfoRow label="Application" value={clusterDetail?.name || "--"}/>
+          <InfoRow label="Application" value={orderDetail?.name || "--"}/>
           <InfoRow label="Bid price" value={"--"}/>
-          <InfoRow label="Total CPU" value={`${clusterDetail?.cpuCores} Cores`}/>
-          <InfoRow label="Total RAM" value={`${clusterDetail?.memoryMB} GB`}/>
-          <InfoRow label="Total GPU" value={`${clusterDetail?.gpuMemory} GB`}/>
-          <InfoRow label="Download MB/s" value={`${clusterDetail?.downloadMbps} MB`}/>
-          <InfoRow label="Upload MB/s" value={`${clusterDetail?.uploadMbps} MB`}/>
+          <InfoRow label="Total CPU" value={`${orderDetail?.cpuCores} Cores`}/>
+          <InfoRow label="Total RAM" value={`${orderDetail?.memoryMB} GB`}/>
+          <InfoRow label="Total GPU" value={`${orderDetail?.gpuMemory} GB`}/>
+          <InfoRow label="Download MB/s" value={`${orderDetail?.downloadMbps} MB`}/>
+          <InfoRow label="Upload MB/s" value={`${orderDetail?.uploadMbps} MB`}/>
           <InfoRow label="Renting time" value={"--"}/>
           <InfoRow label="Type of workload" value={"--"}/>
-          <InfoRow label="Region" value={clusterDetail?.region || "--"}/>
-          <InfoRow label="Machine Type" value={clusterDetail?.machineType || "--"}/>
+          <InfoRow label="Region" value={orderDetail?.region || "--"}/>
+          <InfoRow label="Machine Type" value={orderDetail?.machineType || "--"}/>
           <InfoRow label="Description" value={"--"}/>
         </div>
         
